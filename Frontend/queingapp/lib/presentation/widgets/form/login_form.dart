@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:queingapp/presentation/widgets/buttons/reusable_button.dart';
+import 'package:queingapp/presentation/widgets/checkboxes/checkboxes.dart';
 import 'package:queingapp/presentation/widgets/inputs/reusable_field.dart';
 
 class LoginForm extends StatefulWidget {
@@ -11,6 +12,7 @@ class LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<LoginForm> {
   final _userNameController = TextEditingController();
+  bool isChecked = false;
   @override
   void dispose() {
     _userNameController.dispose();
@@ -50,7 +52,7 @@ class _LoginFormState extends State<LoginForm> {
             controller: _userNameController,
             ),
           const SizedBox(
-            height: 170,
+            height: 120,
           ),
           Center(
             child: ReusableButton(
@@ -59,7 +61,24 @@ class _LoginFormState extends State<LoginForm> {
             height: 50.0,
             textColor: Colors.white,
             backgroundColor: Colors.black,
-            onPressed: (){}),
+            onPressed: isChecked
+                ? () {
+                    // TODO: Implement login logic here
+                  }
+                : null,
+            ),
+          ),
+          const SizedBox(
+            height: 130,
+          ),
+          Center(
+            child: Checkboxes(isChecked: isChecked,
+            onChanged: (value){
+                setState(() {
+                  isChecked = value!;
+                });
+              },
+            ),
           )
         ],
       ),

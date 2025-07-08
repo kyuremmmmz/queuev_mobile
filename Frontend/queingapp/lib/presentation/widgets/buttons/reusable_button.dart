@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class ReusableButton extends StatelessWidget {
   final String title;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final Color? backgroundColor;
   final Color? textColor;
   final num width;
@@ -13,6 +13,7 @@ class ReusableButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
           style: ElevatedButton.styleFrom(
+            
             backgroundColor: backgroundColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(10)),
