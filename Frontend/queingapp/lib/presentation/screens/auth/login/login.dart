@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:queingapp/presentation/widgets/appbar/auth_app_bar.dart';
+import 'package:queingapp/presentation/widgets/form/login_form.dart';
 import 'package:queingapp/utils/AppPadding.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -12,18 +13,19 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: SafeArea(
+      body: SingleChildScrollView(
+        child: SafeArea(
         child: Padding(
           padding: AppPaddings.padding,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              
+              LoginForm()
             ],
           )
         )
+      ),
       )
     );
   }
