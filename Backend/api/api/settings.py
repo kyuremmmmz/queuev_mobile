@@ -37,9 +37,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'corsheaders',
+    'QueingAppAPI.apps.QueingappapiConfig'
 ]
 
+CORS_ORIGIN_ALLOW_ALL = True
+
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware'
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -74,8 +80,13 @@ WSGI_APPLICATION = 'api.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'djongo',
+        'NAME': 'QUEV',
+        'CLIENT':{
+            "host":"mongodb+srv://kurosawataki84:KMWSG0IDlwVmHDaS@cluster0.kaf52ln.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
+            "name":"QUEV",
+            "authMechanism":"SCRAM-SHA-1"
+        },
     }
 }
 
