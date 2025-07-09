@@ -1,15 +1,14 @@
 from django.db import models
+from django.contrib.auth.models import AbstractBaseUser, AbstractUser, BaseUserManager
 
-class Users(models.Model):
+
+
+
+
+class Users(AbstractBaseUser):
     id = models.AutoField(primary_key=True)
-    name = models.TextField(max_length=200)
-    age = models.CharField(max_length=200)
-    
+    name = models.CharField(max_length=200)
+    username = models.CharField(max_length=30, unique=True)
+    password = models.CharField(max_length=8 )
 
-
-
-class Blog(models.Model):
-    name = models.CharField(max_length=100)
-    tagline = models.TextField()
-    description = models.TextField()
 

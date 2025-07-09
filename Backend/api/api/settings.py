@@ -39,13 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
+    'djongo',
     'QueingAppAPI.apps.QueingappapiConfig'
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware'
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -85,10 +85,14 @@ DATABASES = {
         'CLIENT':{
             "host":"mongodb+srv://kurosawataki84:KMWSG0IDlwVmHDaS@cluster0.kaf52ln.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
             "name":"QUEV",
-            "authMechanism":"SCRAM-SHA-1"
+            'authSource': 'admin',
+            'ssl': True,
+            "authMechanism":"SCRAM-SHA-1",
+            'ssl_cert_reqs': 'CERT_NONE',
         },
     }
 }
+
 
 
 # Password validation
