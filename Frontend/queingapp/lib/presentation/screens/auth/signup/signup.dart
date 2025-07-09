@@ -3,7 +3,8 @@ import 'package:queingapp/presentation/widgets/form/signup_form.dart';
 import 'package:queingapp/utils/AppPadding.dart';
 
 class Signup extends StatefulWidget {
-  const Signup({super.key});
+  final PageController controller;
+  const Signup({super.key, required this.controller});
 
   @override
   State<Signup> createState() => _SignupState();
@@ -19,7 +20,9 @@ class _SignupState extends State<Signup> {
             padding: AppPaddings.padding,
             child: Column(
             children: [
-              SignupForm()
+              SignupForm(
+                controller: widget.controller,
+              )
             ],
           ),
           )

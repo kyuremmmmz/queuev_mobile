@@ -4,7 +4,8 @@ import 'package:queingapp/presentation/widgets/checkboxes/checkboxes.dart';
 import 'package:queingapp/presentation/widgets/inputs/reusable_field.dart';
 
 class SignupForm extends StatefulWidget {
-  const SignupForm({super.key});
+  final PageController controller;
+  const SignupForm({super.key, required this.controller});
 
   @override
   State<SignupForm> createState() => _SignupFormState();
@@ -63,7 +64,10 @@ class _SignupFormState extends State<SignupForm> {
             backgroundColor: Colors.black,
             onPressed: isChecked
                 ? () {
-                    // TODO: Implement login logic here
+                    widget.controller.nextPage(
+                      duration: const Duration(
+                      milliseconds: 300
+                    ), curve: Curves.ease);
                   }
                 : null,
             ),
