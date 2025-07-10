@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from QueingAppAPI.models import Users
+from Backend.api.QueingAppAPI.models.models import Users
 from django.contrib.auth.hashers import *
 class UserSerializers(serializers.ModelSerializer):
     class Meta:
