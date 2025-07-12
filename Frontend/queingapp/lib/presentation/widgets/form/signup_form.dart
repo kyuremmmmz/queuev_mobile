@@ -13,10 +13,12 @@ class SignupForm extends StatefulWidget {
 
 class _SignupFormState extends State<SignupForm> {
   final _userNameController = TextEditingController();
+  final _nameController = TextEditingController();
   bool isChecked = false;
   @override
   void dispose() {
     _userNameController.dispose();
+    _nameController.dispose();
     super.dispose();
   }
   @override
@@ -29,12 +31,12 @@ class _SignupFormState extends State<SignupForm> {
           const SizedBox(
             height: 30,
           ),
-          const Text("NAME"),
+          const Text("CREATE NAME"),
           const SizedBox(
             height: 10,
           ),
           ReusableField(
-            controller: _userNameController,
+            controller: _nameController,
             validator: (value){
               return null;
             }, 
@@ -42,7 +44,7 @@ class _SignupFormState extends State<SignupForm> {
             const SizedBox(
             height: 30,
           ),
-          const Text("SURNAME"),
+          const Text("CREATE USERNAME"),
           const SizedBox(
             height: 10,
           ),

@@ -1,3 +1,5 @@
+import 'package:queingapp/domain/entities/Auth/user_entity.dart';
+
 class UserDto {
   final String? id;
   final String? name;
@@ -27,5 +29,24 @@ class UserDto {
       'username':username,
       'password': password
     };
+  }
+  // This will convert from DTO to Entity
+  UserEntity toEntity(){
+    return UserEntity(
+    id: id,
+    name: name as String, 
+    password: password as String, 
+    username: username as String);
+  }
+
+
+  //This static function will convert to DTO
+  static UserDto fromEntity(UserEntity user){
+    return UserDto(
+      id: user.id,
+      name: user.name,
+      username: user.username,
+      password: user.password
+    );
   }
 }
