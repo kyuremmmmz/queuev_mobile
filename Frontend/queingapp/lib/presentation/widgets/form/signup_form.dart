@@ -12,12 +12,12 @@ class SignupForm extends StatefulWidget {
 }
 
 class _SignupFormState extends State<SignupForm> {
-  final _userNameController = TextEditingController();
+  final _surnameController = TextEditingController();
   final _nameController = TextEditingController();
   bool isChecked = false;
   @override
   void dispose() {
-    _userNameController.dispose();
+    _surnameController.dispose();
     _nameController.dispose();
     super.dispose();
   }
@@ -44,7 +44,7 @@ class _SignupFormState extends State<SignupForm> {
             const SizedBox(
             height: 30,
           ),
-          const Text("CREATE USERNAME"),
+          const Text("CREATE SURNAME"),
           const SizedBox(
             height: 10,
           ),
@@ -52,7 +52,7 @@ class _SignupFormState extends State<SignupForm> {
             validator: (value){
               return null;
             }, 
-            controller: _userNameController,
+            controller: _surnameController,
             ),
           const SizedBox(
             height: 120,
