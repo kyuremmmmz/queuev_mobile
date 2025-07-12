@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:queingapp/presentation/provider/AuthenticationProviders/auth_provider.dart';
 import 'package:queingapp/presentation/screens/auth/auth_wrapper.dart';
-import 'package:queingapp/presentation/screens/auth/login/login.dart';
-
+import 'injection.dart' as di;
 void main() {
+  di.init();
   runApp(const MyApp());
 }
 
@@ -11,7 +13,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MultiProvider(providers: [
+      ChangeNotifierProvider(create: (_) =>  di.sl<AuthProvider>())
+    ],
+    child: MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -19,6 +24,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: AuthWrapper(),
+      )
     );
   }
 }
