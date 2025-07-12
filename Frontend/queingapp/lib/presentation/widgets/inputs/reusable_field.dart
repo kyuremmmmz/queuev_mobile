@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ReusableField extends StatelessWidget {
-  final String? Function(String?)? validator;
+  final FormFieldValidator? validator;
   final Widget? suffixIcon;
   final Widget? icon;
   final bool? isObscure;
@@ -12,13 +12,27 @@ class ReusableField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      validator: validator,
       controller: controller,
       obscureText: isObscure ?? false,
       decoration:InputDecoration(
         suffixIcon: suffixIcon,
         prefixIcon: icon,
         hintText: hintText,
+        hintStyle: TextStyle(
+          color: Colors.grey
+        ),
+        focusedErrorBorder: const OutlineInputBorder(
+          borderSide: BorderSide(
+            color: Color.fromARGB(255, 248, 17, 0)
+          )
+        ),
         focusColor: Colors.black,
+        errorBorder: const OutlineInputBorder(
+          borderSide: BorderSide(
+            color: Colors.redAccent
+          )
+        ),
         enabledBorder: const OutlineInputBorder(
           borderSide: BorderSide(
             color: Color.fromARGB(221, 158, 156, 156)

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:queingapp/presentation/widgets/buttons/reusable_button.dart';
 import 'package:queingapp/presentation/widgets/checkboxes/checkboxes.dart';
 import 'package:queingapp/presentation/widgets/inputs/reusable_field.dart';
+import 'package:queingapp/utils/Validators.dart';
 
 class SignupForm extends StatefulWidget {
   final PageController controller;
@@ -14,6 +15,7 @@ class SignupForm extends StatefulWidget {
 class _SignupFormState extends State<SignupForm> {
   final _surnameController = TextEditingController();
   final _nameController = TextEditingController();
+  final _key = GlobalKey<FormState>();
   bool isChecked = false;
   @override
   void dispose() {
@@ -24,6 +26,7 @@ class _SignupFormState extends State<SignupForm> {
   @override
   Widget build(BuildContext context) {
     return Form(
+      key: _key,
       child: SingleChildScrollView(
         child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,6 +41,9 @@ class _SignupFormState extends State<SignupForm> {
           ReusableField(
             controller: _nameController,
             validator: (value){
+              if (value!.isEmpty) {
+                return "Please enter your name.";
+              }
               return null;
             }, 
             ),
@@ -49,7 +55,15 @@ class _SignupFormState extends State<SignupForm> {
             height: 10,
           ),
           ReusableField(
+            hintText: "Ex: Johndoe_19!",
             validator: (value){
+              if (value!.isEmpty) {
+                print("test");
+                return "Please enter username";
+              }
+              else if(Validators.usernameRegex.hasMatch(value)){
+                return "Invalid username. Must start with a letter, use letters, numbers, _, or !, and be 3–20 characters.";
+              }
               return null;
             }, 
             controller: _surnameController,
@@ -66,10 +80,12 @@ class _SignupFormState extends State<SignupForm> {
             backgroundColor: Colors.black,
             onPressed: isChecked
                 ? () {
-                    widget.controller.nextPage(
-                      duration: const Duration(
-                      milliseconds: 300
-                    ), curve: Curves.ease);
+                    if (_key.currentState!.validate()) {
+                        widget.controller.nextPage(
+                          duration: const Duration(
+                          milliseconds: 300
+                        ), curve: Curves.ease);
+                    }
                   }
                 : null,
             ),

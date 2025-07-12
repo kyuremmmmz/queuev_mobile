@@ -8,7 +8,7 @@ class SignupnextForm extends StatefulWidget {
 }
 
 class _SignupnextFormState extends State<SignupnextForm> {
-  
+  final _key = GlobalKey<FormState>();
   @override
   void dispose() {
     // TODO: implement dispose
@@ -16,6 +16,12 @@ class _SignupnextFormState extends State<SignupnextForm> {
   }
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Form(
+      child: Column(
+        children: <Widget>[
+            
+          ],
+        )
+      );
   }
 }
