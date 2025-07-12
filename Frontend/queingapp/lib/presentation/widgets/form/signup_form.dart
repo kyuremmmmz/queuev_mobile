@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:queingapp/domain/entities/Auth/user_entity.dart';
+import 'package:queingapp/injection.dart';
+import 'package:queingapp/presentation/provider/AuthenticationProviders/auth_provider.dart';
+import 'package:queingapp/presentation/screens/auth/signup/signup_next.dart';
 import 'package:queingapp/presentation/widgets/buttons/reusable_button.dart';
 import 'package:queingapp/presentation/widgets/checkboxes/checkboxes.dart';
+import 'package:queingapp/presentation/widgets/form/signupnext_form.dart';
 import 'package:queingapp/presentation/widgets/inputs/reusable_field.dart';
 import 'package:queingapp/utils/Validators.dart';
 
@@ -13,6 +19,7 @@ class SignupForm extends StatefulWidget {
 }
 
 class _SignupFormState extends State<SignupForm> {
+  
   final _surnameController = TextEditingController();
   final _nameController = TextEditingController();
   final _key = GlobalKey<FormState>();
@@ -25,6 +32,7 @@ class _SignupFormState extends State<SignupForm> {
   }
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<AuthProvider>(context);
     return Form(
       key: _key,
       child: SingleChildScrollView(
@@ -81,6 +89,7 @@ class _SignupFormState extends State<SignupForm> {
             onPressed: isChecked
                 ? () {
                     if (_key.currentState!.validate()) {
+                        provider.signUserData(_nameController.text.trim(), _surnameController.text.trim());
                         widget.controller.nextPage(
                           duration: const Duration(
                           milliseconds: 300

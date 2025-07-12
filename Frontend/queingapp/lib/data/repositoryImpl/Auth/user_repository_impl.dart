@@ -11,8 +11,14 @@ class UserRepositoryImpl implements UserRepository {
   });
   @override
   Future<UserEntity> createUser(UserEntity user) async{
-    final dto = UserDto.fromEntity(user);
-    final response = await createUserDataSouce.createUser(dto);
-    return response.toEntity();
+    try {
+      final dto = UserDto.fromEntity(user);
+      final response = await createUserDataSouce.createUser(dto);
+      return response.toEntity();
+    } catch (e) {
+      print(e);
+      throw Exception(e);
+      
+    }
   }
  }

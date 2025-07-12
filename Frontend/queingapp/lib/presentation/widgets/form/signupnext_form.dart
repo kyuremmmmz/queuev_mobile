@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:queingapp/domain/entities/Auth/user_entity.dart';
+import 'package:queingapp/presentation/provider/AuthenticationProviders/auth_provider.dart';
 import 'package:queingapp/presentation/widgets/buttons/reusable_button.dart';
 import 'package:queingapp/presentation/widgets/inputs/reusable_field.dart';
 
@@ -13,8 +16,10 @@ class _SignupnextFormState extends State<SignupnextForm> {
   final _usernameController = TextEditingController();
   final _passwordController   = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+  
   final _key = GlobalKey<FormState>();
   bool isObscure = true;
+
   @override
   void dispose() {
     _usernameController.dispose();
@@ -24,6 +29,7 @@ class _SignupnextFormState extends State<SignupnextForm> {
   }
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<AuthProvider>(context);
     return Form(
       key: _key,
       child: Column(
@@ -85,7 +91,19 @@ class _SignupnextFormState extends State<SignupnextForm> {
           Center(
             child: ReusableButton(
             title: "Sign Up", 
-            onPressed: (){}, 
+            onPressed: (){
+              if (_key.currentState!.validate()) {
+                final data = UserEntity(
+                surname: provider.surname.trim(),
+                name: provider.name.trim(), 
+                password: _confirmPasswordController.text.trim(), 
+                username: _usernameController.text.trim(), 
+                );
+                provider.signUpUser(data);
+
+              }
+              
+            }, 
             width: 200, 
             height: 50,
             backgroundColor: Colors.black,

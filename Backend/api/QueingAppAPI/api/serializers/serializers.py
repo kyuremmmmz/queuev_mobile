@@ -1,10 +1,10 @@
 from rest_framework import serializers
-from Backend.api.QueingAppAPI.models.models import Users
-from django.contrib.auth.hashers import *
+from ...models.models import Users
+from django.contrib.auth.hashers import * 
 class UserSerializers(serializers.ModelSerializer):
     class Meta:
         model = Users
-        fields = ('id', 'name', 'username', 'password') 
+        fields = ('id', 'name', 'username', 'password', 'surname') 
         extra_kwargs = {
             'password':{'write_only':True}
         }

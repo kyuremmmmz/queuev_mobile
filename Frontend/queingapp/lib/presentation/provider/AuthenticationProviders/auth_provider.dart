@@ -5,18 +5,28 @@ import 'package:queingapp/domain/usecases/GetAuth/auth_usecases.dart';
 class AuthProvider with ChangeNotifier {
   final AuthUsecases authUsecases;
 
-  bool _isLoading = false;
-  String? _error;
   AuthProvider({required this.authUsecases});
+  bool _isLoading = false;
+  late String _error;
+  late String _name;
+  late String _surname;
 
   bool get isLoading => _isLoading;
-  String? get error => _error;
+  String get error => _error;
+  String get name => _name;
+  String get surname => _surname;
+
+  void signUserData(String name, String surname){
+    _name = name;
+    _surname = surname;
+    notifyListeners();
+  }
   Future<void> signUpUser(UserEntity user) async{
     _isLoading = true;
     notifyListeners();
     try {
       await authUsecases.callcreateUser(user);
-      _error = null;
+      _error = "";
     } catch (e) {
       _error = e.toString();
     }

@@ -1,24 +1,27 @@
 import 'package:queingapp/domain/entities/Auth/user_entity.dart';
 
 class UserDto {
-  final String? id;
-  final String? name;
-  final String? username;
-  final String? password;
+  final int? id;
+  final String name;
+  final String username;
+  final String password;
+  final String surname;
 
   UserDto({
     this.id,
-    this.name,
-    this.password,
-    this.username
+    required this.name,
+    required this.password,
+    required this.username,
+    required this.surname
   });
 
   factory UserDto.fromJson(Map<String, dynamic> json){
     return UserDto(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      username: json['username'] as String,
-      password: json['password'] as String
+      id: json['id'],
+      name: json['name'].toString(),
+      username: json['username'].toString(),
+      password: json['password'].toString(),
+      surname: json['surname'].toString(),
     );
   }
 
@@ -27,6 +30,7 @@ class UserDto {
       'id':id,
       'name':name,
       'username':username,
+      'surname' : surname,
       'password': password
     };
   }
@@ -34,9 +38,10 @@ class UserDto {
   UserEntity toEntity(){
     return UserEntity(
     id: id,
-    name: name as String, 
-    password: password as String, 
-    username: username as String);
+    surname: surname,
+    name: name, 
+    password: password, 
+    username: username);
   }
 
 
@@ -45,6 +50,7 @@ class UserDto {
     return UserDto(
       id: user.id,
       name: user.name,
+      surname: user.surname,
       username: user.username,
       password: user.password
     );
