@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:queingapp/domain/entities/Auth/login_entity.dart';
 import 'package:queingapp/domain/entities/Auth/user_entity.dart';
 import 'package:queingapp/domain/usecases/GetAuth/auth_usecases.dart';
 
 class AuthProvider with ChangeNotifier {
   final AuthUsecases authUsecases;
-
   AuthProvider({required this.authUsecases});
   bool _isLoading = false;
   late String? _error;
@@ -17,7 +17,7 @@ class AuthProvider with ChangeNotifier {
   String get name => _name;
   String get surname => _surname;
   String get password => _password;
-
+  final storage = FlutterSecureStorage();
   void signUserData(String name, String surname){
     _name = name;
     _surname = surname;
@@ -49,5 +49,12 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
 
   }
+
+  
+
+
+
+
+
 
 }

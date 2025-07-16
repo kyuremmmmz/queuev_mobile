@@ -70,10 +70,14 @@ class _LoginFormState extends State<LoginForm> {
             textColor: Colors.white,
             backgroundColor: Colors.black,
             onPressed: isChecked
-                ? () {
+                ? () async{
                     if (key.currentState!.validate()) {
-                      final entity = LoginEntity(username: _userNameController.text.trim(), password: _passwordController.text.trim());
-                      provider.loginUser(entity);
+                      final entity = LoginEntity(
+                        username: _userNameController.text.trim(),
+                        password: _passwordController.text.trim(),
+                      );
+                      await provider.loginUser(entity);
+                      
                     }
                   }
                 : null,
