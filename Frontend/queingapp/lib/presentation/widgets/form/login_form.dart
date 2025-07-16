@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:queingapp/domain/entities/Auth/login_entity.dart';
+import 'package:queingapp/presentation/provider/AuthenticationProviders/auth_provider.dart';
 import 'package:queingapp/presentation/widgets/buttons/reusable_button.dart';
 import 'package:queingapp/presentation/widgets/checkboxes/checkboxes.dart';
 import 'package:queingapp/presentation/widgets/inputs/reusable_field.dart';
@@ -12,15 +15,20 @@ class LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<LoginForm> {
   final _userNameController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final key = GlobalKey<FormState>();
   bool isChecked = false;
   @override
   void dispose() {
     _userNameController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<AuthProvider>(context);
     return Form(
+      key: key,
       child: SingleChildScrollView(
         child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,7 +57,7 @@ class _LoginFormState extends State<LoginForm> {
             validator: (value){
               return null;
             }, 
-            controller: _userNameController,
+            controller: _passwordController,
             ),
           const SizedBox(
             height: 120,
@@ -63,7 +71,10 @@ class _LoginFormState extends State<LoginForm> {
             backgroundColor: Colors.black,
             onPressed: isChecked
                 ? () {
-                    // TODO: Implement login logic here
+                    if (key.currentState!.validate()) {
+                      final entity = LoginEntity(username: _userNameController.text.trim(), password: _passwordController.text.trim());
+                      provider.loginUser(entity);
+                    }
                   }
                 : null,
             ),
