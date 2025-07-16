@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:queingapp/domain/entities/Auth/user_entity.dart';
 import 'package:queingapp/injection.dart';
 import 'package:queingapp/presentation/provider/AuthenticationProviders/auth_provider.dart';
+import 'package:queingapp/presentation/provider/AuthenticationProviders/validators_provider.dart';
 import 'package:queingapp/presentation/screens/auth/signup/signup_next.dart';
 import 'package:queingapp/presentation/widgets/buttons/reusable_button.dart';
 import 'package:queingapp/presentation/widgets/checkboxes/checkboxes.dart';
@@ -33,6 +34,7 @@ class _SignupFormState extends State<SignupForm> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<AuthProvider>(context);
+    final validatorProvider = Provider.of<ValidatorsProvider>(context);
     return Form(
       key: _key,
       child: SingleChildScrollView(
@@ -48,12 +50,8 @@ class _SignupFormState extends State<SignupForm> {
           ),
           ReusableField(
             controller: _nameController,
-            validator: (value){
-              if (value!.isEmpty) {
-                return "Please enter your name.";
-              }
-              return null;
-            }, 
+            hintText: "Ex: John",
+            validator: (value)=> validatorProvider.validateAll(value, "Name."), 
             ),
             const SizedBox(
             height: 30,
@@ -63,17 +61,10 @@ class _SignupFormState extends State<SignupForm> {
             height: 10,
           ),
           ReusableField(
-            hintText: "Ex: Johndoe_19!",
+            hintText: "Ex: Doe",
             validator: (value){
-              if (value!.isEmpty) {
-                print("test");
-                return "Please enter username";
-              }
-              else if(Validators.usernameRegex.hasMatch(value)){
-                return "Invalid username. Must start with a letter, use letters, numbers, _, or !, and be 3–20 characters.";
-              }
-              return null;
-            }, 
+              return validatorProvider.validateAll(value, "Surname");
+            },
             controller: _surnameController,
             ),
           const SizedBox(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:queingapp/presentation/provider/AuthenticationProviders/auth_provider.dart';
+import 'package:queingapp/presentation/provider/AuthenticationProviders/validators_provider.dart';
 import 'package:queingapp/presentation/screens/auth/auth_wrapper.dart';
 import 'injection.dart' as di;
 void main() {
@@ -14,7 +15,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(providers: [
-      ChangeNotifierProvider(create: (_) =>  di.sl<AuthProvider>())
+      ChangeNotifierProvider(create: (_) =>  di.sl<AuthProvider>()),
+      ChangeNotifierProvider(create: (_) => di.sl<ValidatorsProvider>())
     ],
     child: MaterialApp(
       debugShowCheckedModeBanner: false,

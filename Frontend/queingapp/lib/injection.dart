@@ -6,6 +6,7 @@ import 'package:queingapp/data/source/repository/remote_repository_data_source.d
 import 'package:queingapp/domain/repositories/Auth/user_repository.dart';
 import 'package:queingapp/domain/usecases/GetAuth/auth_usecases.dart';
 import 'package:queingapp/presentation/provider/AuthenticationProviders/auth_provider.dart';
+import 'package:queingapp/presentation/provider/AuthenticationProviders/validators_provider.dart';
 final GetIt sl = GetIt.instance;
 
 void init(){
@@ -23,4 +24,5 @@ void init(){
 
   //PRESENTATION LAYER
   sl.registerLazySingleton(()=>AuthProvider(authUsecases:sl() ));
+  sl.registerLazySingleton(()=>ValidatorsProvider());
 }
