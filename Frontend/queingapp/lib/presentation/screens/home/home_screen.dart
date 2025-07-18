@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:queingapp/presentation/provider/AuthenticationProviders/storage_provider.dart';
+import 'package:queingapp/presentation/widgets/scanner_widgets/qr_example_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,11 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final provider = Provider.of<StorageProvider>(context);
     return Scaffold(
-      body: Center(
-        child: ElevatedButton(onPressed: () async{
-          await provider.deleteSecureToken(); 
-        }, child: Text("Log out")),
-      ),
+      body: QrExampleWidget()
     );
   }
 }

@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:queingapp/domain/entities/Auth/user_entity.dart';
-import 'package:queingapp/injection.dart';
 import 'package:queingapp/presentation/provider/AuthenticationProviders/auth_provider.dart';
 import 'package:queingapp/presentation/provider/AuthenticationProviders/validators_provider.dart';
-import 'package:queingapp/presentation/screens/auth/signup/signup_next.dart';
 import 'package:queingapp/presentation/widgets/buttons/reusable_button.dart';
 import 'package:queingapp/presentation/widgets/checkboxes/checkboxes.dart';
-import 'package:queingapp/presentation/widgets/form/signupnext_form.dart';
 import 'package:queingapp/presentation/widgets/inputs/reusable_field.dart';
-import 'package:queingapp/utils/Validators.dart';
 
 class SignupForm extends StatefulWidget {
   final PageController controller;

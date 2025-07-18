@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:queingapp/presentation/widgets/form/signup_form.dart';
 import 'package:queingapp/presentation/widgets/form/signupnext_form.dart';
 import 'package:queingapp/utils/AppPadding.dart';
 
@@ -13,7 +12,7 @@ class SignupNext extends StatefulWidget {
 class _SignupNextState extends State<SignupNext> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: SingleChildScrollView(
       child: SafeArea(
         child: Padding(

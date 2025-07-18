@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:queingapp/data/models/Auth/login_dto.dart';
 import 'package:queingapp/data/models/Auth/user_dto.dart';
 import 'package:queingapp/data/source/Auth/signup_service.dart';
@@ -18,7 +19,7 @@ class UserRepositoryImpl implements UserRepository {
       final response = await createUserDataSouce.createUser(dto);
       return response.toEntity();
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
       throw Exception(e);
       
     }

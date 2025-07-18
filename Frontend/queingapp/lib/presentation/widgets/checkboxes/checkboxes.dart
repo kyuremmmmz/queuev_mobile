@@ -1,6 +1,5 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:queingapp/presentation/screens/auth/signup/signup.dart';
 
 class Checkboxes extends StatefulWidget {
   final bool? isChecked;
@@ -19,7 +18,7 @@ class _CheckboxesState extends State<Checkboxes> {
       title: RichText(
         text: TextSpan(
           children: [
-            TextSpan(
+            const TextSpan(
               text: "I have agreed to the ",
               style: TextStyle(
                 fontSize: 16,
@@ -28,7 +27,7 @@ class _CheckboxesState extends State<Checkboxes> {
             ),
             TextSpan(
               text: "terms and conditions.",
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 15,
                 color: Colors.black,
                 decoration: TextDecoration.underline, 

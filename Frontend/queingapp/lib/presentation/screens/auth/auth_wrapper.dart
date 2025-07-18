@@ -14,7 +14,7 @@ class AuthWrapper extends StatefulWidget {
 class _AuthWrapperState extends State<AuthWrapper> {
   @override
   Widget build(BuildContext context) {
-    return TabBarComponent(
+    return const TabBarComponent(
       screen: Scaffold(
         appBar: AuthAppBar(),
         body: TabBarView(

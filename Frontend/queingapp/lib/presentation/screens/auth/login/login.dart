@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:queingapp/presentation/widgets/appbar/auth_app_bar.dart';
 import 'package:queingapp/presentation/widgets/form/login_form.dart';
 import 'package:queingapp/utils/AppPadding.dart';
 
@@ -13,7 +12,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
         child: Padding(
