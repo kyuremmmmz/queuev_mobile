@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:queingapp/domain/entities/Auth/login_entity.dart';
 import 'package:queingapp/domain/entities/Auth/user_entity.dart';
 import 'package:queingapp/domain/usecases/GetAuth/auth_usecases.dart';
-import 'package:queingapp/presentation/provider/AuthenticationProviders/storage_provider.dart';
 
 class AuthProvider with ChangeNotifier {
   final AuthUsecases authUsecases;

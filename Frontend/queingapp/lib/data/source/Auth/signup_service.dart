@@ -2,7 +2,6 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
 import 'package:queingapp/data/models/Auth/login_dto.dart';
 import 'package:queingapp/data/models/Auth/user_dto.dart';
 import 'package:queingapp/data/source/repository/remote_repository_data_source.dart';

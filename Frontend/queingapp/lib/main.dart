@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       ChangeNotifierProvider(create: (_) => di.sl<QrViewProvider>()),
     ],
     child: MaterialApp(
-      routes: {
+      routes: const {
         
       },
       debugShowCheckedModeBanner: false,

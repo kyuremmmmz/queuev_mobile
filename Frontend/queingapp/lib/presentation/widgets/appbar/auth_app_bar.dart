@@ -7,7 +7,7 @@ class AuthAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       
-      bottom: TabBar(
+      bottom: const TabBar(
         tabs: [
           Tab(
             text: "Login",

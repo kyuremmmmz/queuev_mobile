@@ -19,7 +19,7 @@ class ReusableField extends StatelessWidget {
         suffixIcon: suffixIcon,
         prefixIcon: icon,
         hintText: hintText,
-        hintStyle: TextStyle(
+        hintStyle: const TextStyle(
           color: Colors.grey
         ),
         focusedErrorBorder: const OutlineInputBorder(

@@ -25,7 +25,7 @@ class _SignupPageViewState extends State<SignupPageView> {
         Signup(
           controller: _controller,
         ),
-        SignupNext()
+        const SignupNext()
       ],
     );
   }

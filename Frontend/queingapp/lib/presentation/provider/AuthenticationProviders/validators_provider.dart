@@ -13,6 +13,8 @@ class ValidatorsProvider with ChangeNotifier {
   }
 
   String? validatewithRegex(String params, String nameOfTheTextController){
+    return null;
+  
 
   }
 }
