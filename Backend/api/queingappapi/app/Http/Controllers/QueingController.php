@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\QuesRequest;
+use App\Http\Resources\QuesResource;
 use App\Models\Ques\QuesModel;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -12,7 +13,7 @@ class QueingController extends Controller
     /**
      * Display a listing of the resource.
      */
-    private function sendResponse($data, $message): JsonResponse
+    protected function sendResponse($data, $message): JsonResponse
     {
         return response()->json([
             'success' => true,
@@ -31,6 +32,14 @@ class QueingController extends Controller
             $response['data'] = $errorMessages;
         }
         return response()->json($response, $code);
+    }
+
+    public function index():JsonResponse{
+        $people = QuesModel::all();
+        if($people->isEmpty()){
+            return $this->sendError('No Data Found');
+        }
+        return $this->sendResponse(QuesResource::collection($people), 'Data Retrieved Successfully');
     }
 
     /**

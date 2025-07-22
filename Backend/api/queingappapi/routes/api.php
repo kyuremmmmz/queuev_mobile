@@ -23,4 +23,5 @@ Route::controller(AuthController::class)->group(function (){
 
 Route::middleware('auth:sanctum')->group(function (){
     Route::resource('ques', QueingController::class);
+    Route::resource('retrieve', QueingController::class);
 });

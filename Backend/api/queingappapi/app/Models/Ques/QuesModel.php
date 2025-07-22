@@ -11,6 +11,7 @@ class QuesModel extends Model
 
     protected $table = 'person_who_que';
     protected $fillable = [
+        'id',
         'full_name',
         'queing_type',
         'room_name',
