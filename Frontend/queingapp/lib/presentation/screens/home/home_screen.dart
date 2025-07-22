@@ -17,7 +17,13 @@ class _HomeScreenState extends State<HomeScreen> {
     final provider = Provider.of<StorageProvider>(context);
     return  Scaffold(
       appBar: AppBar(
-        title: Icon(Icons.arrow_back_ios),
+        leading: IconButton(
+        icon: const Icon(Icons.arrow_back_ios),
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+      ),
+      
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),

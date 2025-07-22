@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:queingapp/presentation/provider/AuthenticationProviders/storage_provider.dart';
 import 'package:queingapp/presentation/screens/auth/auth_wrapper.dart';
 import 'package:queingapp/presentation/screens/home/home_screen.dart';
+import 'package:queingapp/presentation/screens/home/scan_now_screen.dart';
 
 
 class AuthChecker extends StatefulWidget {
@@ -31,7 +32,7 @@ class _AuthCheckerState extends State<AuthChecker> {
         } else {
           final token = snapshot.data;
           if (token!=null) {
-            return const HomeScreen();
+            return const ScanNowScreen();
           } else {
             return const AuthWrapper();
           }

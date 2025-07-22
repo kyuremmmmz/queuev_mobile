@@ -7,6 +7,7 @@ import 'package:queingapp/presentation/provider/AuthenticationProviders/storage_
 import 'package:queingapp/presentation/provider/AuthenticationProviders/validators_provider.dart';
 import 'package:queingapp/presentation/provider/QrProviders/qr_view_provider.dart';
 import 'package:queingapp/presentation/screens/auth_checker.dart';
+import 'package:queingapp/presentation/screens/home/home_screen.dart';
 import 'injection.dart' as di;
 void main() {
   di.init();
@@ -26,8 +27,8 @@ class MyApp extends StatelessWidget {
       ChangeNotifierProvider(create: (_) => di.sl<QrViewProvider>()),
     ],
     child: MaterialApp(
-      routes: const {
-        
+      routes:  {
+        '/home': (context) => const HomeScreen(),
       },
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
