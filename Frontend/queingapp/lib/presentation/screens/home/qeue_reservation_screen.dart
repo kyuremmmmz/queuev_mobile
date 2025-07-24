@@ -27,6 +27,7 @@ class _QeueReservationScreenState extends State<QeueReservationScreen> {
           padding: AppPaddings.padding,
           child: Column(
             children: [
+                const SizedBox(height: 20,),
                 ReusableContainerWidget(),
               ],
             ),
