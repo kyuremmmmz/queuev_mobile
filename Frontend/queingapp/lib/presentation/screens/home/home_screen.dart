@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:queingapp/presentation/provider/AuthenticationProviders/storage_provider.dart';
+import 'package:queingapp/presentation/provider/QrProviders/qr_view_provider.dart';
+import 'package:queingapp/presentation/screens/home/qeue_reservation_screen.dart';
+
 import 'package:queingapp/presentation/widgets/appbar/auth_app_bar.dart';
 import 'package:queingapp/presentation/widgets/scanner_widgets/qr_example_widget.dart';
 
@@ -15,7 +18,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<StorageProvider>(context);
-    return  Scaffold(
+    final provider2 = Provider.of<QrViewProvider>(context);
+    return provider2.isScanned ? const QeueReservationScreen() :  Scaffold(
       appBar: AppBar(
         leading: IconButton(
         icon: const Icon(Icons.arrow_back_ios),
@@ -26,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
       
         actions: [
           IconButton(
-            icon: const Icon(Icons.logout),
+            icon: provider2.isScanned ? const Icon(Icons.logout) :const Icon(Icons.image),
             onPressed: () async {
               await provider.deleteSecureToken();
             },

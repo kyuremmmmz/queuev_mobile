@@ -8,6 +8,9 @@ import 'package:queingapp/presentation/provider/AuthenticationProviders/validato
 import 'package:queingapp/presentation/provider/QrProviders/qr_view_provider.dart';
 import 'package:queingapp/presentation/screens/auth_checker.dart';
 import 'package:queingapp/presentation/screens/home/home_screen.dart';
+import 'package:queingapp/presentation/screens/home/qeue_reservation_screen.dart';
+import 'package:queingapp/presentation/screens/home/scan_now_screen.dart';
+
 import 'injection.dart' as di;
 void main() {
   di.init();
@@ -29,6 +32,7 @@ class MyApp extends StatelessWidget {
     child: MaterialApp(
       routes:  {
         '/home': (context) => const HomeScreen(),
+        '/qeue': (context) => const QeueReservationScreen(),
       },
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',

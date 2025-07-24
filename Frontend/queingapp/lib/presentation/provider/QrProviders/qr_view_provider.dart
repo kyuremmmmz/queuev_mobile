@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -6,17 +7,21 @@ import 'package:url_launcher/url_launcher.dart';
 
 class QrViewProvider with ChangeNotifier{
   QRViewController? _controller;
+  final StreamController<bool> _permissionController = StreamController<bool>.broadcast();
+  Stream<bool> get permissionStream => _permissionController.stream;
   Barcode? _result;
-
+  bool _isScanned = false;
   QRViewController? get controller  => _controller;
   Barcode? get result => _result;
-
+  bool get isScanned => _isScanned;
+  
   void onQRViewCreated(QRViewController controller) {
-    notifyListeners();
     _controller = controller;
+    _isScanned = false;
+    notifyListeners();
     controller.scannedDataStream.listen((scanData) {
       _result = scanData;
-      _launchInBrowser(_result!.code.toString());
+      _isScanned = true;
       notifyListeners();
     });
     notifyListeners();
@@ -29,6 +34,10 @@ class QrViewProvider with ChangeNotifier{
         const SnackBar(content: Text('no Permission')),
       );
     }
+  }
+  Future<void> initStream() async {
+    await Future.delayed(Duration.zero);
+    _permissionController.add(true);
   }
 
   void _launchInBrowser(String url)async{
