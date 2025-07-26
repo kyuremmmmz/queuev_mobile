@@ -12,6 +12,13 @@ class QeueReservationScreen extends StatefulWidget {
 }
 
 class _QeueReservationScreenState extends State<QeueReservationScreen> {
+  final PageController _pageController = PageController();
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,8 +35,10 @@ class _QeueReservationScreenState extends State<QeueReservationScreen> {
         child: Padding(
           padding: AppPaddings.padding,
           child: PageView(
+            controller: _pageController,
+            physics: const NeverScrollableScrollPhysics(),
             children: [
-                  QeueStep1Form(),
+                  QeueStep1Form(pageController: _pageController,),
                   QeueStep2Form()
               ],
             )
