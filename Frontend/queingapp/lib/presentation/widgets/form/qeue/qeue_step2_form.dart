@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:queingapp/domain/entities/Widgets/text_field_entity.dart';
 import 'package:queingapp/presentation/widgets/containers/reusable_container_widget.dart';
-import 'package:queingapp/presentation/widgets/inputs/reusable_field.dart';
 
 class QeueStep2Form extends StatefulWidget {
   const QeueStep2Form({super.key});
@@ -13,9 +12,13 @@ class QeueStep2Form extends StatefulWidget {
 class _QeueStep2FormState extends State<QeueStep2Form> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController controller = TextEditingController();
-  final generateController = List.generate(2, (int index) => TextEditingController());
+  bool _isField1Checked = true;
+  bool _isField2Checked = false;
+  final generateController =
+      List.generate(2, (int index) => TextEditingController());
   final List<TextFieldEntity> textFields = [
     TextFieldEntity(
+      isEnabled: true,
       validator: null,
       suffixIcon: null,
       icon: null,
@@ -52,12 +55,21 @@ class _QeueStep2FormState extends State<QeueStep2Form> {
             physics: const NeverScrollableScrollPhysics(),
             itemCount: 2, // Example count, adjust as needed
             itemBuilder: (context, index) {
-              return ReusableField(
-                hintText: textFields[index].hintText,
-                validator: textFields[index].validator,
-                controller: textFields[index].controller,
-                suffixIcon: textFields[index].suffixIcon,
-                icon: textFields[index].icon,
+              return RadioListTile(
+                value: _isField1Checked ? true : false,
+                groupValue: index == 0
+                    ? _isField1Checked
+                    : _isField2Checked
+                        ? 1
+                        : 0,
+                onChanged: (value) {
+                  setState(() {
+                    _isField1Checked = index == 0;
+                    
+                  });
+                },
+                title: Text(index == 0 ? 'ENROLLMENT' : 'REGISTRAR OFFICE'),
+                controlAffinity: ListTileControlAffinity.leading,
               );
             },
           ),

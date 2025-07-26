@@ -6,16 +6,17 @@ class TextFieldEntity {
   final Widget? icon;
   final bool? isObscure;
   final String? hintText;
-  final TextEditingController controller;
+  bool? isEnabled;
 
-  const TextFieldEntity({
+  final TextEditingController? controller;
+
+  TextFieldEntity({
+    this.isEnabled,
     this.validator,
     this.icon,
     this.isObscure,
     this.suffixIcon,
     this.hintText,
-    required this.controller,
+    this.controller,
   });
-
-  
 }
