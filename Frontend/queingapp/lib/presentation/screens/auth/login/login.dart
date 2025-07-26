@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:queingapp/presentation/widgets/form/login_form.dart';
+import 'package:queingapp/presentation/widgets/form/auth/login_form.dart';
 import 'package:queingapp/utils/AppPadding.dart';
 
 class LoginScreen extends StatefulWidget {
