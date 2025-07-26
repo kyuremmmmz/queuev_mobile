@@ -13,7 +13,7 @@ class ReusableContainerWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(0),
         border: Border.all(
           color: Colors.black,
-          width: 1,
+          width: 2,
         ),
       ),
       child: Column(

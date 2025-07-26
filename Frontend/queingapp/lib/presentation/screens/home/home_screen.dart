@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:queingapp/presentation/provider/AuthenticationProviders/storage_provider.dart';
 import 'package:queingapp/presentation/provider/QrProviders/qr_view_provider.dart';
-import 'package:queingapp/presentation/screens/home/qeue_reservation_screen.dart';
+import 'package:queingapp/presentation/screens/screen_page_view/qeueing_screen_page_view.dart';
 
-import 'package:queingapp/presentation/widgets/appbar/auth_app_bar.dart';
 import 'package:queingapp/presentation/widgets/scanner_widgets/qr_example_widget.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -19,7 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final provider = Provider.of<StorageProvider>(context);
     final provider2 = Provider.of<QrViewProvider>(context);
-    return provider2.isScanned ? const QeueReservationScreen() :  Scaffold(
+    return provider2.isScanned ? const QeueingScreenPageView() :  Scaffold(
       appBar: AppBar(
         leading: IconButton(
         icon: const Icon(Icons.arrow_back_ios),
