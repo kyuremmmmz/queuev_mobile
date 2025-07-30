@@ -18,25 +18,26 @@ class QeueProcessed
     /**
      * Create a new event instance.
      */
-    public function __construct($qeueProcess)
+    public function __construct($data)
     {
-        $this->qeueProcess = $qeueProcess;
+        $this->qeueProcess = $data;
     }
 
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return array<int, \Illuminate\Broadcasting\Channel>
-     */
-    public function broadcastOn(): array
+    public function broadcastOn()
+    {
+        return new Channel('queue.' . $this->qeueProcess['room_name']);
+    }
+
+    public function broadcastWith()
     {
         return [
-            new PrivateChannel('qeuetasks-updates'),
+            'user_id'       => $this->qeueProcess['user_id'],
+            'full_name'     => $this->qeueProcess['full_name'],
+            'queing_type'   => $this->qeueProcess['queing_type'],
+            'room_name'     => $this->qeueProcess['room_name'],
+            'queue_number'  => $this->qeueProcess['queue_number'],
+            'status'        => $this->qeueProcess['status'],
+            'current_number' => $this->qeueProcess['current_number'],
         ];
-    }
-
-    public function broadcastAs()
-    {
-        return 'qeuetask.processed';
     }
 }

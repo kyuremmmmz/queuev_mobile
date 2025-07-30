@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('person_who_que', function (Blueprint $table) {
@@ -16,18 +13,24 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('full_name');
             $table->enum('queing_type', ['Enrollment', 'Appointment', 'Walk-in']);
-            $table->integer('queue_number')->unique();
+            $table->string('queue_number');
             $table->string('room_name');
+            $table->enum('status', ['pending', 'serving', 'completed', 'canceled'])->default('pending');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->timestamps();
+            $table->unique(['queue_number', 'room_name']);
+        });
+        Schema::create('current_queue', function (Blueprint $table) {
+            $table->id();
+            $table->string('room_name')->unique();
+            $table->string('current_number')->nullable();
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('person_who_que');
+        Schema::dropIfExists('current_queue');
     }
 };

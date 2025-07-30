@@ -22,10 +22,10 @@ class QuesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'full_name' => 'required|string|max:255',
+            'user_id'     => 'required|integer|exists:users,id',
+            'full_name'   => 'required|string',
             'queing_type' => 'required|in:Enrollment,Appointment,Walk-in',
-            'room_name' => 'required|string|max:255',
-            'queue_number' => 'required|integer|unique:person_who_que,queue_number',
+            'room_name'   => 'required|string',
         ];
     }
 }
