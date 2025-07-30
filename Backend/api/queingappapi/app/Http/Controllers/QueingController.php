@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\QeueProcessed;
 use App\Http\Requests\QuesRequest;
 use App\Http\Resources\QuesResource;
+use App\Jobs\QeueTasks;
 use App\Models\Ques\QuesModel;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -55,8 +57,8 @@ class QueingController extends Controller
                 'room_name' => $validator['room_name'],
                 'queue_number' => $validator['queue_number']
             ];
-            $createdData = QuesModel::create($data);
-            return $this->sendResponse($createdData, 'Data Created Successfully');
+            QeueTasks::dispatch($data);
+            return $this->sendResponse($data, 'Data Created Successfully');
         } catch (\Throwable $th) {
             return $this->sendError('Server Unresponse', ['error' => $th]);
         }

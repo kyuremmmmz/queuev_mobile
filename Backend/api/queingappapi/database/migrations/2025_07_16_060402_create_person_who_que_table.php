@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('person_who_que', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
             $table->string('full_name');
             $table->enum('queing_type', ['Enrollment', 'Appointment', 'Walk-in']);
             $table->integer('queue_number')->unique();
             $table->string('room_name');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

@@ -1,8 +1,8 @@
 {
-    "name": "tianqt/queingappapi",
+    "name": "api/queingappapi",
     "autoload": {
         "psr-4": {
-            "Tianqt\\Queingappapi\\": "src/"
+            "App\\": "app/"
         }
     },
     "authors": [
@@ -13,7 +13,7 @@
     ],
     "require": {
         "php": "^8.0",
-        "laravel/laravel": "^10.3.3",
+        "laravel/laravel": "^10.3",
         "laravel/sanctum": "^3.3.3",
         "pusher/pusher-php-server": "^7.2"
     },
