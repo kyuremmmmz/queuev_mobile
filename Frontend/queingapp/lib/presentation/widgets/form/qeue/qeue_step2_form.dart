@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:queingapp/domain/entities/Widgets/text_field_entity.dart';
+import 'package:queingapp/presentation/provider/FormProviders/qeue_provider.dart';
+import 'package:queingapp/presentation/widgets/buttons/reusable_button.dart';
 import 'package:queingapp/presentation/widgets/containers/reusable_container_widget.dart';
 
 class QeueStep2Form extends StatefulWidget {
@@ -10,68 +14,62 @@ class QeueStep2Form extends StatefulWidget {
 }
 
 class _QeueStep2FormState extends State<QeueStep2Form> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController controller = TextEditingController();
-  bool _isField1Checked = true;
-  final bool _isField2Checked = false;
-  final generateController =
-      List.generate(2, (int index) => TextEditingController());
-  final List<TextFieldEntity> textFields = [
-    TextFieldEntity(
-      isEnabled: true,
-      validator: null,
-      suffixIcon: null,
-      icon: null,
-      isObscure: false,
-      hintText: "eg. Juan Dela Cruz",
-      controller: TextEditingController(),
-    ),
-    TextFieldEntity(
-      validator: null,
-      suffixIcon: null,
-      icon: null,
-      isObscure: false,
-      hintText: "eg. 1234567890",
-      controller: TextEditingController(),
-    ),
-  ];
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<QeueProvider>(context);
     return Form(
       child: Column(
         children: [
-          const SizedBox(
-            height: 20,
-          ),
+          const SizedBox(height: 20),
           ReusableContainerWidget(),
-          ListView.builder(
+          const SizedBox(height: 20,),
+          ListView.separated(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: 2, // Example count, adjust as needed
+            itemCount: provider.options.length,
             itemBuilder: (context, index) {
-              return RadioListTile(
-                value: _isField1Checked ? true : false,
-                groupValue: index == 0
-                    ? _isField1Checked
-                    : _isField2Checked
-                        ? 1
-                        : 0,
-                onChanged: (value) {
-                  setState(() {
-                    _isField1Checked = index == 0;
-                    
-                  });
+              return CheckboxListTile(
+                checkColor: Colors.black,
+                tristate: true,
+                checkboxShape: CircleBorder(),
+                side: WidgetStateBorderSide.resolveWith(
+                  (Set<WidgetState> states) {
+                    if (states.contains(WidgetState.selected)) {
+                      return const BorderSide(color: Colors.black);
+                    }
+                    return const BorderSide(color: Colors.black);
+                  },
+                ),
+
+                activeColor: Colors.white,
+                dense: true,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadiusGeometry.all(Radius.circular(10)),
+                  side: BorderSide(color: Colors.black),
+                ),
+                value: provider.selectedOption == index,
+                title: Text(provider.options[index],
+                style: GoogleFonts.dmSans(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600
+                  ),
+                ),
+                controlAffinity: ListTileControlAffinity.trailing,
+                onChanged: (bool? value) {
+                  provider.state(index, value);
                 },
-                title: Text(index == 0 ? 'ENROLLMENT' : 'REGISTRAR OFFICE'),
-                controlAffinity: ListTileControlAffinity.leading,
               );
             },
+            separatorBuilder: (context, index) => const SizedBox(height: 10),
+          ),
+          const SizedBox(height: 293),
+          ReusableButton(
+            textColor: Colors.white,
+            backgroundColor: Colors.black,
+            title: 'RESERVE',
+            onPressed: () {},
+            width: 200,
+            height: 50,
           ),
         ],
       ),

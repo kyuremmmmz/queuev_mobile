@@ -7,6 +7,7 @@ import 'package:queingapp/domain/usecases/GetAuth/auth_usecases.dart';
 import 'package:queingapp/presentation/provider/AuthenticationProviders/auth_provider.dart';
 import 'package:queingapp/presentation/provider/AuthenticationProviders/storage_provider.dart';
 import 'package:queingapp/presentation/provider/AuthenticationProviders/validators_provider.dart';
+import 'package:queingapp/presentation/provider/FormProviders/qeue_provider.dart';
 import 'package:queingapp/presentation/provider/QrProviders/qr_view_provider.dart';
 
 
@@ -27,6 +28,7 @@ void init(){
   //PRESENTATION LAYER
   sl.registerLazySingleton(()=>AuthProvider(authUsecases:sl() ));
   sl.registerLazySingleton(()=>ValidatorsProvider());
+  sl.registerLazySingleton(() => QeueProvider());
   sl.registerLazySingleton(()=>StorageProvider());
   sl.registerLazySingleton(()=>QrViewProvider());
 }

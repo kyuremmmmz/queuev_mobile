@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:queingapp/presentation/provider/AuthenticationProviders/auth_provider.dart';
 import 'package:queingapp/presentation/provider/AuthenticationProviders/storage_provider.dart';
 import 'package:queingapp/presentation/provider/AuthenticationProviders/validators_provider.dart';
+import 'package:queingapp/presentation/provider/FormProviders/qeue_provider.dart';
 import 'package:queingapp/presentation/provider/QrProviders/qr_view_provider.dart';
 import 'package:queingapp/presentation/screens/auth_checker.dart';
 import 'package:queingapp/presentation/screens/home/home_screen.dart';
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
       ChangeNotifierProvider(create: (_) => di.sl<ValidatorsProvider>()),
       ChangeNotifierProvider(create: (_) => di.sl<StorageProvider>()),
       ChangeNotifierProvider(create: (_) => di.sl<QrViewProvider>()),
+      ChangeNotifierProvider(create: (_) => di.sl<QeueProvider>()),
     ],
     child: MaterialApp(
       routes:  {
