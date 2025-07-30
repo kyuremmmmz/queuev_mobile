@@ -6,6 +6,8 @@ import 'package:queingapp/data/models/Auth/login_dto.dart';
 import 'package:queingapp/data/models/Auth/user_dto.dart';
 import 'package:queingapp/data/source/repository/remote_repository_data_source.dart';
 import 'package:queingapp/presentation/provider/AuthenticationProviders/storage_provider.dart';
+
+
 class SignUpService implements RemoteRepositoryDataSource{
   final String url = 'http://192.168.100.7:8000';
   final http.Client client;

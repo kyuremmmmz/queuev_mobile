@@ -13,7 +13,7 @@ class _QeueStep2FormState extends State<QeueStep2Form> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController controller = TextEditingController();
   bool _isField1Checked = true;
-  bool _isField2Checked = false;
+  final bool _isField2Checked = false;
   final generateController =
       List.generate(2, (int index) => TextEditingController());
   final List<TextFieldEntity> textFields = [
