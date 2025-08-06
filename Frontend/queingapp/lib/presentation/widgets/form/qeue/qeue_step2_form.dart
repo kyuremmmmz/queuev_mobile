@@ -7,7 +7,8 @@ import 'package:queingapp/presentation/widgets/buttons/reusable_button.dart';
 import 'package:queingapp/presentation/widgets/containers/reusable_container_widget.dart';
 
 class QeueStep2Form extends StatefulWidget {
-  const QeueStep2Form({super.key});
+  final PageController controller;
+  const QeueStep2Form({super.key, required this.controller});
 
   @override
   State<QeueStep2Form> createState() => _QeueStep2FormState();
@@ -22,7 +23,7 @@ class _QeueStep2FormState extends State<QeueStep2Form> {
         children: [
           const SizedBox(height: 20),
           ReusableContainerWidget(),
-          const SizedBox(height: 20,),
+          const SizedBox(height: 20),
           ListView.separated(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
@@ -32,14 +33,14 @@ class _QeueStep2FormState extends State<QeueStep2Form> {
                 checkColor: Colors.black,
                 tristate: true,
                 checkboxShape: CircleBorder(),
-                side: WidgetStateBorderSide.resolveWith(
-                  (Set<WidgetState> states) {
-                    if (states.contains(WidgetState.selected)) {
-                      return const BorderSide(color: Colors.black);
-                    }
+                side: WidgetStateBorderSide.resolveWith((
+                  Set<WidgetState> states,
+                ) {
+                  if (states.contains(WidgetState.selected)) {
                     return const BorderSide(color: Colors.black);
-                  },
-                ),
+                  }
+                  return const BorderSide(color: Colors.black);
+                }),
 
                 activeColor: Colors.white,
                 dense: true,
@@ -48,10 +49,11 @@ class _QeueStep2FormState extends State<QeueStep2Form> {
                   side: BorderSide(color: Colors.black),
                 ),
                 value: provider.selectedOption == index,
-                title: Text(provider.options[index],
-                style: GoogleFonts.dmSans(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600
+                title: Text(
+                  provider.options[index],
+                  style: GoogleFonts.dmSans(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
                 controlAffinity: ListTileControlAffinity.trailing,
@@ -67,7 +69,9 @@ class _QeueStep2FormState extends State<QeueStep2Form> {
             textColor: Colors.white,
             backgroundColor: Colors.black,
             title: 'RESERVE',
-            onPressed: () {},
+            onPressed: () {
+              widget.controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
+            },
             width: 200,
             height: 50,
           ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:queingapp/presentation/widgets/form/qeue/dialog_screen.dart';
 import 'package:queingapp/presentation/widgets/form/qeue/qeue_step1_form.dart';
 import 'package:queingapp/presentation/widgets/form/qeue/qeue_step2_form.dart';
 import 'package:queingapp/utils/AppPadding.dart';
@@ -12,10 +13,12 @@ class QeueReservationScreen extends StatefulWidget {
 
 class _QeueReservationScreenState extends State<QeueReservationScreen> {
   final PageController _pageController = PageController();
+  final PageController _pageController2 = PageController();
 
   @override
   void dispose() {
     _pageController.dispose();
+    _pageController2.dispose();
     super.dispose();
   }
   @override
@@ -25,7 +28,7 @@ class _QeueReservationScreenState extends State<QeueReservationScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
           onPressed: () {
-            Navigator.of(context).pop();
+            _pageController.previousPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
           },
         ),
         title: const Text('Queue Reservation'),
@@ -38,7 +41,8 @@ class _QeueReservationScreenState extends State<QeueReservationScreen> {
             physics: const NeverScrollableScrollPhysics(),
             children: [
                   QeueStep1Form(pageController: _pageController,),
-                  QeueStep2Form()
+                  QeueStep2Form(controller: _pageController,),
+                  ReservationSuccessScreen(pageController: _pageController)
               ],
             )
           )

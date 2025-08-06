@@ -1,6 +1,8 @@
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:queingapp/firebase_options.dart';
 import 'package:queingapp/presentation/provider/AuthenticationProviders/auth_provider.dart';
 import 'package:queingapp/presentation/provider/AuthenticationProviders/storage_provider.dart';
 import 'package:queingapp/presentation/provider/AuthenticationProviders/validators_provider.dart';
@@ -13,7 +15,12 @@ import 'package:queingapp/presentation/screens/home/qeue_reservation_screen.dart
 
 import 'injection.dart' as di;
 
-void main() {
+void main() async{
+  await Firebase.initializeApp(
+  demoProjectId: 'queuing-bd0b4',
+  options: DefaultFirebaseOptions.currentPlatform,
+);
+
   di.init();
   runApp(const MyApp());
 }
