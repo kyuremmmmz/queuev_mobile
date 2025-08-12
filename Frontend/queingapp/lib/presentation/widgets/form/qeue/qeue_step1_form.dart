@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:queingapp/presentation/provider/AuthenticationProviders/validators_provider.dart';
+import 'package:queingapp/presentation/provider/QueueProvider/queue_provider.dart';
 import 'package:queingapp/presentation/widgets/buttons/reusable_button.dart';
 import 'package:queingapp/presentation/widgets/containers/reusable_container_widget.dart';
 import 'package:queingapp/presentation/widgets/inputs/reusable_field.dart';
@@ -16,16 +17,10 @@ class QeueStep1Form extends StatefulWidget {
 
 class _QeueStep1FormState extends State<QeueStep1Form> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController controller = TextEditingController();
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<ValidatorsProvider>(context);
+    final provider1 = Provider.of<QueueProvider>(context);
     return Form(
       key: _formKey,
       child: SingleChildScrollView(
@@ -54,7 +49,8 @@ class _QeueStep1FormState extends State<QeueStep1Form> {
               validator: (value) {
                 return provider.validateAll(value, "Full Name.");
               },
-              controller: controller),
+              controller: provider1.name!
+              ),
           const SizedBox(
             height: 346,
           ),

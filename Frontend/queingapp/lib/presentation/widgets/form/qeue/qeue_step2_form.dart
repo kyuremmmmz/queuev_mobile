@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:queingapp/domain/entities/Widgets/text_field_entity.dart';
 import 'package:queingapp/presentation/provider/FormProviders/qeue_provider.dart';
+import 'package:queingapp/presentation/provider/QueueProvider/queue_provider.dart';
 import 'package:queingapp/presentation/widgets/buttons/reusable_button.dart';
 import 'package:queingapp/presentation/widgets/containers/reusable_container_widget.dart';
 
@@ -17,7 +17,7 @@ class QeueStep2Form extends StatefulWidget {
 class _QeueStep2FormState extends State<QeueStep2Form> {
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<QeueProvider>(context);
+    final provider1 = Provider.of<QueueProvider>(context);
     return Form(
       child: Column(
         children: [
@@ -27,7 +27,7 @@ class _QeueStep2FormState extends State<QeueStep2Form> {
           ListView.separated(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: provider.options.length,
+            itemCount: provider1.options.length,
             itemBuilder: (context, index) {
               return CheckboxListTile(
                 checkColor: Colors.black,
@@ -48,9 +48,9 @@ class _QeueStep2FormState extends State<QeueStep2Form> {
                   borderRadius: BorderRadiusGeometry.all(Radius.circular(10)),
                   side: BorderSide(color: Colors.black),
                 ),
-                value: provider.selectedOption == index,
+                value: provider1.selectedOption == index,
                 title: Text(
-                  provider.options[index],
+                  provider1.options[index],
                   style: GoogleFonts.dmSans(
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
@@ -58,7 +58,7 @@ class _QeueStep2FormState extends State<QeueStep2Form> {
                 ),
                 controlAffinity: ListTileControlAffinity.trailing,
                 onChanged: (bool? value) {
-                  provider.state(index, value);
+                  provider1.state(index, value);
                 },
               );
             },
@@ -70,7 +70,11 @@ class _QeueStep2FormState extends State<QeueStep2Form> {
             backgroundColor: Colors.black,
             title: 'RESERVE',
             onPressed: () {
-              widget.controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
+              provider1.createQueue();
+              widget.controller.nextPage(
+                duration: Duration(milliseconds: 500),
+                curve: Curves.ease,
+              );
             },
             width: 200,
             height: 50,

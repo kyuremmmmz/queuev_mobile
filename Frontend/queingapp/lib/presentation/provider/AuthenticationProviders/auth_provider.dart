@@ -11,17 +11,34 @@ class AuthProvider with ChangeNotifier {
   late String _name;
   late String _surname;
   late String _password;
+  late String _birthdate;
+  late String _email;
+  late String _phone;
+  late String _address;
   bool get isLoading => _isLoading;
   String? get error => _error;
   String get name => _name;
   String get surname => _surname;
   String get password => _password;
-  void signUserData(String name, String surname){
+  String get birthdate => _birthdate;
+  String get email => _email;
+  String get phone => _phone;
+  String get address => _address;
+  void signUserData(String name, String surname) {
     _name = name;
     _surname = surname;
     notifyListeners();
   }
-  Future<void> signUpUser(UserEntity user) async{
+
+  void signPersonalInfo(String month, String day, String year, String phone, String address, String email) {
+    _birthdate = '$month,$day$year';
+    _phone = phone;
+    _address = address;
+    _email = email;
+    notifyListeners();
+  }
+
+  Future<void> signUpUser(UserEntity user) async {
     _isLoading = true;
     notifyListeners();
     try {
@@ -35,24 +52,16 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<void> loginUser(LoginEntity user) async {
-  _isLoading = true;
-  notifyListeners();
-  try {
-    await authUsecases.callLoginUser(user);
-    _error = null;
-  } catch (e) {
-    _error = e.toString();
+    _isLoading = true;
+    notifyListeners();
+    try {
+      await authUsecases.callLoginUser(user);
+      _error = null;
+    } catch (e) {
+      _error = e.toString();
+    }
+
+    _isLoading = false;
+    notifyListeners();
   }
-
-  _isLoading = false;
-  notifyListeners();
-}
-
-  
-
-
-
-
-
-
 }

@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:queingapp/domain/entities/queues/queues_entity.dart';
+import 'package:queingapp/presentation/provider/QueueProvider/queue_provider.dart';
+
 
 class QueueStatusScreen extends StatelessWidget {
   const QueueStatusScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<QueueProvider>(context);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -13,6 +18,7 @@ class QueueStatusScreen extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
           onPressed: () {
+            Navigator.of(context).pop();
             Navigator.of(context).pop();
           },
         ),
@@ -27,69 +33,106 @@ class QueueStatusScreen extends StatelessWidget {
         centerTitle: false,
         titleSpacing: 0,
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Text(
-              'YOU ARE',
-              style: TextStyle(
-                fontSize: 14.0,
-                fontWeight: FontWeight.w500,
-                color: Colors.black,
-              ),
-            ),
-            const SizedBox(height: 8.0),
-            Container(
-              width: 150,
-              height: 150,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20.0),
-                border: Border.all(color: Colors.black, width: 2.0),
-              ),
-              alignment: Alignment.center,
-              child: const Text(
-                '13',
-                style: TextStyle(
-                  fontSize: 80.0,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-            const SizedBox(height: 8.0),
-            const Text(
-              'IN THE ENROLLMENT\nQUEUE',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 14.0,
-                fontWeight: FontWeight.w500,
-                color: Colors.black,
-              ),
-            ),
-            const SizedBox(height: 40.0),
-            _buildInfoRow('QUEUE NAME:', 'SOUTHERN LUZON STATE UNIVER...'),
-            _buildInfoRow('ADDRESS:', 'BRGY SAN ANTONIO, PALA, CATAN...'),
-            _buildInfoRow('CURRENT NO.', '---'),
-            _buildInfoRow('SCHEDULE:', '8:00 AM / July 2, 2025'),
-            _buildInfoRow('ESTIMATED TIME:', '9:00 AM'),
-            const SizedBox(height: 20.0),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+      body: StreamBuilder<QueuesEntity?>(
+        stream: provider.queueStream, 
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasError) {
+            return const Center(child: Text('Error loading queue data'));
+          }
+          final queue = snapshot.data;
+          if (queue == null) {
+            return const Center(child: Text('No queue data available'));
+          }
+          final schedule = '${queue.schedule?.toDate().hour}:00 AM / ${queue.schedule?.toDate().month}/${queue.schedule?.toDate().day}/${queue.schedule?.toDate().year}';
+          final estimatedTime = '${queue.schedule!.toDate().hour + 1}:00 AM';
+          return SingleChildScrollView(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Icon(Icons.info_outline, color: Colors.black, size: 20),
-                const SizedBox(width: 8.0),
-                Expanded(
-                  child: Text(
-                    'Please note that each person has a 5-minute window to be accommodated. We recommend arriving at least 10 minutes early, thank you.',
-                    style: TextStyle(fontSize: 12.0, color: Colors.grey[700]),
+                const Text(
+                  'YOU ARE',
+                  style: TextStyle(
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black,
                   ),
+                ),
+                const SizedBox(height: 8.0),
+                Container(
+                  width: 150,
+                  height: 150,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20.0),
+                    border: Border.all(color: Colors.black, width: 2.0),
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    '${queue.index}',
+                    style: const TextStyle(
+                      fontSize: 80.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 8.0),
+                Text(
+                  'IN THE ${queue.type}\nQUEUE',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black,
+                  ),
+                ),
+                const SizedBox(height: 40.0),
+                _buildInfoRow(
+                  'QUEUE NAME:',
+                  queue.name.length > 20
+                      ? '${queue.name.substring(0, 17)}...'
+                      : queue.name,
+                ),
+                _buildInfoRow(
+                  'ADDRESS:',
+                  queue.address.length > 20
+                      ? '${queue.address.substring(0, 17)}...'
+                      : queue.address,
+                ),
+                _buildInfoRow(
+                  'CURRENT NO.',
+                  '${queue.index}',
+                ), // This could be dynamic if you track the current serving number
+                _buildInfoRow('SCHEDULE:', schedule),
+                _buildInfoRow('ESTIMATED TIME:', estimatedTime),
+                const SizedBox(height: 20.0),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Icon(
+                      Icons.info_outline,
+                      color: Colors.black,
+                      size: 20,
+                    ),
+                    const SizedBox(width: 8.0),
+                    Expanded(
+                      child: Text(
+                        'Please note that each person has a 5-minute window to be accommodated. We recommend arriving at least 10 minutes early, thank you.',
+                        style: TextStyle(
+                          fontSize: 12.0,
+                          color: Colors.grey[700],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

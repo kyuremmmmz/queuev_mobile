@@ -1,0 +1,77 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
+
+import 'package:queingapp/const.dart';
+import 'package:queingapp/data/repositoryImpl/queue/queue_repository_impl.dart';
+import 'package:queingapp/domain/entities/queues/queues_entity.dart';
+import 'package:queingapp/domain/repositories/queues/queues_repository.dart';
+import 'package:queingapp/domain/usecases/get_queue/queue_use_case.dart';
+
+class QueueProvider with ChangeNotifier {
+  final QueueUseCase useCase;
+  QueueProvider({
+    required this.useCase,
+  });
+
+  String? _address;
+  final _name = TextEditingController();
+  int? _selectedOption;
+  final List<String> _options = ['ENROLLMENT', 'REGISTRAR OFFICE'];
+  int? get selectedOption => _selectedOption;
+  List<String> get options => _options;
+
+  String? get address => _address;
+  TextEditingController get name => _name;
+
+  Future<void> state(int? index, bool? value) async {
+    if (value == true) {
+      _selectedOption = index;
+      notifyListeners();
+    } else {
+      _selectedOption = null;
+      notifyListeners();
+    }
+    notifyListeners();
+  }
+
+  
+
+
+  Future<void> createQueue() async {
+    final entity = QueuesEntity(
+      name: _name.text,
+      type: _options[selectedOption!],
+      index: 0,
+      address: 'SOUTHERN LUZON STATE UNIVERSITY - CATANUAN EXTENSION',
+      status: '',
+    );
+    await useCase.callCreateQueue(entity);
+  }
+  
+  
+  Stream<QueuesEntity?> get queueStream => useCase.callGetQueue(
+    QueuesEntity(
+      name: '',
+      type: '',
+      index: 0,
+      schedule: Timestamp.now(),
+      timein: Timestamp.now(),
+      address: '',
+      status: '',
+    ),
+  );
+
+  void init() {
+    queueStream.listen((queue) {
+      notifyListeners();
+    });
+  }
+
+
+  @override
+  void dispose() {
+    _name.dispose();
+    super.dispose();
+  }
+}
