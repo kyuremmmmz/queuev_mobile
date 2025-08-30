@@ -13,34 +13,45 @@ class DrawerWidget extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
+          // Drawer Header
           const DrawerHeader(
-            decoration: BoxDecoration(color: Colors.blue),
+            decoration: BoxDecoration(color: Colors.white),
             child: Text(
-              'Drawer Header',
-              style: TextStyle(color: Colors.white, fontSize: 24),
+              'QUEUEV',
+              style: TextStyle(color: Colors.black, fontSize: 24),
             ),
           ),
+          // Drawer Items
           ListTile(
-            leading: const Icon(Icons.home),
-            title: const Text('Home'),
+            leading: const Icon(Icons.person),
+            title: const Text('ACCOUNT'),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.timer),
+            title: const Text('QUEUE STATUS'),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.history),
+            title: const Text('QUEUEING HISTORY'),
             onTap: () {
               Navigator.pop(context);
             },
           ),
           ListTile(
             leading: const Icon(Icons.settings),
-            title: const Text('Settings'),
+            title: const Text('SETTINGS'),
             onTap: () {
               Navigator.pop(context);
             },
           ),
-          ListTile(
-            leading: const Icon(Icons.info),
-            title: const Text('About'),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
+          const SizedBox(height: 250),
+          Divider(),
           ListTile(
             leading: const Icon(Icons.logout_outlined),
             title: const Text('Log out'),
