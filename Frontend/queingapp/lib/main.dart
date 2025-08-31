@@ -12,6 +12,7 @@ import 'package:queingapp/presentation/screens/auth_checker.dart';
 import 'package:queingapp/presentation/screens/home/home_screen.dart';
 import 'package:queingapp/presentation/screens/home/qeue_reservation_screen.dart';
 import 'package:queingapp/presentation/screens/home/qeue_status_screen.dart';
+import 'package:queingapp/presentation/screens/home/qeueing_history_screen.dart';
 
 import 'injection.dart' as di;
 
@@ -45,6 +46,7 @@ class MyApp extends StatelessWidget {
           '/home': (context) => const HomeScreen(),
           '/qeue': (context) => const QeueReservationScreen(),
           '/status': (context) => const QueueStatusScreen(),
+          '/queing': (context) => const QeueingHistoryScreen(),
         },
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',

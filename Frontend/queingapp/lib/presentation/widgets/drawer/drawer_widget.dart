@@ -41,6 +41,7 @@ class DrawerWidget extends StatelessWidget {
             title: const Text('QUEUEING HISTORY'),
             onTap: () {
               Navigator.pop(context);
+              Navigator.pushNamed(context, '/queing');
             },
           ),
           ListTile(
