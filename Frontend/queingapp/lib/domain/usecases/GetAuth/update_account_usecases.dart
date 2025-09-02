@@ -10,4 +10,5 @@ class UpdateAccountUsecases {
   
 
   Future<UserEntity> callUpdateAccount(UserEntity entity) => repositoryImpl.updateAccount(entity);
+  Stream<UserEntity?> callgetAccount() => repositoryImpl.getAccount();
 }

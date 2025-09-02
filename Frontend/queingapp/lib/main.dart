@@ -10,6 +10,7 @@ import 'package:queingapp/presentation/provider/FormProviders/qeue_provider.dart
 import 'package:queingapp/presentation/provider/QrProviders/qr_view_provider.dart';
 import 'package:queingapp/presentation/provider/QueueProvider/queue_provider.dart';
 import 'package:queingapp/presentation/screens/auth/account/account_screen.dart';
+import 'package:queingapp/presentation/screens/auth/settings/settings_screen.dart';
 import 'package:queingapp/presentation/screens/auth_checker.dart';
 import 'package:queingapp/presentation/screens/home/home_screen.dart';
 import 'package:queingapp/presentation/screens/home/qeue_reservation_screen.dart';
@@ -51,6 +52,7 @@ class MyApp extends StatelessWidget {
           '/status': (context) => const QueueStatusScreen(),
           '/queing': (context) => const QeueingHistoryScreen(),
           '/account': (context) => const AccountScreen(),
+          '/settings': (context) => const SettingsScreen(),
         },
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',

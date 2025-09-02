@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:queingapp/domain/entities/Auth/user_entity.dart';
 
 class UserDto {
-  final int? id;
+  final String? id;
   final String name;
   final String username;
   final String? password;

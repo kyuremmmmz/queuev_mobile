@@ -49,6 +49,7 @@ class DrawerWidget extends StatelessWidget {
             title: const Text('SETTINGS'),
             onTap: () {
               Navigator.pop(context);
+              Navigator.pushNamed(context, '/settings');
             },
           ),
           const SizedBox(height: 250),

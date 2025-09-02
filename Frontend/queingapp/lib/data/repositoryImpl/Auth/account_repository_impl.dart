@@ -1,3 +1,4 @@
+import 'package:queingapp/const.dart';
 import 'package:queingapp/data/models/Auth/user_dto.dart';
 import 'package:queingapp/data/source/Auth/account_service.dart';
 import 'package:queingapp/domain/entities/Auth/user_entity.dart';
@@ -10,6 +11,16 @@ class AccountRepositoryImpl implements UpdateAccountRepository{
     final data = UserDto.fromEntity(entity);
     final account = await dataSource.updateAccount(data);
     return account.toEntity();
+  }
+  
+  @override
+  Stream<UserEntity?> getAccount() {
+    return dataSource.getUser(USER.currentUser!.uid).map((dto) {
+      if (dto != null) {
+        return dto.toEntity();
+      }
+      return null;
+    } );
   }
   
 }
