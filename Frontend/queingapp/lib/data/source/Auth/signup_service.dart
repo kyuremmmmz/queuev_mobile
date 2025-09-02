@@ -21,7 +21,7 @@ class SignUpService implements RemoteRepositoryDataSource{
       final credential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
             email: user.email,
-            password: user.password,
+            password: user.password ?? '',
           );
 
       final String uid = credential.user!.uid;

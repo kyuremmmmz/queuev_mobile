@@ -26,7 +26,7 @@ class DrawerWidget extends StatelessWidget {
             leading: const Icon(Icons.person),
             title: const Text('ACCOUNT'),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.pushNamed(context, '/account');
             },
           ),
           ListTile(

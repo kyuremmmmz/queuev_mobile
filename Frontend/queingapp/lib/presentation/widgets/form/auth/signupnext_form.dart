@@ -87,7 +87,7 @@ class _SignupnextFormState extends State<SignupnextForm> {
                     username: _usernameController.text.trim(),
                     birthdate: provider.birthdate,
                     email: provider.email.trim(),
-                    
+                    address: provider.address.trim()
                   );
                   provider.signUpUser(data);
                 }

@@ -37,6 +37,7 @@ class QueueService implements QeueingRepoDataSource {
         timein: Timestamp.now(),
         address: dto.address,
       );
+      
       final docRef = await database
           .collection('queuesList')
           .withConverter(
@@ -54,6 +55,8 @@ class QueueService implements QeueingRepoDataSource {
       throw Exception("Error creating queue: $e");
     }
   }
+
+  
 
   @override
   Stream<QeueDto?> streamQueueByUid(String uid) {

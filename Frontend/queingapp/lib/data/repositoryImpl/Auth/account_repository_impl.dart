@@ -1,0 +1,15 @@
+import 'package:queingapp/data/models/Auth/user_dto.dart';
+import 'package:queingapp/data/source/Auth/account_service.dart';
+import 'package:queingapp/domain/entities/Auth/user_entity.dart';
+import 'package:queingapp/domain/repositories/Auth/update_account_repository.dart';
+
+class AccountRepositoryImpl implements UpdateAccountRepository{
+  final dataSource = AccountService();
+  @override
+  Future<UserEntity> updateAccount(UserEntity entity) async{
+    final data = UserDto.fromEntity(entity);
+    final account = await dataSource.updateAccount(data);
+    return account.toEntity();
+  }
+  
+}

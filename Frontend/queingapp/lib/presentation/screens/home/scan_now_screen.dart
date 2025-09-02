@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:queingapp/const.dart';
 import 'package:queingapp/presentation/widgets/drawer/drawer_widget.dart';
 import 'package:queingapp/presentation/widgets/floating_action_button/action_button_widget.dart';
 
@@ -24,7 +23,9 @@ class _ScanNowScreenState extends State<ScanNowScreen> {
           },
         ),
         actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.notifications)),
+          IconButton(
+            onPressed: () {}, 
+          icon: const Icon(Icons.notifications)),
         ],
       ),
       drawer: DrawerWidget(),

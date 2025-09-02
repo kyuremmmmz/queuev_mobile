@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:queingapp/domain/entities/Auth/user_entity.dart';
 
 class UserDto {
   final int? id;
   final String name;
   final String username;
-  final String password;
+  final String? password;
+  final String? address;
   final String surname;
   final String birthDate;
   final String email;
@@ -14,7 +16,8 @@ class UserDto {
   UserDto({
     this.id,
     required this.name,
-    required this.password,
+    this.password,
+    this.address,
     required this.username,
     required this.surname,
     required this.birthDate,
@@ -36,18 +39,20 @@ class UserDto {
       password: data?['password'],
       surname: data?['surname'],
       birthDate: data?['birthdate'],
+      address: data?['address'],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
+      'id': FirebaseAuth.instance.currentUser!.uid,
       'name': name,
       'username': username,
       'surname': surname,
       'password': password,
       'email': email,
       'birthdate': birthDate,
+      'address': address,
       'phone': phone,
     };
   }
@@ -63,6 +68,7 @@ class UserDto {
       birthdate: birthDate,
       email: email,
       phone: phone,
+      address: address,
     );
   }
 
@@ -72,11 +78,12 @@ class UserDto {
       phone: user.phone,
       id: user.id,
       name: user.name,
-      surname: user.surname,
+      surname: user.surname ?? '',
       username: user.username,
       password: user.password,
       birthDate: user.birthdate,
-      email: user.email
+      email: user.email ?? '',
+      address: user.address,
     );
   }
 }

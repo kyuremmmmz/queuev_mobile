@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:queingapp/firebase_options.dart';
 import 'package:queingapp/presentation/provider/AuthenticationProviders/auth_provider.dart';
+import 'package:queingapp/presentation/provider/AuthenticationProviders/change_account_provider.dart';
 import 'package:queingapp/presentation/provider/AuthenticationProviders/storage_provider.dart';
 import 'package:queingapp/presentation/provider/AuthenticationProviders/validators_provider.dart';
 import 'package:queingapp/presentation/provider/FormProviders/qeue_provider.dart';
 import 'package:queingapp/presentation/provider/QrProviders/qr_view_provider.dart';
 import 'package:queingapp/presentation/provider/QueueProvider/queue_provider.dart';
+import 'package:queingapp/presentation/screens/auth/account/account_screen.dart';
 import 'package:queingapp/presentation/screens/auth_checker.dart';
 import 'package:queingapp/presentation/screens/home/home_screen.dart';
 import 'package:queingapp/presentation/screens/home/qeue_reservation_screen.dart';
@@ -40,6 +42,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => di.sl<QrViewProvider>()),
         ChangeNotifierProvider(create: (_) => di.sl<QeueProvider>()),
         ChangeNotifierProvider(create: (_) => di.sl<QueueProvider>()),
+        ChangeNotifierProvider(create: (_) => di.sl<ChangeAccountProvider>()),
       ],
       child: MaterialApp(
         routes: {
@@ -47,6 +50,7 @@ class MyApp extends StatelessWidget {
           '/qeue': (context) => const QeueReservationScreen(),
           '/status': (context) => const QueueStatusScreen(),
           '/queing': (context) => const QeueingHistoryScreen(),
+          '/account': (context) => const AccountScreen(),
         },
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',

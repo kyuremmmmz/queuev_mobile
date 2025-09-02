@@ -31,10 +31,11 @@ class AuthProvider with ChangeNotifier {
   }
 
   void signPersonalInfo(String month, String day, String year, String phone, String address, String email) {
-    _birthdate = '$month,$day$year';
+    _birthdate = '$month,$day, $year';
     _phone = phone;
     _address = address;
     _email = email;
+    print('address gago: $address');
     notifyListeners();
   }
 

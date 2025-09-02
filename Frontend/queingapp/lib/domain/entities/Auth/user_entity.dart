@@ -3,21 +3,23 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class UserEntity {
   final int? id;
   final String name;
-  final String surname;
+  final String? surname;
   final String username;
-  final String password;
+  final String? password;
   final String birthdate;
-  final String email;
+  final String? email;
   final String phone;
+  final String?  address;
 
   UserEntity({
+    this.address,
     this.id,
     required this.name,
     required this.phone,
-    required this.password,
+    this.password,
     required this.username,
-    required this.surname,
+    this.surname,
     required this.birthdate,
-    required this.email,
+    this.email,
   });
 }
