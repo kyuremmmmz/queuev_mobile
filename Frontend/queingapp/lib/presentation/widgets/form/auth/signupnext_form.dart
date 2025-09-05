@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:queingapp/domain/entities/Auth/user_entity.dart';
 import 'package:queingapp/presentation/provider/AuthenticationProviders/auth_provider.dart';
+import 'package:queingapp/presentation/provider/AuthenticationProviders/validators_provider.dart';
 import 'package:queingapp/presentation/widgets/buttons/reusable_button.dart';
 import 'package:queingapp/presentation/widgets/inputs/reusable_field.dart';
+import 'package:queingapp/utils/Validators.dart';
 
 class SignupnextForm extends StatefulWidget {
   const SignupnextForm({super.key});
@@ -34,6 +36,7 @@ class _SignupnextFormState extends State<SignupnextForm> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<AuthProvider>(context);
+    final provider1 = Provider.of<ValidatorsProvider>(context);
     return Form(
       key: _key,
       child: Column(
@@ -47,6 +50,9 @@ class _SignupnextFormState extends State<SignupnextForm> {
           const Text("CREATE PASSWORD"),
           const SizedBox(height: 10),
           ReusableField(
+            validator: (value){
+              return provider1.validateWithRegex(value, 'password');
+            },
             controller: _passwordController,
             isObscure: isObscure,
             suffixIcon: IconButton(
@@ -64,6 +70,12 @@ class _SignupnextFormState extends State<SignupnextForm> {
           ReusableField(
             controller: _confirmPasswordController,
             isObscure: isObscure,
+            validator: (value){
+              if (_confirmPasswordController.text != _passwordController.text) {
+                return "Password doesn't match.";
+              }
+              return null;
+            },
             suffixIcon: IconButton(
               onPressed: () {
                 setState(() {
@@ -76,8 +88,8 @@ class _SignupnextFormState extends State<SignupnextForm> {
           const SizedBox(height: 120),
           Center(
             child: ReusableButton(
-              title: "Sign Up",
-              onPressed: () {
+              title: provider.isLoading ? 'Loading...' :"Sign Up",
+              onPressed:provider.isLoading ? null : () {
                 if (_key.currentState!.validate()) {
                   final data = UserEntity(
                     phone: provider.phone,

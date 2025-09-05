@@ -228,7 +228,7 @@ class _SignUpPersonalInfoState extends State<SignUpPersonalInfo> {
           Center(
             child: ReusableButton(
               title: "NEXT",
-              onPressed: () {
+              onPressed: !agreedToTerms ? null : () {
                 if (_key.currentState!.validate() && agreedToTerms) {
                   provider1.signPersonalInfo(
                     selectedMonth,
