@@ -32,6 +32,7 @@ class SignUpService implements RemoteRepositoryDataSource{
           .set(userData);
       final DocumentSnapshot<Map<String, dynamic>> snapshot =
           await FirebaseFirestore.instance.collection('users').doc(uid).get();
+      await USER.currentUser?.updateDisplayName(user.name);
       return UserDto.fromJson(
         snapshot,
         null,

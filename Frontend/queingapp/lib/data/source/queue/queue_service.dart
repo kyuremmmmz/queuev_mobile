@@ -30,7 +30,7 @@ class QueueService implements QeueingRepoDataSource {
       dto = QeueDto(
         uid: USER.currentUser!.uid,
         status: 'pending',
-        name: dto.name,
+        name: USER.currentUser!.displayName ?? '',
         type: dto.type,
         index: newIndex,
         schedule: Timestamp.now(),
@@ -75,6 +75,14 @@ class QueueService implements QeueingRepoDataSource {
           }
           return null;
         });
+  }
+  
+  @override
+  Stream<List<QeueDto?>> streamQueueByUidAsList(String uid) {
+    return DB.collection('queuesList')
+    .withConverter(fromFirestore: QeueDto.fromJson, toFirestore: (QeueDto dto, _) => dto.toJson(),)
+    .where('uid', isEqualTo: uid)
+    .snapshots().map((snapshot) => snapshot.docs.map((doc)=>doc.data()).toList());
   }
 
 }

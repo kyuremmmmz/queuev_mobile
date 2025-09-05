@@ -40,7 +40,6 @@ class _QeueReservationScreenState extends State<QeueReservationScreen> {
             controller: _pageController,
             physics: const NeverScrollableScrollPhysics(),
             children: [
-                  QeueStep1Form(pageController: _pageController,),
                   QeueStep2Form(controller: _pageController,),
                   ReservationSuccessScreen(pageController: _pageController)
               ],

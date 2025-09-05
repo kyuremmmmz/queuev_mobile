@@ -1,7 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:queingapp/domain/entities/Auth/reset_password_entity.dart';
 import 'package:queingapp/domain/entities/Auth/user_entity.dart';
 import 'package:queingapp/domain/usecases/GetAuth/update_account_usecases.dart';
+import 'package:queingapp/presentation/widgets/toasters/toaster.dart';
 
 class ChangeAccountProvider with ChangeNotifier {
   final UpdateAccountUsecases usecases;
@@ -16,6 +18,7 @@ class ChangeAccountProvider with ChangeNotifier {
   String? _address;
   String? _phoneNumber;
   String? _password;
+  bool _isObscure = true;
   String? _surname;
   String? _email;
 
@@ -28,6 +31,8 @@ class ChangeAccountProvider with ChangeNotifier {
   final TextEditingController _surNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController _currentPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
 
   // Getters for fields
   String? get name => _name;
@@ -38,6 +43,7 @@ class ChangeAccountProvider with ChangeNotifier {
   String? get password => _password;
   String? get email => _email;
   String? get surname => _surname;
+  bool get isObscure => _isObscure;
 
   // Getters for controllers
   TextEditingController get nameController => _nameController;
@@ -48,6 +54,8 @@ class ChangeAccountProvider with ChangeNotifier {
   TextEditingController get surName => _surNameController;
   TextEditingController get emailController => _emailController;
   TextEditingController get passwordController => _passwordController;
+  TextEditingController get currentPasswordController => _currentPasswordController;
+  TextEditingController get confirmPasswordController => _confirmPasswordController;
 
 
   Future<void> updateProfile() async{
@@ -60,6 +68,32 @@ class ChangeAccountProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void togglePasswordVisibility() {
+    _isObscure = !_isObscure;
+    notifyListeners();
+  }
+
+
+  Future<void> changePassword(BuildContext context) async {
+  try {
+    UserEntity? currentUser = await getUseCase.first;
+
+    if (currentUser == null) {
+      throw Exception('No user data found');
+    }
+
+    if (_confirmPasswordController.text.isEmpty || _confirmPasswordController.text != currentUser.password) {
+      Toaster().toast(context,'Invalid current password');
+    }
+
+    final entity = ResetPasswordEntity(password: _confirmPasswordController.text);
+    await usecases.callupdatePassword(_confirmPasswordController.text,entity);
+    notifyListeners();
+  } catch (e) {
+    throw Exception(e.toString());
+  }
+}
+
   Stream<UserEntity?> get getUseCase => usecases.callgetAccount();
 
   @override
@@ -71,7 +105,9 @@ class ChangeAccountProvider with ChangeNotifier {
     _phoneNumberController.dispose();
     _surNameController.dispose();
     _passwordController.dispose();
+    _confirmPasswordController.dispose();
     _emailController.dispose();
+    _currentPasswordController.dispose();
     super.dispose();
   }
 

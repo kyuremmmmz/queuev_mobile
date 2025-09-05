@@ -20,7 +20,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ListContentEntity(
         label: 'Change Password',
         callback: () {
-          
+          Navigator.pushNamed(context, '/changePassword');
         },
         icon: Icons.key,
         width: 150.0,

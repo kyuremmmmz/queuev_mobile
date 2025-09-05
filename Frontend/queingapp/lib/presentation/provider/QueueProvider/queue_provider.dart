@@ -62,9 +62,24 @@ class QueueProvider with ChangeNotifier {
     ),
   );
 
+  Stream<List<QueuesEntity?>> get queueStreamAsList => useCase.callGetQueueAsList(
+    QueuesEntity(
+      name: '',
+      type: '',
+      index: 0,
+      schedule: Timestamp.now(),
+      timein: Timestamp.now(),
+      address: '',
+      status: '',
+    ),
+  );
+
   
   void init() {
     queueStream.listen((queue) {
+      notifyListeners();
+    });
+    queueStreamAsList.listen((list){
       notifyListeners();
     });
   }

@@ -13,4 +13,8 @@ class QueueUseCase {
   Stream<QueuesEntity?> callGetQueue(QueuesEntity entity) {
     return repositoryImpl.getQue(entity);
   }
+
+  Stream<List<QueuesEntity?>> callGetQueueAsList(QueuesEntity entity) {
+    return repositoryImpl.getQueAsList(entity);
+  }
 }

@@ -10,13 +10,13 @@ import 'package:queingapp/presentation/provider/FormProviders/qeue_provider.dart
 import 'package:queingapp/presentation/provider/QrProviders/qr_view_provider.dart';
 import 'package:queingapp/presentation/provider/QueueProvider/queue_provider.dart';
 import 'package:queingapp/presentation/screens/auth/account/account_screen.dart';
+import 'package:queingapp/presentation/screens/auth/account/change_password_screen.dart';
 import 'package:queingapp/presentation/screens/auth/settings/settings_screen.dart';
 import 'package:queingapp/presentation/screens/auth_checker.dart';
 import 'package:queingapp/presentation/screens/home/home_screen.dart';
 import 'package:queingapp/presentation/screens/home/qeue_reservation_screen.dart';
 import 'package:queingapp/presentation/screens/home/qeue_status_screen.dart';
 import 'package:queingapp/presentation/screens/home/qeueing_history_screen.dart';
-
 import 'injection.dart' as di;
 
 void main() async {
@@ -53,6 +53,7 @@ class MyApp extends StatelessWidget {
           '/queing': (context) => const QeueingHistoryScreen(),
           '/account': (context) => const AccountScreen(),
           '/settings': (context) => const SettingsScreen(),
+          '/changePassword': (context) => const ChangePasswordScreen(),
         },
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',

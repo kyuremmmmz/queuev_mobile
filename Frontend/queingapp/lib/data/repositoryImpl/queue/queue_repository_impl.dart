@@ -25,4 +25,16 @@ class QueueRepositoryImpl implements QueuesRepository {
     });
     
   }
+  
+  @override
+  Stream<List<QueuesEntity?>> getQueAsList(QueuesEntity entity) {
+    return dataSource.streamQueueByUidAsList(USER.currentUser!.uid).map((dtoList) {
+      return dtoList.map((queueDto){
+        if (queueDto != null) {
+          return queueDto.toEntity();
+        }
+        return null;
+      }).toList();
+    });
+  }
 }

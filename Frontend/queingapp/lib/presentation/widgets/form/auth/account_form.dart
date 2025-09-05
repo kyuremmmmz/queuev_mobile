@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:queingapp/const.dart';
 import 'package:queingapp/domain/entities/Auth/user_entity.dart';
 import 'package:queingapp/presentation/provider/AuthenticationProviders/change_account_provider.dart';
 import 'package:queingapp/presentation/provider/AuthenticationProviders/validators_provider.dart';
@@ -35,7 +36,7 @@ class _AccountFormState extends State<AccountForm> {
 
         final user = snapshot.data;
         if (user != null) {
-          provider.nameController.text = user.name;
+          provider.nameController.text = USER.currentUser?.displayName ?? '';
           provider.userNameController.text = user.username;
           provider.birthdayController.text = user.birthdate;
           provider.addressController.text = user.address ?? '';

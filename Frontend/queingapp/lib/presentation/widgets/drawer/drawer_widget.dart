@@ -34,6 +34,7 @@ class DrawerWidget extends StatelessWidget {
             title: const Text('QUEUE STATUS'),
             onTap: () {
               Navigator.pop(context);
+              Navigator.pushNamed(context, '/status');
             },
           ),
           ListTile(
