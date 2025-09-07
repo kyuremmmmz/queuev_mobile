@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:queingapp/const.dart';
 import 'package:queingapp/domain/entities/Auth/login_entity.dart';
 import 'package:queingapp/domain/entities/Auth/user_entity.dart';
 import 'package:queingapp/domain/usecases/GetAuth/auth_usecases.dart';
@@ -44,6 +45,7 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
     try {
       await authUsecases.callcreateUser(user);
+      await USER.currentUser?.sendEmailVerification();
       _error = null;
     } catch (e) {
       _error = e.toString();

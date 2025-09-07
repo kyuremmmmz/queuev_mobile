@@ -38,8 +38,8 @@ class _QrExampleWidgetState extends State<QrExampleWidget> {
         Expanded(
           flex: 1,
           child: Center(
-            child: (provider.result!=null) ?
-            Text('Barcode data: ${provider.result!.code}') : const Text("Scan a code"),
+            child: (provider.result!=null || provider.result != 'https://queuevreservasion') ?
+            Text('Invalid qr code') : const Text("Scan a code"),
           )
           )
       ],

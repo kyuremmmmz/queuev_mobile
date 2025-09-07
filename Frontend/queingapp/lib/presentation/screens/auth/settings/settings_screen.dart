@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:queingapp/domain/entities/Widgets/list_content_entity.dart';
 import 'package:queingapp/presentation/widgets/dialogs/dialog.dart';
+import 'package:queingapp/presentation/widgets/dialogs/logout_dialog.dart';
 import 'package:queingapp/presentation/widgets/list_views/list_content_view.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -29,8 +30,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ListContentEntity(
         label: 'Log out',
         callback: () {
-          // Add logout logic here
-          print('Log out tapped');
+          showLogoutDialog(context);
+          Navigator.pop(context);
         },
         icon: Icons.logout,
         width: 150.0,

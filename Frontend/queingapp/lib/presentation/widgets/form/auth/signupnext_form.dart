@@ -51,7 +51,7 @@ class _SignupnextFormState extends State<SignupnextForm> {
           const SizedBox(height: 10),
           ReusableField(
             validator: (value){
-              return provider1.validateWithRegex(value, 'password');
+              return provider1.validatePassword(value);
             },
             controller: _passwordController,
             isObscure: isObscure,
@@ -101,6 +101,7 @@ class _SignupnextFormState extends State<SignupnextForm> {
                     email: provider.email.trim(),
                     address: provider.address.trim()
                   );
+
                   provider.signUpUser(data);
                 }
               },

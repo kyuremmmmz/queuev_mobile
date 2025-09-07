@@ -2,6 +2,7 @@
 import 'package:queingapp/const.dart';
 import 'package:queingapp/data/models/qeue/qeue_dto.dart';
 import 'package:queingapp/data/source/queue/queue_service.dart';
+import 'package:queingapp/domain/entities/queues/queue_dynamic_entity.dart';
 import 'package:queingapp/domain/entities/queues/queues_entity.dart';
 import 'package:queingapp/domain/repositories/queues/queues_repository.dart';
 
@@ -29,6 +30,18 @@ class QueueRepositoryImpl implements QueuesRepository {
   @override
   Stream<List<QueuesEntity?>> getQueAsList(QueuesEntity entity) {
     return dataSource.streamQueueByUidAsList(USER.currentUser!.uid).map((dtoList) {
+      return dtoList.map((queueDto){
+        if (queueDto != null) {
+          return queueDto.toEntity();
+        }
+        return null;
+      }).toList();
+    });
+  }
+
+  @override
+  Stream<List<QueueDynamicEntity?>> getDynamicList() {
+    return dataSource.streamCategories(USER.currentUser!.uid).map((dtoList){
       return dtoList.map((queueDto){
         if (queueDto != null) {
           return queueDto.toEntity();

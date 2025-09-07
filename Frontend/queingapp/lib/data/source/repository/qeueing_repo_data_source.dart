@@ -1,7 +1,9 @@
+import 'package:queingapp/data/models/qeue/dynamic_list_dto.dart';
 import 'package:queingapp/data/models/qeue/qeue_dto.dart';
 
 abstract class QeueingRepoDataSource {
   Future<QeueDto> createQeue(QeueDto dto);
   Stream<QeueDto?> streamQueueByUid(String uid);
   Stream<List<QeueDto?>> streamQueueByUidAsList(String uid);
+  Stream<List<DynamicListDto?>> streamCategories(String uid);
 }

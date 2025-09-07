@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:queingapp/const.dart';
 import 'package:queingapp/presentation/screens/auth/auth_wrapper.dart';
+import 'package:queingapp/presentation/screens/auth/forgot/email_verification_screen.dart';
 import 'package:queingapp/presentation/screens/home/scan_now_screen.dart';
 
 
@@ -14,9 +16,8 @@ class AuthChecker extends StatefulWidget {
 class _AuthCheckerState extends State<AuthChecker> {
   @override
   Widget build(BuildContext context) {
-
     return StreamBuilder<User?>(
-      stream: FirebaseAuth.instance.authStateChanges(),
+      stream: USER.idTokenChanges(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Scaffold(
@@ -29,7 +30,11 @@ class _AuthCheckerState extends State<AuthChecker> {
         } else {
           final user = snapshot.data;
           if (user != null) {
-            return const ScanNowScreen();
+            if (user.emailVerified) {
+              return const ScanNowScreen();
+            } else {
+              return const AuthWrapper();
+            }
           } else {
             return const AuthWrapper();
           }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:queingapp/presentation/provider/FormProviders/qeue_provider.dart';
+import 'package:queingapp/presentation/provider/QrProviders/qr_view_provider.dart';
 import 'package:queingapp/presentation/provider/QueueProvider/queue_provider.dart';
 import 'package:queingapp/presentation/widgets/buttons/reusable_button.dart';
 import 'package:queingapp/presentation/widgets/containers/reusable_container_widget.dart';
@@ -18,8 +18,10 @@ class _QeueStep2FormState extends State<QeueStep2Form> {
   @override
   Widget build(BuildContext context) {
     final provider1 = Provider.of<QueueProvider>(context);
+    final provider2 = Provider.of<QrViewProvider>(context);
     return Form(
-      child: Column(
+      child: SingleChildScrollView(
+        child: Column(
         children: [
           const SizedBox(height: 20),
           ReusableContainerWidget(),
@@ -64,7 +66,7 @@ class _QeueStep2FormState extends State<QeueStep2Form> {
             },
             separatorBuilder: (context, index) => const SizedBox(height: 10),
           ),
-          const SizedBox(height: 293),
+          const SizedBox(height: 20),
           ReusableButton(
             textColor: Colors.white,
             backgroundColor: Colors.black,
@@ -79,8 +81,10 @@ class _QeueStep2FormState extends State<QeueStep2Form> {
             width: 200,
             height: 50,
           ),
+          const SizedBox(height: 20),
         ],
       ),
+      )
     );
   }
 }

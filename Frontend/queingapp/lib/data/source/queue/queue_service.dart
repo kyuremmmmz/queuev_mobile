@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:queingapp/const.dart';
+import 'package:queingapp/data/models/qeue/dynamic_list_dto.dart';
 import 'package:queingapp/data/models/qeue/qeue_dto.dart';
 import 'package:queingapp/data/source/repository/qeueing_repo_data_source.dart';
 
@@ -82,7 +83,17 @@ class QueueService implements QeueingRepoDataSource {
     return DB.collection('queuesList')
     .withConverter(fromFirestore: QeueDto.fromJson, toFirestore: (QeueDto dto, _) => dto.toJson(),)
     .where('uid', isEqualTo: uid)
+    .orderBy('index', descending: false)
     .snapshots().map((snapshot) => snapshot.docs.map((doc)=>doc.data()).toList());
+  }
+
+  @override
+  Stream<List<DynamicListDto?>> streamCategories(String uid) {
+    return DB.
+    collection('categories')
+    .withConverter(fromFirestore: DynamicListDto.fromMap, toFirestore: (DynamicListDto dto, _) => 
+    dto.toMap()).snapshots().map((snapshot) => snapshot.docs.map((doc) => doc.data())
+    .toList());
   }
 
 }

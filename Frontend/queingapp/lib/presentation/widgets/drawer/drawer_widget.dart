@@ -53,15 +53,6 @@ class DrawerWidget extends StatelessWidget {
               Navigator.pushNamed(context, '/settings');
             },
           ),
-          const SizedBox(height: 250),
-          Divider(),
-          ListTile(
-            leading: const Icon(Icons.logout_outlined),
-            title: const Text('Log out'),
-            onTap: () {
-              USER.signOut();
-            },
-          ),
         ],
       ),
     );
