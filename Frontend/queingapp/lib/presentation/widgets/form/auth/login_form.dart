@@ -80,6 +80,10 @@ class _LoginFormState extends State<LoginForm> {
                             password: _passwordController.text.trim(),
                           );
                           await provider.loginUser(entity);
+                          final stacks = Navigator.canPop(context);
+                          if (stacks == true) {
+                            Navigator.pop(context);
+                          }
                         }
                       },
             ),
