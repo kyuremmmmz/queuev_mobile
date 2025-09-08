@@ -19,7 +19,6 @@ class QueueStatusScreen extends StatelessWidget {
           icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
           onPressed: () {
             Navigator.of(context).pop();
-            Navigator.of(context).pop();
           },
         ),
         title: const Text(

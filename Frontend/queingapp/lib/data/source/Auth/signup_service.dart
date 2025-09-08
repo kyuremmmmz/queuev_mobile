@@ -23,7 +23,8 @@ class SignUpService implements RemoteRepositoryDataSource{
             email: user.email,
             password: user.password ?? '',
           );
-
+          await credential.user!.reload();
+      await credential.user!.sendEmailVerification();
       final String uid = credential.user!.uid;
       Map<String, dynamic> userData = user.toJson();
       await FirebaseFirestore.instance

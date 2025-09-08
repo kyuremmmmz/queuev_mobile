@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:queingapp/const.dart';
 import 'package:queingapp/presentation/provider/AuthenticationProviders/storage_provider.dart';
+import 'package:queingapp/presentation/widgets/dialogs/logout_dialog.dart';
 
 class DrawerWidget extends StatelessWidget {
   const DrawerWidget({super.key});
@@ -51,6 +52,15 @@ class DrawerWidget extends StatelessWidget {
             onTap: () {
               Navigator.pop(context);
               Navigator.pushNamed(context, '/settings');
+            },
+          ),
+          const SizedBox(height: 250),
+          Divider(),
+          ListTile(
+            leading: const Icon(Icons.logout_outlined),
+            title: const Text('Log out'),
+            onTap: () {
+              showLogoutDialog(context);
             },
           ),
         ],

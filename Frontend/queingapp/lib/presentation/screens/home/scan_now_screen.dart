@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:queingapp/presentation/widgets/drawer/drawer_widget.dart';
+import 'package:queingapp/presentation/widgets/drawer/end_drawer_widget.dart';
 import 'package:queingapp/presentation/widgets/floating_action_button/action_button_widget.dart';
 
 class ScanNowScreen extends StatefulWidget {
@@ -24,10 +25,13 @@ class _ScanNowScreenState extends State<ScanNowScreen> {
         ),
         actions: [
           IconButton(
-            onPressed: () {}, 
+            onPressed: () {
+              _key.currentState!.openEndDrawer();
+            }, 
           icon: const Icon(Icons.notifications)),
         ],
       ),
+      endDrawer: EndDrawerWidget(),
       drawer: DrawerWidget(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: ActionButtonWidget(

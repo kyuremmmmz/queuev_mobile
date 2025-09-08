@@ -3,12 +3,10 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:google_mlkit_barcode_scanning/google_mlkit_barcode_scanning.dart' hide Barcode;
 import 'package:image_picker/image_picker.dart';
 import 'package:qr_code_scanner_plus/qr_code_scanner_plus.dart' hide BarcodeFormat;
 import 'package:qr_code_scanner_plus/src/types/barcode_format.dart' hide BarcodeFormat;
 import 'package:queingapp/presentation/widgets/toasters/toaster.dart';
-import 'package:scan/scan.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class QrViewProvider with ChangeNotifier{

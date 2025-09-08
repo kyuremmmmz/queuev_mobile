@@ -28,16 +28,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
         height: 150.0,
       ),
       ListContentEntity(
-        label: 'Log out',
-        callback: () {
-          showLogoutDialog(context);
-          Navigator.pop(context);
-        },
-        icon: Icons.logout,
-        width: 150.0,
-        height: 150.0,
-      ),
-      ListContentEntity(
         label: 'Delete account',
         callback: () {
           showDeleteAccountDialog(context);

@@ -103,6 +103,7 @@ class _SignupnextFormState extends State<SignupnextForm> {
                   );
 
                   provider.signUpUser(data);
+                  Navigator.pushNamed(context, '/login');
                 }
               },
               width: 200,

@@ -4,6 +4,7 @@ import 'package:queingapp/const.dart';
 import 'package:queingapp/presentation/screens/auth/auth_wrapper.dart';
 import 'package:queingapp/presentation/screens/auth/forgot/email_verification_screen.dart';
 import 'package:queingapp/presentation/screens/home/scan_now_screen.dart';
+import 'package:queingapp/presentation/widgets/toasters/toaster.dart';
 
 
 class AuthChecker extends StatefulWidget {
@@ -33,6 +34,7 @@ class _AuthCheckerState extends State<AuthChecker> {
             if (user.emailVerified) {
               return const ScanNowScreen();
             } else {
+              Toaster().toast(context, 'Email not verified');
               return const AuthWrapper();
             }
           } else {

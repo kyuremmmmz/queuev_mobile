@@ -70,15 +70,6 @@ class _AccountFormState extends State<AccountForm> {
               const SizedBox(height: 20),
               InputFieldCustom(
                 validator: (value) {
-                  return validator.validateAll(value, 'Birthday');
-                },
-                label: 'BIRTHDAY',
-                controller: provider.birthdayController,
-                type: TextInputType.text,
-              ),
-              const SizedBox(height: 20),
-              InputFieldCustom(
-                validator: (value) {
                   return validator.validateAll(value, 'Address');
                 },
                 label: 'ADDRESS',

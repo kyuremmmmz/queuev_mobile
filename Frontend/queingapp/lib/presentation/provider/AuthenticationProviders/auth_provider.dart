@@ -45,7 +45,6 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
     try {
       await authUsecases.callcreateUser(user);
-      await USER.currentUser?.sendEmailVerification();
       _error = null;
     } catch (e) {
       _error = e.toString();
