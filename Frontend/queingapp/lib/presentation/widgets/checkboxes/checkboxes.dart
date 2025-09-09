@@ -34,7 +34,7 @@ class _CheckboxesState extends State<Checkboxes> {
               ),
               recognizer: TapGestureRecognizer()
                 ..onTap = () {
-                  Navigator.pushNamed(context, '/');
+                  Navigator.pushNamed(context, '/terms');
                 },
             ),
           ],

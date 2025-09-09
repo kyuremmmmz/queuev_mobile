@@ -6,6 +6,7 @@ import 'package:queingapp/const.dart';
 import 'package:queingapp/data/models/Auth/reset_password_dto.dart';
 import 'package:queingapp/data/models/Auth/user_dto.dart';
 import 'package:queingapp/data/source/repository/account_repository_data_source.dart';
+import 'package:queingapp/presentation/widgets/toasters/toaster.dart';
 
 class AccountService implements AccountRepositoryDataSource{
   @override
@@ -22,7 +23,7 @@ class AccountService implements AccountRepositoryDataSource{
         });
   }
 @override
-Future<UserDto> updateAccount(UserDto dto) async {
+Future<UserDto> updateAccount(BuildContext context,UserDto dto) async {
   try {
     final userId = FirebaseAuth.instance.currentUser?.uid;
     if (userId == null) throw Exception('User not authenticated');
@@ -37,7 +38,7 @@ Future<UserDto> updateAccount(UserDto dto) async {
         .doc(userId)
         .get();
     await USER.currentUser?.updateDisplayName(dto.name);
-    if (!dtos.exists) throw Exception('User document does not exist');
+    if (!dtos.exists) Toaster().toast(context,'User document does not exist');
 
     return UserDto.fromJson(dtos, null);
   } catch (e) {
@@ -71,7 +72,7 @@ Future<void> deleteAccount() async {
 }
 
   @override
-  Future<void> updatePassword(String newPassword, ResetPasswordDto dto) async {
+  Future<void> updatePassword(BuildContext context,String newPassword, ResetPasswordDto dto) async {
     try {
     final user = FirebaseAuth.instance.currentUser;
     FirebaseAuth.instance.setLanguageCode('en');
@@ -88,11 +89,11 @@ Future<void> deleteAccount() async {
   } on FirebaseAuthException catch (e) {
     switch (e.code) {
       case 'requires-recent-login':
-        throw Exception('Please log in again to update your password');
+        Toaster().toast(context,'Please log in again to update your password');
       case 'weak-password':
-        throw Exception('The new password is too weak');
+        Toaster().toast(context,'The new password is too weak');
       default:
-        throw Exception('Failed to update password: ${e.message}');
+        Toaster().toast(context,'Failed to update password: ${e.message}');
     }
   } catch (e) {
     throw Exception('An unexpected error occurred: $e');

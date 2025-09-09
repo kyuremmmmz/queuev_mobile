@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:queingapp/const.dart';
 import 'package:queingapp/data/models/Auth/reset_password_dto.dart';
 import 'package:queingapp/data/models/Auth/user_dto.dart';
@@ -9,9 +10,9 @@ import 'package:queingapp/domain/repositories/Auth/update_account_repository.dar
 class AccountRepositoryImpl implements UpdateAccountRepository{
   final dataSource = AccountService();
   @override
-  Future<UserEntity> updateAccount(UserEntity entity) async{
+  Future<UserEntity> updateAccount(BuildContext context,UserEntity entity) async{
     final data = UserDto.fromEntity(entity);
-    final account = await dataSource.updateAccount(data);
+    final account = await dataSource.updateAccount(context ,data);
     return account.toEntity();
   }
   
@@ -26,9 +27,9 @@ class AccountRepositoryImpl implements UpdateAccountRepository{
   }
 
   @override
-  Future<void> updatePassword(String password,ResetPasswordEntity entity) async{
+  Future<void> updatePassword(BuildContext context, String password,ResetPasswordEntity entity) async{
     final data = ResetPasswordDto.fromEntity(entity);
-    await dataSource.updatePassword(password, data);
+    await dataSource.updatePassword(context ,password, data);
   }
   
 }

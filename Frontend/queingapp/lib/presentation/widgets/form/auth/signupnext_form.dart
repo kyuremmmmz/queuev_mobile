@@ -102,7 +102,7 @@ class _SignupnextFormState extends State<SignupnextForm> {
                     address: provider.address.trim()
                   );
 
-                  provider.signUpUser(data);
+                  provider.signUpUser(context,data);
                   Navigator.pushNamed(context, '/login');
                 }
               },

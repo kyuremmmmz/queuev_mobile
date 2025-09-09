@@ -79,7 +79,7 @@ class _LoginFormState extends State<LoginForm> {
                             username: _userNameController.text.trim(),
                             password: _passwordController.text.trim(),
                           );
-                          await provider.loginUser(entity);
+                          await provider.loginUser(context,entity);
                           final stacks = Navigator.canPop(context);
                           if (stacks == true) {
                             Navigator.pop(context);
@@ -92,7 +92,8 @@ class _LoginFormState extends State<LoginForm> {
             height: 130,
           ),
           Center(
-            child: Checkboxes(isChecked: isChecked,
+            child: Checkboxes(
+            isChecked: isChecked,
             onChanged: (value){
                 setState(() {
                   isChecked = value!;

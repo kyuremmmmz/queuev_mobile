@@ -13,10 +13,10 @@ class UserRepositoryImpl implements UserRepository {
     required this.createUserDataSouce
   });
   @override
-  Future<UserEntity> createUser(UserEntity user) async{
+  Future<UserEntity> createUser(BuildContext context,UserEntity user) async{
     try {
       final dto = UserDto.fromEntity(user);
-      final response = await createUserDataSouce.createUser(dto);
+      final response = await createUserDataSouce.createUser(context,dto);
       return response.toEntity();
     } catch (e) {
       debugPrint(e.toString());
@@ -26,10 +26,10 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<LoginEntity> loginUser(LoginEntity user) async{
+  Future<LoginEntity> loginUser(BuildContext context,LoginEntity user) async{
     try {
       final dto = LoginDto.fromEntity(user);
-      final response = await createUserDataSouce.loginUser(dto);
+      final response = await createUserDataSouce.loginUser(context,dto);
       return response.toEntity();
     } catch (e) {
       throw Exception(e);

@@ -90,7 +90,7 @@ class _AccountFormState extends State<AccountForm> {
                 title: 'DONE',
                 onPressed: () {
                   if (_key.currentState!.validate()) {
-                    provider.updateProfile();
+                    provider.updateProfile(context);
                     SuccessToaster().toast(context, 'Profile updated successfully!');
                   }
                 },

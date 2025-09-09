@@ -58,13 +58,13 @@ class ChangeAccountProvider with ChangeNotifier {
   TextEditingController get confirmPasswordController => _confirmPasswordController;
 
 
-  Future<void> updateProfile() async{
+  Future<void> updateProfile(BuildContext context) async{
     final entity = UserEntity(
       password: _passwordController.text,
       email: _emailController.text,
       surname: _surNameController.text,
       name: _nameController.text, phone: _phoneNumberController.text,  username: _userNameController.text,  birthdate: _birthdayController.text, address: _addressController.text );
-    await usecases.callUpdateAccount(entity);
+    await usecases.callUpdateAccount(context,entity);
     notifyListeners();
   }
 
@@ -87,7 +87,7 @@ class ChangeAccountProvider with ChangeNotifier {
     }
 
     final entity = ResetPasswordEntity(password: _confirmPasswordController.text);
-    await usecases.callupdatePassword(_confirmPasswordController.text,entity);
+    await usecases.callupdatePassword(context,_confirmPasswordController.text,entity);
     notifyListeners();
   } catch (e) {
     throw Exception(e.toString());

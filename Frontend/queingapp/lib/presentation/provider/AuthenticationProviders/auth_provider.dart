@@ -36,15 +36,14 @@ class AuthProvider with ChangeNotifier {
     _phone = phone;
     _address = address;
     _email = email;
-    print('address gago: $address');
     notifyListeners();
   }
 
-  Future<void> signUpUser(UserEntity user) async {
+  Future<void> signUpUser(BuildContext context,UserEntity user) async {
     _isLoading = true;
     notifyListeners();
     try {
-      await authUsecases.callcreateUser(user);
+      await authUsecases.callcreateUser(context,user);
       _error = null;
     } catch (e) {
       _error = e.toString();
@@ -53,11 +52,11 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> loginUser(LoginEntity user) async {
+  Future<void> loginUser(BuildContext context,LoginEntity user) async {
     _isLoading = true;
     notifyListeners();
     try {
-      await authUsecases.callLoginUser(user);
+      await authUsecases.callLoginUser(context,user);
       _error = null;
     } catch (e) {
       _error = e.toString();
