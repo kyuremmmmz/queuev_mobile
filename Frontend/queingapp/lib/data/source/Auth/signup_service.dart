@@ -56,9 +56,6 @@ class SignUpService implements RemoteRepositoryDataSource{
   @override
   Future<LoginDto> loginUser(BuildContext context,LoginDto user) async {
     try {
-      if (USER.currentUser?.emailVerified == false) {
-        Toaster().toast(context, 'Please verify your email.');
-      }
       final QuerySnapshot<Map<String, dynamic>> querySnapshot = await DB
           .collection('users')
           .where('username', isEqualTo: user.username)

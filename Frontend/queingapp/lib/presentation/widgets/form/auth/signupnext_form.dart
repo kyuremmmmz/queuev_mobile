@@ -110,7 +110,6 @@ class _SignupnextFormState extends State<SignupnextForm> {
                           duration: Duration(milliseconds: 500),
                           curve: Curves.ease,
                         );
-                        Navigator.pushNamed(context, '/login');
                       }
                     },
               width: 200,

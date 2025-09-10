@@ -19,9 +19,13 @@ class QueueStatusScreen extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
           onPressed: () {
-            Navigator.of(context).pop();
+            final canPop = Navigator.canPop(context);
+            if (canPop) {
+              Navigator.pop(context);
+            }
             if (provider2.isScanned == true) {
               provider2.scannedToFalse();
+              Navigator.pop(context);
             }
           },
         ),
