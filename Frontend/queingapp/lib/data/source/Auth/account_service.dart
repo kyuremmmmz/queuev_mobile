@@ -8,10 +8,16 @@ import 'package:queingapp/data/models/Auth/user_dto.dart';
 import 'package:queingapp/data/source/repository/account_repository_data_source.dart';
 import 'package:queingapp/presentation/widgets/toasters/toaster.dart';
 
-class AccountService implements AccountRepositoryDataSource{
+class AccountService implements AccountRepositoryDataSource {
   @override
   Stream<UserDto?> getUser(String uid) {
-    return DB.collection('users').withConverter(fromFirestore: UserDto.fromJson, toFirestore: (UserDto dto, _) => dto.toJson()).where('id', isEqualTo: uid)
+    return DB
+        .collection('users')
+        .withConverter(
+          fromFirestore: UserDto.fromJson,
+          toFirestore: (UserDto dto, _) => dto.toJson(),
+        )
+        .where('id', isEqualTo: uid)
         .limit(1)
         .snapshots()
         .map((snapshot) {
@@ -22,83 +28,95 @@ class AccountService implements AccountRepositoryDataSource{
           return null;
         });
   }
-@override
-Future<UserDto> updateAccount(BuildContext context,UserDto dto) async {
-  try {
-    final userId = FirebaseAuth.instance.currentUser?.uid;
-    if (userId == null) throw Exception('User not authenticated');
-
-    await FirebaseFirestore.instance.collection('users').doc(userId).set(
-      dto.toJson(),
-      SetOptions(merge: true), 
-    );
-
-    final DocumentSnapshot<Map<String, dynamic>> dtos = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(userId)
-        .get();
-    await USER.currentUser?.updateDisplayName(dto.name);
-    if (!dtos.exists) Toaster().toast(context,'User document does not exist');
-
-    return UserDto.fromJson(dtos, null);
-  } catch (e) {
-    print('Error updating account: $e');
-    rethrow;
-  }
-}
-@override
-Future<void> deleteAccount() async {
-  try {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user == null) {
-      print("No user is signed in.");
-      return;
-    }
-    await user.delete();
-    try {
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(user.uid)
-          .delete();
-      print("Account and user data deleted successfully.");
-    } catch (firestoreError) {
-      print("Firestore error: $firestoreError");
-    }
-  } on FirebaseAuthException catch (e) {
-    print("FirebaseAuthException: ${e.code} - ${e.message}");
-  } catch (e) {
-    print("Other error: $e");
-  }
-}
 
   @override
-  Future<void> updatePassword(BuildContext context,String newPassword, ResetPasswordDto dto) async {
+  Future<UserDto> updateAccount(BuildContext context, UserDto dto) async {
     try {
-    final user = FirebaseAuth.instance.currentUser;
-    FirebaseAuth.instance.setLanguageCode('en');
-    if (user == null) {
-      throw Exception('No user is signed in');
-    }
+      final userId = FirebaseAuth.instance.currentUser?.uid;
+      if (userId == null) throw Exception('User not authenticated');
 
-    await user.updatePassword(newPassword);
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .set(dto.toJson(), SetOptions(merge: true));
 
-    await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
-      'lastPasswordChange': FieldValue.serverTimestamp(),
-      'password': newPassword
-    });
-  } on FirebaseAuthException catch (e) {
-    switch (e.code) {
-      case 'requires-recent-login':
-        Toaster().toast(context,'Please log in again to update your password');
-      case 'weak-password':
-        Toaster().toast(context,'The new password is too weak');
-      default:
-        Toaster().toast(context,'Failed to update password: ${e.message}');
+      final DocumentSnapshot<Map<String, dynamic>> dtos =
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(userId)
+              .get();
+      await USER.currentUser?.updateDisplayName(dto.name);
+      if (!dtos.exists)
+        Toaster().toast(context, 'User document does not exist');
+
+      return UserDto.fromJson(dtos, null);
+    } catch (e) {
+      print('Error updating account: $e');
+      rethrow;
     }
-  } catch (e) {
-    throw Exception('An unexpected error occurred: $e');
-  }
   }
 
-  
+  @override
+  Future<void> deleteAccount(BuildContext context) async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user == null) {
+        print("No user is signed in.");
+        return;
+      }
+      await user.delete();
+      try {
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .delete();
+        print("Account and user data deleted successfully.");
+      } catch (firestoreError) {
+        print("Firestore error: $firestoreError");
+      }
+    } on FirebaseAuthException catch (e) {
+      Toaster().toast(context, '${e.message}');
+      print("FirebaseAuthException: ${e.code} - ${e.message}");
+    } catch (e) {
+      print("Other error: $e");
+    }
+  }
+
+  @override
+  Future<void> updatePassword(
+    BuildContext context,
+    String newPassword,
+    ResetPasswordDto dto,
+  ) async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      FirebaseAuth.instance.setLanguageCode('en');
+      if (user == null) {
+        throw Exception('No user is signed in');
+      }
+
+      await user.updatePassword(newPassword);
+
+      await FirebaseFirestore.instance.collection('users').doc(user.uid).update(
+        {
+          'lastPasswordChange': FieldValue.serverTimestamp(),
+          'password': newPassword,
+        },
+      );
+    } on FirebaseAuthException catch (e) {
+      switch (e.code) {
+        case 'requires-recent-login':
+          Toaster().toast(
+            context,
+            'Please log in again to update your password',
+          );
+        case 'weak-password':
+          Toaster().toast(context, 'The new password is too weak');
+        default:
+          Toaster().toast(context, 'Failed to update password: ${e.message}');
+      }
+    } catch (e) {
+      throw Exception('An unexpected error occurred: $e');
+    }
+  }
 }

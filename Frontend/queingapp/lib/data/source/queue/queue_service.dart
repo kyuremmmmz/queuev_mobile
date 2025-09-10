@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:queingapp/const.dart';
 import 'package:queingapp/data/models/qeue/dynamic_list_dto.dart';
+import 'package:queingapp/data/models/qeue/notification_dto.dart';
 import 'package:queingapp/data/models/qeue/qeue_dto.dart';
 import 'package:queingapp/data/source/repository/qeueing_repo_data_source.dart';
 
@@ -39,6 +40,15 @@ class QueueService implements QeueingRepoDataSource {
         address: dto.address,
       );
       
+      final notifDto = NotificationDto(
+        notification_id: database.collection('notifications').doc().id,
+        notification_type: "queue_created",
+        description:"You have been added to the queue for ${dto.type} with number $newIndex.",
+        category_id: dto.uid ?? '',
+        category_name: dto.type, 
+        timestamp: Timestamp.now(),
+      );
+
       final docRef = await database
           .collection('queuesList')
           .withConverter(
@@ -46,6 +56,13 @@ class QueueService implements QeueingRepoDataSource {
             toFirestore: (QeueDto dto, _) => dto.toJson(),
           )
           .add(dto);
+      await database
+          .collection('notifications')
+          .withConverter(
+            fromFirestore: NotificationDto.fromMap,
+            toFirestore: (NotificationDto dto, _) => dto.toMap(),
+          )
+          .add(notifDto);
       final snapshot = await docRef.get();
       final data = snapshot.data();
       if (data == null) {

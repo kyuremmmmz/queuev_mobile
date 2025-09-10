@@ -5,6 +5,6 @@ import 'package:queingapp/data/models/Auth/user_dto.dart';
 abstract class AccountRepositoryDataSource {
   Future<UserDto> updateAccount(BuildContext context,UserDto dto);
   Future<void> updatePassword(BuildContext context,String password, ResetPasswordDto dto);
-  Future<void> deleteAccount();
+  Future<void> deleteAccount(BuildContext context);
   Stream<UserDto?> getUser(String uid);
 }

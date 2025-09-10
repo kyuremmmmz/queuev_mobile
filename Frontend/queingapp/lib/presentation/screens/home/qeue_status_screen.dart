@@ -3,6 +3,7 @@ import 'package:queingapp/domain/entities/queues/queues_entity.dart';
 import 'package:queingapp/injection.dart';
 import 'package:queingapp/presentation/provider/QrProviders/qr_view_provider.dart';
 import 'package:queingapp/presentation/provider/QueueProvider/queue_provider.dart';
+import 'package:intl/intl.dart';
 
 class QueueStatusScreen extends StatelessWidget {
   const QueueStatusScreen({super.key});
@@ -53,9 +54,11 @@ class QueueStatusScreen extends StatelessWidget {
           if (queue == null) {
             return const Center(child: Text('No queue data available'));
           }
-          final schedule =
-              '${queue.schedule?.toDate().hour}:00 AM / ${queue.schedule?.toDate().month}/${queue.schedule?.toDate().day}/${queue.schedule?.toDate().year}';
-          final estimatedTime = '${queue.schedule!.toDate().hour + 1}:00 AM';
+          final date = queue.schedule!.toDate();
+          final schedule = DateFormat('hh:mm a / MM/dd/yyyy').format(date);
+          final estimatedTime = DateFormat(
+            'hh:mm a',
+          ).format(date.add(const Duration(hours: 1)));
           return SingleChildScrollView(
             padding: const EdgeInsets.all(24.0),
             child: Column(

@@ -31,7 +31,7 @@ class DeleteAccountDialog extends StatelessWidget {
                   child: OutlinedButton(
                     onPressed: () async{
                       final dataSource = AccountService();
-                      await dataSource.deleteAccount();
+                      await dataSource.deleteAccount(context);
                       Navigator.of(context).pop();
                     },
                     style: OutlinedButton.styleFrom(
