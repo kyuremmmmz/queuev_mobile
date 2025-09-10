@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:queingapp/domain/entities/queues/queues_entity.dart';
+import 'package:queingapp/injection.dart';
+import 'package:queingapp/presentation/provider/QrProviders/qr_view_provider.dart';
 import 'package:queingapp/presentation/provider/QueueProvider/queue_provider.dart';
-
 
 class QueueStatusScreen extends StatelessWidget {
   const QueueStatusScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<QueueProvider>(context);
+    final provider = sl<QueueProvider>();
+    final provider2 = sl<QrViewProvider>();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -19,6 +20,9 @@ class QueueStatusScreen extends StatelessWidget {
           icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
           onPressed: () {
             Navigator.of(context).pop();
+            if (provider2.isScanned == true) {
+              provider2.scannedToFalse();
+            }
           },
         ),
         title: const Text(
@@ -33,7 +37,7 @@ class QueueStatusScreen extends StatelessWidget {
         titleSpacing: 0,
       ),
       body: StreamBuilder<QueuesEntity?>(
-        stream: provider.queueStream, 
+        stream: provider.queueStream,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -45,7 +49,8 @@ class QueueStatusScreen extends StatelessWidget {
           if (queue == null) {
             return const Center(child: Text('No queue data available'));
           }
-          final schedule = '${queue.schedule?.toDate().hour}:00 AM / ${queue.schedule?.toDate().month}/${queue.schedule?.toDate().day}/${queue.schedule?.toDate().year}';
+          final schedule =
+              '${queue.schedule?.toDate().hour}:00 AM / ${queue.schedule?.toDate().month}/${queue.schedule?.toDate().day}/${queue.schedule?.toDate().year}';
           final estimatedTime = '${queue.schedule!.toDate().hour + 1}:00 AM';
           return SingleChildScrollView(
             padding: const EdgeInsets.all(24.0),

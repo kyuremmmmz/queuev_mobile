@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:queingapp/presentation/screens/auth/signup/signup.dart';
 import 'package:queingapp/presentation/screens/auth/signup/signup_next.dart';
 import 'package:queingapp/presentation/screens/auth/signup/signup_personal_info_screen.dart';
+import 'package:queingapp/presentation/screens/home/indicator_screen.dart';
 import 'package:queingapp/presentation/widgets/form/auth/sign_up_personal_info.dart';
 
 class SignupPageView extends StatefulWidget {
@@ -23,12 +24,14 @@ class _SignupPageViewState extends State<SignupPageView> {
   Widget build(BuildContext context) {
     return PageView(
       controller: _controller,
+      physics: NeverScrollableScrollPhysics(),
       children: [
         Signup(
           controller: _controller,
         ),
         SignupPersonalInfoScreen(controller: _controller,),
-        const SignupNext()
+        SignupNext(controller: _controller,),
+        IndicatorScreen()
       ],
     );
   }

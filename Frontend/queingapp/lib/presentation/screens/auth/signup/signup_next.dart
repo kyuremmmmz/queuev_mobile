@@ -3,7 +3,8 @@ import 'package:queingapp/presentation/widgets/form/auth/signupnext_form.dart';
 import 'package:queingapp/utils/AppPadding.dart';
 
 class SignupNext extends StatefulWidget {
-  const SignupNext({super.key});
+  final PageController controller;
+  const SignupNext({super.key, required this.controller});
 
   @override
   State<SignupNext> createState() => _SignupNextState();
@@ -12,15 +13,12 @@ class SignupNext extends StatefulWidget {
 class _SignupNextState extends State<SignupNext> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return  Scaffold(
       body: SingleChildScrollView(
-      child: SafeArea(
-        child: Padding(
-          padding: AppPaddings.padding,
-          child: SignupnextForm(),
-        )
+        child: SafeArea(
+          child: Padding(padding: AppPaddings.padding, child: SignupnextForm(controller: widget.controller,)),
+        ),
       ),
-    ),
     );
   }
 }

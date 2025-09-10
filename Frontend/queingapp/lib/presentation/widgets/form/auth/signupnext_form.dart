@@ -9,7 +9,8 @@ import 'package:queingapp/presentation/widgets/inputs/reusable_field.dart';
 import 'package:queingapp/utils/Validators.dart';
 
 class SignupnextForm extends StatefulWidget {
-  const SignupnextForm({super.key});
+  final PageController controller;
+  const SignupnextForm({super.key, required this.controller});
 
   @override
   State<SignupnextForm> createState() => _SignupnextFormState();
@@ -50,7 +51,7 @@ class _SignupnextFormState extends State<SignupnextForm> {
           const Text("CREATE PASSWORD"),
           const SizedBox(height: 10),
           ReusableField(
-            validator: (value){
+            validator: (value) {
               return provider1.validatePassword(value);
             },
             controller: _passwordController,
@@ -70,7 +71,7 @@ class _SignupnextFormState extends State<SignupnextForm> {
           ReusableField(
             controller: _confirmPasswordController,
             isObscure: isObscure,
-            validator: (value){
+            validator: (value) {
               if (_confirmPasswordController.text != _passwordController.text) {
                 return "Password doesn't match.";
               }
@@ -88,24 +89,30 @@ class _SignupnextFormState extends State<SignupnextForm> {
           const SizedBox(height: 120),
           Center(
             child: ReusableButton(
-              title: provider.isLoading ? 'Loading...' :"Sign Up",
-              onPressed:provider.isLoading ? null : () {
-                if (_key.currentState!.validate()) {
-                  final data = UserEntity(
-                    phone: provider.phone,
-                    surname: provider.surname.trim(),
-                    name: provider.name.trim(),
-                    password: _confirmPasswordController.text.trim(),
-                    username: _usernameController.text.trim(),
-                    birthdate: provider.birthdate,
-                    email: provider.email.trim(),
-                    address: provider.address.trim()
-                  );
+              title: provider.isLoading ? 'Loading...' : "Sign Up",
+              onPressed: provider.isLoading
+                  ? null
+                  : () {
+                      if (_key.currentState!.validate()) {
+                        final data = UserEntity(
+                          phone: provider.phone,
+                          surname: provider.surname.trim(),
+                          name: provider.name.trim(),
+                          password: _confirmPasswordController.text.trim(),
+                          username: _usernameController.text.trim(),
+                          birthdate: provider.birthdate,
+                          email: provider.email.trim(),
+                          address: provider.address.trim(),
+                        );
 
-                  provider.signUpUser(context,data);
-                  Navigator.pushNamed(context, '/login');
-                }
-              },
+                        provider.signUpUser(context, data);
+                        widget.controller.nextPage(
+                          duration: Duration(milliseconds: 500),
+                          curve: Curves.ease,
+                        );
+                        Navigator.pushNamed(context, '/login');
+                      }
+                    },
               width: 200,
               height: 50,
               backgroundColor: Colors.black,

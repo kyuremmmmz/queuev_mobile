@@ -21,6 +21,7 @@ class _QeueReservationScreenState extends State<QeueReservationScreen> {
     _pageController2.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +29,13 @@ class _QeueReservationScreenState extends State<QeueReservationScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
           onPressed: () {
-            _pageController.previousPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
+            if (_pageController.page == 0) {
+              Navigator.pop(context);
+            }
+            _pageController.previousPage(
+              duration: Duration(milliseconds: 500),
+              curve: Curves.ease,
+            );
           },
         ),
         title: const Text('Queue Reservation'),
@@ -40,11 +47,11 @@ class _QeueReservationScreenState extends State<QeueReservationScreen> {
             controller: _pageController,
             physics: const NeverScrollableScrollPhysics(),
             children: [
-                  QeueStep2Form(controller: _pageController,),
-                  ReservationSuccessScreen(pageController: _pageController)
-              ],
-            )
-          )
+              QeueStep2Form(controller: _pageController),
+              ReservationSuccessScreen(pageController: _pageController),
+            ],
+          ),
+        ),
       ),
     );
   }
