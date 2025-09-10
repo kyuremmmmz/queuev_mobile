@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:queingapp/const.dart';
 import 'package:queingapp/domain/entities/queues/queues_entity.dart';
 import 'package:queingapp/injection.dart';
 import 'package:queingapp/presentation/provider/QrProviders/qr_view_provider.dart';
@@ -103,8 +104,8 @@ class QueueStatusScreen extends StatelessWidget {
                 const SizedBox(height: 40.0),
                 _buildInfoRow(
                   'QUEUE NAME:',
-                  queue.name.length > 20
-                      ? '${queue.name.substring(0, 17)}...'
+                  USER.currentUser!.displayName!.length > 20
+                      ? '${USER.currentUser?.displayName}...'
                       : queue.name,
                 ),
                 _buildInfoRow(
