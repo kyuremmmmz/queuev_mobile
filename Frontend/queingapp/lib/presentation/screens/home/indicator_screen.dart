@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:queingapp/const.dart';
-import 'package:queingapp/presentation/widgets/buttons/reusable_button.dart';
 
 class IndicatorScreen extends StatefulWidget {
   const IndicatorScreen({super.key});
@@ -17,7 +16,6 @@ class _IndicatorScreenState extends State<IndicatorScreen> {
         stream: Stream.value(USER.currentUser!.emailVerified),
         builder: (context, asyncSnapshot) {
           final data = asyncSnapshot.data;
-          print('dataaa: ${data}');
           return Center(
             child: Padding(
               padding: const EdgeInsets.all(20.0),
@@ -33,14 +31,8 @@ class _IndicatorScreenState extends State<IndicatorScreen> {
                         ),
                   SizedBox(height: 20),
                   Text(
-                    data == true
-                        ? "Email is already verified please login"
-                        : "Verify Your Email",
-                    style: TextStyle(
-                      color: data == true ? Colors.green : Colors.black,
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    "Verify Your Email",
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(height: 15),
@@ -80,17 +72,6 @@ class _IndicatorScreenState extends State<IndicatorScreen> {
                       style: TextStyle(fontSize: 16),
                     ),
                   ),
-                  const SizedBox(height: 30),
-                  ?data == true
-                      ? ReusableButton(
-                          title: 'Proceed to login',
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/login');
-                          },
-                          width: MediaQuery.of(context).size.width,
-                          height: 50,
-                        )
-                      : null,
                 ],
               ),
             ),

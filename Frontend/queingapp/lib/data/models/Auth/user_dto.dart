@@ -12,9 +12,10 @@ class UserDto {
   final String birthDate;
   final String email;
   final String phone;
-
+  final String? role;
   UserDto({
     this.id,
+    this.role,
     required this.name,
     this.password,
     this.address,
@@ -35,6 +36,7 @@ class UserDto {
       email: data?['email'],
       id: data?['id'],
       name: data?['name'],
+      role: data?['role'],
       username: data?['username'],
       password: data?['password'],
       surname: data?['surname'],
@@ -49,6 +51,7 @@ class UserDto {
       'name': name,
       'username': username,
       'surname': surname,
+      'role': 'user',
       'password': password,
       'email': email,
       'birthdate': birthDate,
