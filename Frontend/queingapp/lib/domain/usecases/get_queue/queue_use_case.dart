@@ -22,4 +22,6 @@ class QueueUseCase {
   Stream<List<QueueDynamicEntity?>> callDynamicButtons(String uid) {
     return repositoryImpl.getDynamicList(uid);
   }
+
+  
 }

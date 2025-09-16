@@ -7,72 +7,78 @@ import 'package:queingapp/data/source/repository/qeueing_repo_data_source.dart';
 
 class QueueService implements QeueingRepoDataSource {
   @override
-  Future<QeueDto> createQeue(QeueDto dto) async {
-    final database = DB;
-    try {
-      final querySnapshot = await database
-          .collection('queuesList')
-          .withConverter(
-            fromFirestore: QeueDto.fromJson,
-            toFirestore: (QeueDto dto, _) => dto.toJson(),
-          )
-          .get();
+Future<QeueDto> createQeue(QeueDto dto) async {
+  final database = DB;
+  try {
+    // Query only by the same type/category
+    final querySnapshot = await database
+        .collection('queuesList')
+        .where('category', isEqualTo: dto.type) // filter by type
+        .withConverter(
+          fromFirestore: QeueDto.fromJson,
+          toFirestore: (QeueDto dto, _) => dto.toJson(),
+        )
+        .get();
 
-      int newIndex = 1;
-      if (querySnapshot.docs.isNotEmpty) {
-        final existingIndices = querySnapshot.docs
-            .map((doc) => doc.data().index)
-            .whereType<int>()
-            .toList();
-        if (existingIndices.isNotEmpty) {
-          newIndex = existingIndices.reduce((a, b) => a > b ? a : b) + 1;
-        }
+    int newIndex = 1;
+    if (querySnapshot.docs.isNotEmpty) {
+      final existingIndices = querySnapshot.docs
+          .map((doc) => doc.data().index)
+          .whereType<int>()
+          .toList();
+
+      if (existingIndices.isNotEmpty) {
+        newIndex = existingIndices.reduce((a, b) => a > b ? a : b) + 1;
       }
-
-      dto = QeueDto(
-        uid: USER.currentUser!.uid,
-        status: 'pending',
-        name: USER.currentUser!.displayName ?? '',
-        type: dto.type,
-        index: newIndex,
-        schedule: Timestamp.now(),
-        timein: Timestamp.now(),
-        address: dto.address,
-      );
-      
-      final notifDto = NotificationDto(
-        notification_id: database.collection('notifications').doc().id,
-        notification_type: "queue_created",
-        description:"You have been added to the queue for ${dto.type} with number $newIndex.",
-        category_id: dto.uid ?? '',
-        category_name: dto.type, 
-        timestamp: Timestamp.now(),
-      );
-
-      final docRef = await database
-          .collection('queuesList')
-          .withConverter(
-            fromFirestore: QeueDto.fromJson,
-            toFirestore: (QeueDto dto, _) => dto.toJson(),
-          )
-          .add(dto);
-      await database
-          .collection('notifications')
-          .withConverter(
-            fromFirestore: NotificationDto.fromMap,
-            toFirestore: (NotificationDto dto, _) => dto.toMap(),
-          )
-          .add(notifDto);
-      final snapshot = await docRef.get();
-      final data = snapshot.data();
-      if (data == null) {
-        throw Exception("Failed to fetch created queue data.");
-      }
-      return data;
-    } catch (e) {
-      throw Exception("Error creating queue: $e");
     }
+
+    dto = QeueDto(
+      uid: USER.currentUser!.uid,
+      status: 'pending',
+      name: USER.currentUser!.displayName ?? '',
+      type: dto.type,
+      index: newIndex, // now based on type
+      schedule: Timestamp.now(),
+      timein: Timestamp.now(),
+      address: dto.address,
+    );
+
+    final notifDto = NotificationDto(
+      notification_id: database.collection('notifications').doc().id,
+      notification_type: "queue_created",
+      description: "You have been added to the queue for ${dto.type} with number $newIndex.",
+      category_id: dto.uid ?? '',
+      category_name: dto.type,
+      timestamp: Timestamp.now(),
+    );
+
+    final docRef = await database
+        .collection('queuesList')
+        .withConverter(
+          fromFirestore: QeueDto.fromJson,
+          toFirestore: (QeueDto dto, _) => dto.toJson(),
+        )
+        .add(dto);
+
+    await database
+        .collection('notifications')
+        .withConverter(
+          fromFirestore: NotificationDto.fromMap,
+          toFirestore: (NotificationDto dto, _) => dto.toMap(),
+        )
+        .add(notifDto);
+
+    final snapshot = await docRef.get();
+    final data = snapshot.data();
+    if (data == null) {
+      throw Exception("Failed to fetch created queue data.");
+    }
+    return data;
+  } catch (e) {
+    throw Exception("Error creating queue: $e");
   }
+}
+
 
   
 

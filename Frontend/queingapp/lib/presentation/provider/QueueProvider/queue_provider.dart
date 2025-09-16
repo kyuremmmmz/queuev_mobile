@@ -28,15 +28,13 @@ class QueueProvider with ChangeNotifier {
   Future<void> state(int? index, bool? value) async {
     if (value == true) {
       _selectedOption = index;
-      notifyListeners();
     } else {
       _selectedOption = null;
-      notifyListeners();
     }
     notifyListeners();
   }
   Future<void> createQueue() async {
-    if (_selectedOption == null || _selectedOption! >= _options.length) return;
+    
 
     final entity = QueuesEntity(
       name: _name.text,
@@ -71,7 +69,7 @@ class QueueProvider with ChangeNotifier {
           status: '',
         ),
       );
-
+  
     Stream<List<QueueDynamicEntity?>> streamDynamicListByUid(String uid) {
     return useCase.callDynamicButtons(uid); 
   }

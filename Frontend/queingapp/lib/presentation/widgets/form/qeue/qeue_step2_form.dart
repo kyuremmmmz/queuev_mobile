@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:queingapp/data/source/queue/queue_service.dart';
 import 'package:queingapp/domain/entities/queues/queue_dynamic_entity.dart';
+import 'package:queingapp/domain/entities/queues/queues_entity.dart';
+import 'package:queingapp/injection.dart';
 import 'package:queingapp/presentation/provider/QrProviders/qr_view_provider.dart';
 import 'package:queingapp/presentation/provider/QueueProvider/queue_provider.dart';
 import 'package:queingapp/presentation/widgets/buttons/reusable_button.dart';
@@ -21,6 +24,7 @@ class _QeueStep2FormState extends State<QeueStep2Form> {
   @override
   Widget build(BuildContext context) {
     final provider1 = context.watch<QueueProvider>();
+    final service = sl<QueueService>();
     final provider2 = Provider.of<QrViewProvider>(context, listen: false);
 
     return StreamBuilder<List<QueueDynamicEntity?>>(
@@ -91,12 +95,19 @@ class _QeueStep2FormState extends State<QeueStep2Form> {
                   textColor: Colors.white,
                   backgroundColor: Colors.black,
                   title: 'RESERVE',
-                  onPressed: () {
+                  onPressed: () async{
                     if (provider1.selectedOption == null) {
                       Toaster().toast(context, 'Please select category');
                     } else {
                       print('qr:${provider2.uri}');
-                      provider1.createQueue(); // ✅ pass the list
+                      final entity = QueuesEntity(
+                        name: provider1.name.text,
+                        type: options[provider1.selectedOption!],
+                        index: 0,
+                        address: 'SOUTHERN LUZON STATE UNIVERSITY - CATANUAN EXTENSION',
+                        status: '',
+                      );
+                      await provider1.useCase.callCreateQueue(entity);
                       widget.controller.nextPage(
                         duration: const Duration(milliseconds: 500),
                         curve: Curves.ease,
