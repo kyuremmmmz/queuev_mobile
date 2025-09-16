@@ -31,7 +31,7 @@ class QeueDto {
       uid: data?['uid'] ?? '',
       status: data?['status'] ?? '',
       name: data?['name'] ?? '',
-      type: data?['type'] ?? '',
+      type: data?['category'] ?? '',
       index: data?['index'] ?? 0,
       schedule: data?['schedule'] ?? '',
       timein: data?['time_in'] ?? '',
@@ -42,7 +42,7 @@ class QeueDto {
   Map<String, dynamic> toJson() {
     return {
       'name': name,
-      'type': type,
+      'category': type,
       'index': index,
       'schedule': schedule,
       'time_in': timein,

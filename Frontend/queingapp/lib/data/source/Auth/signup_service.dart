@@ -37,8 +37,10 @@ class SignUpService implements RemoteRepositoryDataSource {
       return UserDto.fromJson(snapshot, null);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
+        // ignore: use_build_context_synchronously
         Toaster().toast(context, 'The password provided is too weak.');
       } else if (e.code == 'email-already-in-use') {
+        // ignore: use_build_context_synchronously
         Toaster().toast(context, 'The account already exists for that email.');
       }
       rethrow;
