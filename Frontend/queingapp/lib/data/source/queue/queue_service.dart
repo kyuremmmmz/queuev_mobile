@@ -108,6 +108,7 @@ class QueueService implements QeueingRepoDataSource {
   Stream<List<DynamicListDto?>> streamCategories(String uid) {
     return DB.
     collection('categories')
+    .where('queueId', isEqualTo: uid)
     .withConverter(fromFirestore: DynamicListDto.fromMap, toFirestore: (DynamicListDto dto, _) => 
     dto.toMap()).snapshots().map((snapshot) => snapshot.docs.map((doc) => doc.data())
     .toList());

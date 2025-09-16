@@ -13,42 +13,66 @@ import 'package:url_launcher/url_launcher.dart';
 
 class QrViewProvider with ChangeNotifier {
   QRViewController? _controller;
+  StreamSubscription? _scanSubscription;
+
   final StreamController<bool> _permissionController =
       StreamController<bool>.broadcast();
+  final ImagePicker _imagePicker = ImagePicker();
+
   File? _qrCodeUploaded;
-  File? get qrCodeUploaded => _qrCodeUploaded;
-  Stream<bool> get permissionStream => _permissionController.stream;
   String? _result;
   String? _uri;
   bool _isScanned = false;
-  QRViewController? get controller => _controller;
+
+  // Getters
+  File? get qrCodeUploaded => _qrCodeUploaded;
+  Stream<bool> get permissionStream => _permissionController.stream;
   String? get result => _result;
   String? get uri => _uri;
-
   bool get isScanned => _isScanned;
-  final ImagePicker _imagePicker = ImagePicker();
+  QRViewController? get controller => _controller;
+
   void onQRViewCreated(QRViewController controller) {
     _controller = controller;
     _isScanned = false;
-    notifyListeners();
-    controller.scannedDataStream.listen((scanData) {
-      _result = scanData.code;
-      _uri = scanData.code;
-      final urlParsing = Uri.parse(_result!);
+
+    // Cancel old subscription kung meron
+    _scanSubscription?.cancel();
+
+    _scanSubscription = controller.scannedDataStream.listen((scanData) {
+      final rawCode = scanData.code;
+      if (rawCode == null) return;
+
+      // Reset before assigning
+      _result = '';
+      _uri = '';
+      _isScanned = false;
+
+      _result = rawCode;
+      final urlParsing = Uri.parse(rawCode);
       final uri = "${urlParsing.scheme}://${urlParsing.host}";
+      final categoryId = urlParsing.pathSegments.isNotEmpty
+          ? urlParsing.pathSegments.last.split("-").sublist(0, 2).join("-")
+          : null;
+
+      _uri = categoryId;
       _result = uri;
+
       if (_result == 'https://queuevreservasion') {
+        print('result: $_uri');
         _isScanned = true;
-        print('result: $_result');
-        notifyListeners();
       }
+
       notifyListeners();
     });
+
     notifyListeners();
   }
 
   Future<void> scannedToFalse() async {
     _isScanned = false;
+    _uri = '';
+    _result = '';
     notifyListeners();
   }
 
@@ -78,5 +102,13 @@ class QrViewProvider with ChangeNotifier {
 
   void _launchInBrowser(String url) async {
     await launchUrl(Uri.parse(url));
+  }
+
+  @override
+  void dispose() {
+    _scanSubscription?.cancel();
+    _controller?.dispose();
+    _permissionController.close();
+    super.dispose();
   }
 }

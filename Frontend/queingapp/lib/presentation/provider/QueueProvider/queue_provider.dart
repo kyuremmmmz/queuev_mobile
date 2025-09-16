@@ -28,8 +28,10 @@ class QueueProvider with ChangeNotifier {
   Future<void> state(int? index, bool? value) async {
     if (value == true) {
       _selectedOption = index;
+      notifyListeners();
     } else {
       _selectedOption = null;
+      notifyListeners();
     }
     notifyListeners();
   }
@@ -70,18 +72,12 @@ class QueueProvider with ChangeNotifier {
         ),
       );
 
-  Stream<List<QueueDynamicEntity?>> get streamDynamicList => useCase.callDynamicButtons();
+    Stream<List<QueueDynamicEntity?>> streamDynamicListByUid(String uid) {
+    return useCase.callDynamicButtons(uid); 
+  }
+
 
   void _init() {
-    streamDynamicList.listen((dynamicList) {
-      _options = dynamicList
-          .whereType<QueueDynamicEntity>()
-          .map((e) => e.name)
-          .where((name) => name.isNotEmpty)
-          .toList();
-
-      notifyListeners();
-    });
 
     queueStream.listen((queue) {
       notifyListeners();

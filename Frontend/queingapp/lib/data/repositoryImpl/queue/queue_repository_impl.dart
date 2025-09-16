@@ -40,8 +40,8 @@ class QueueRepositoryImpl implements QueuesRepository {
   }
 
   @override
-  Stream<List<QueueDynamicEntity?>> getDynamicList() {
-    return dataSource.streamCategories(USER.currentUser!.uid).map((dtoList){
+  Stream<List<QueueDynamicEntity?>> getDynamicList(String uid) {
+    return dataSource.streamCategories(uid).map((dtoList){
       return dtoList.map((queueDto){
         if (queueDto != null) {
           return queueDto.toEntity();
