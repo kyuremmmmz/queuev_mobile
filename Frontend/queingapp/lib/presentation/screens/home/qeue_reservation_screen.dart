@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:queingapp/presentation/widgets/form/qeue/dialog_screen.dart';
-import 'package:queingapp/presentation/widgets/form/qeue/qeue_step1_form.dart';
 import 'package:queingapp/presentation/widgets/form/qeue/qeue_step2_form.dart';
 import 'package:queingapp/utils/AppPadding.dart';
 

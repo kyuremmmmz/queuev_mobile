@@ -2,10 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:queingapp/const.dart';
 import 'package:queingapp/presentation/screens/auth/auth_wrapper.dart';
-import 'package:queingapp/presentation/screens/auth/forgot/email_verification_screen.dart';
 import 'package:queingapp/presentation/screens/home/scan_now_screen.dart';
-import 'package:queingapp/presentation/widgets/toasters/success_toaster.dart';
-import 'package:queingapp/presentation/widgets/toasters/toaster.dart';
 
 
 class AuthChecker extends StatefulWidget {

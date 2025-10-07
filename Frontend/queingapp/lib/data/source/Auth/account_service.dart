@@ -46,8 +46,9 @@ class AccountService implements AccountRepositoryDataSource {
               .doc(userId)
               .get();
       await USER.currentUser?.updateDisplayName(dto.name);
-      if (!dtos.exists)
+      if (!dtos.exists) {
         Toaster().toast(context, 'User document does not exist');
+      }
 
       return UserDto.fromJson(dtos, null);
     } catch (e) {

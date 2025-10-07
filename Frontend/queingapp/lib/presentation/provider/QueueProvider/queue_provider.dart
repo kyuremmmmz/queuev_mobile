@@ -18,7 +18,7 @@ class QueueProvider with ChangeNotifier {
   String? _address;
   final _name = TextEditingController();
   int? _selectedOption;
-  List<String> _options = [];
+  final List<String> _options = [];
 
   int? get selectedOption => _selectedOption;
   List<String> get options => _options;
@@ -39,8 +39,9 @@ class QueueProvider with ChangeNotifier {
     final entity = QueuesEntity(
       name: _name.text,
       type: _options[_selectedOption!],
+      
       index: 0,
-      address: 'SOUTHERN LUZON STATE UNIVERSITY - CATANUAN EXTENSION',
+      address: _options[_selectedOption!],
       status: '',
     );
     await useCase.callCreateQueue(entity);

@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:queingapp/domain/entities/Auth/reset_password_entity.dart';
 import 'package:queingapp/domain/entities/Auth/user_entity.dart';

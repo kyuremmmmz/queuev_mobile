@@ -6,9 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:qr_code_scanner_plus/qr_code_scanner_plus.dart'
     hide BarcodeFormat;
-import 'package:qr_code_scanner_plus/src/types/barcode_format.dart'
-    hide BarcodeFormat;
-import 'package:queingapp/presentation/widgets/toasters/toaster.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class QrViewProvider with ChangeNotifier {
@@ -51,11 +48,9 @@ class QrViewProvider with ChangeNotifier {
       _result = rawCode;
       final urlParsing = Uri.parse(rawCode);
       final uri = "${urlParsing.scheme}://${urlParsing.host}";
-      final categoryId = urlParsing.pathSegments.isNotEmpty
-          ? urlParsing.pathSegments.last.split("-").sublist(0, 2).join("-")
-          : null;
+      final categoryId = urlParsing.pathSegments.last;
 
-      _uri = categoryId;
+      _uri = categoryId.toString();
       _result = uri;
 
       if (_result == 'https://queuevreservasion') {

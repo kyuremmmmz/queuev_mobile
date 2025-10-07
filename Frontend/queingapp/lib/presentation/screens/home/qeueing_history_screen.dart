@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:queingapp/domain/entities/queues/queues_entity.dart';
 import 'package:queingapp/presentation/provider/QueueProvider/queue_provider.dart';
 import 'package:queingapp/presentation/widgets/list_views/list_content.dart';
-import 'package:intl/intl.dart';
 import 'package:queingapp/utils/sanitizers.dart';
 class QeueingHistoryScreen extends StatefulWidget {
   const QeueingHistoryScreen({super.key});
@@ -44,7 +43,7 @@ class _QeueingHistoryScreenState extends State<QeueingHistoryScreen> {
               itemBuilder:(context, index) {
                 
                 final castTheListAsIndex = queue[index];
-                return ListContent(number: castTheListAsIndex!.index.toString(), title: castTheListAsIndex.address, type: castTheListAsIndex.type, date: Sanitizers().formatChatTimestamp(castTheListAsIndex.schedule.toString()));
+                return ListContent(number: '${index+1}', title: castTheListAsIndex?.address ?? '', type: castTheListAsIndex?.type ?? '', date: Sanitizers().formatChatTimestamp(castTheListAsIndex?.schedule?.toString()));
               });
           }
         ),

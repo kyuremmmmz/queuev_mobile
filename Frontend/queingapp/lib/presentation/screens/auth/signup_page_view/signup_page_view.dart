@@ -3,7 +3,6 @@ import 'package:queingapp/presentation/screens/auth/signup/signup.dart';
 import 'package:queingapp/presentation/screens/auth/signup/signup_next.dart';
 import 'package:queingapp/presentation/screens/auth/signup/signup_personal_info_screen.dart';
 import 'package:queingapp/presentation/screens/home/indicator_screen.dart';
-import 'package:queingapp/presentation/widgets/form/auth/sign_up_personal_info.dart';
 
 class SignupPageView extends StatefulWidget {
   const SignupPageView({super.key});

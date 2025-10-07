@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:queingapp/const.dart';
-import 'package:queingapp/data/source/Auth/account_service.dart';
-import 'package:queingapp/presentation/provider/AuthenticationProviders/auth_provider.dart';
 import 'package:queingapp/presentation/provider/AuthenticationProviders/change_account_provider.dart';
 
 class LogoutDialog extends StatelessWidget {

@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ReusableContainerWidget extends StatelessWidget {
-  const ReusableContainerWidget({super.key});
+  final String name;
+  final String address;
+  const ReusableContainerWidget({super.key, required this.name, required this.address});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(10.0),
+      width: MediaQuery.of(context).size.width,
+      padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(0),
@@ -19,15 +22,15 @@ class ReusableContainerWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("SOUTHERN LUZON STATE UNIVERSITY - CATANUAN EXTENSION",
+          Text(name,
           style:GoogleFonts.dmSans(
-            fontSize: 13,
+            fontSize: 16,
             fontWeight: FontWeight.w700,
             color: Colors.black,
           ) ,),
-          Text("BRGY SAN ANTONIO, PALA, CATANUAN, QUEZON",
+          Text(address,
           style:GoogleFonts.dmSans(
-            fontSize: 9,
+            fontSize: 10,
             fontWeight: FontWeight.w400,
             color: Colors.black,
           ) ,)

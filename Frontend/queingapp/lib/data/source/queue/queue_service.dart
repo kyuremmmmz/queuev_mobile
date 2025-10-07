@@ -10,16 +10,15 @@ class QueueService implements QeueingRepoDataSource {
 Future<QeueDto> createQeue(QeueDto dto) async {
   final database = DB;
   try {
-    // Query only by the same type/category
+
     final querySnapshot = await database
         .collection('queuesList')
-        .where('category', isEqualTo: dto.type) // filter by type
+        .where('catId', isEqualTo: dto.catId)
         .withConverter(
           fromFirestore: QeueDto.fromJson,
           toFirestore: (QeueDto dto, _) => dto.toJson(),
         )
         .get();
-
     int newIndex = 1;
     if (querySnapshot.docs.isNotEmpty) {
       final existingIndices = querySnapshot.docs
@@ -33,11 +32,13 @@ Future<QeueDto> createQeue(QeueDto dto) async {
     }
 
     dto = QeueDto(
+      catId: dto.catId,
+      categoryId: dto.categoryId,
       uid: USER.currentUser!.uid,
       status: 'pending',
       name: USER.currentUser!.displayName ?? '',
       type: dto.type,
-      index: newIndex, // now based on type
+      index: newIndex,
       schedule: Timestamp.now(),
       timein: Timestamp.now(),
       address: dto.address,
@@ -67,6 +68,22 @@ Future<QeueDto> createQeue(QeueDto dto) async {
           toFirestore: (NotificationDto dto, _) => dto.toMap(),
         )
         .add(notifDto);
+      final query = await database
+      .collection('categories')
+      .where('categoryId', isEqualTo: dto.categoryId)
+      .limit(1)
+      .get();
+
+    if (query.docs.isNotEmpty) {
+      final categoryDocId = query.docs.first.id;
+
+      await database.collection('categories').doc(categoryDocId).update({
+        'peopleinqueue': FieldValue.increment(1),
+      });
+    } else {
+      throw Exception("Category not found for categoryId: ${dto.categoryId}");
+    }
+
 
     final snapshot = await docRef.get();
     final data = snapshot.data();
@@ -91,6 +108,7 @@ Future<QeueDto> createQeue(QeueDto dto) async {
           toFirestore: (QeueDto dto, _) => dto.toJson(),
         )
         .where('uid', isEqualTo: uid)
+        .orderBy('index', descending: true)
         .limit(1)
         .snapshots()
         .map((snapshot) {
@@ -106,18 +124,21 @@ Future<QeueDto> createQeue(QeueDto dto) async {
     return DB.collection('queuesList')
     .withConverter(fromFirestore: QeueDto.fromJson, toFirestore: (QeueDto dto, _) => dto.toJson(),)
     .where('uid', isEqualTo: uid)
-    .orderBy('index', descending: false)
     .snapshots().map((snapshot) => snapshot.docs.map((doc)=>doc.data()).toList());
   }
 
-  @override
-  Stream<List<DynamicListDto?>> streamCategories(String uid) {
-    return DB.
-    collection('categories')
-    .where('queueId', isEqualTo: uid)
-    .withConverter(fromFirestore: DynamicListDto.fromMap, toFirestore: (DynamicListDto dto, _) => 
-    dto.toMap()).snapshots().map((snapshot) => snapshot.docs.map((doc) => doc.data())
-    .toList());
-  }
+@override
+  Stream<List<DynamicListDto>> streamCategories(String uid) {
+  return DB
+      .collection('categories')
+      .where('categoryId', isEqualTo: uid)
+      .withConverter<DynamicListDto>(
+        fromFirestore: (snap, options) => DynamicListDto.fromMap(snap, options),
+        toFirestore: (dto, _) => dto.toMap(),
+      )
+      .snapshots()
+      .map((snapshot) => snapshot.docs.map((doc) => doc.data()).toList());
+}
+
 
 }

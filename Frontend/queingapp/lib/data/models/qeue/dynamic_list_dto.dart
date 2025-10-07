@@ -1,55 +1,107 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:queingapp/domain/entities/queues/queue_dynamic_entity.dart';
+import 'category_dto.dart';
 
 class DynamicListDto {
   final String categoryId;
-  final String createdAt;
-  final String limit;
+  final String catId;
   final String name;
+  final String note;
   final String queueId;
-  final String timeLimit;
+  final String role;
+  final String user;
+  final int code;
+  final Map<String, dynamic> breaktime;
+  final Map<String, dynamic> expiration;
+  final Map<String, dynamic> schedule;
+  final String address;
+  final List<CategoryDto> categories;
+
   DynamicListDto({
     required this.categoryId,
-    required this.createdAt,
-    required this.limit,
+    required this.catId,
     required this.name,
+    required this.note,
     required this.queueId,
-    required this.timeLimit,
+    required this.role,
+    required this.user,
+    required this.code,
+    required this.breaktime,
+    required this.expiration,
+    required this.schedule,
+    required this.address,
+    required this.categories,
   });
 
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'categoryId': categoryId,
-      'createdAt': createdAt,
-      'limit': limit,
-      'name': name,
-      'queueId': queueId,
-      'timeLimit': timeLimit,
-    };
-  }
-
-  factory DynamicListDto.fromMap(DocumentSnapshot<Map<String, dynamic>> map, SnapshotOptions? json ) {
+  factory DynamicListDto.fromMap(
+    DocumentSnapshot<Map<String, dynamic>> doc,
+    SnapshotOptions? options,
+  ) {
+    final data = doc.data()!;
     return DynamicListDto(
-      categoryId: map['categoryId'] as String,
-      createdAt: map['createdAt'] as String,
-      limit: map['limit'] as String,
-      name: map['name'] as String,
-      queueId: map['queueId'] as String,
-      timeLimit: map['timeLimit'] as String,
+      categoryId: data['categoryId'] as String? ?? '',
+      name: data['name'] as String? ?? '',
+      note: data['note'] as String? ?? '',
+      queueId: data['queueId'] as String? ?? '',
+      role: data['role'] as String? ?? '',
+      user: data['user'] as String? ?? '',
+      code: (data['code'] is int) ? data['code'] as int : int.tryParse(data['code']?.toString() ?? '') ?? 0,
+      breaktime: Map<String, dynamic>.from(data['breaktime'] as Map? ?? {}),
+      expiration: Map<String, dynamic>.from(data['expiration'] as Map? ?? {}),
+      schedule: Map<String, dynamic>.from(data['schedule'] as Map? ?? {}),
+      address: data['address'] as String? ?? '',
+      categories: (data['categories'] as List<dynamic>? ?? [])
+          .map((cat) => CategoryDto.fromMap(cat as Map<String, dynamic>))
+          .toList(), 
+      catId: data['catId'] as String? ?? '',
     );
   }
 
-
-  QueueDynamicEntity toEntity(){
-    return QueueDynamicEntity(categoryId: categoryId, createdAt: createdAt, limit: limit, name: name, queueId: queueId, timeLimit: timeLimit);
+  Map<String, dynamic> toMap() {
+    return {
+      'categoryId': categoryId,
+      'catId': catId,
+      'name': name,
+      'note': note,
+      'queueId': queueId,
+      'role': role,
+      'user': user,
+      'code': code,
+      'breaktime': breaktime,
+      'expiration': expiration,
+      'schedule': schedule,
+      'address': address,
+      'categories': categories.map((c) => c.toMap()).toList(),
+    };
   }
 
-  static DynamicListDto fromEntity(QueueDynamicEntity entity){
-    return DynamicListDto(categoryId: entity.categoryId, createdAt: entity.createdAt, limit: entity.limit, name: entity.name, queueId: entity.queueId, timeLimit: entity.timeLimit);
+  static DynamicListDto fromEntity(QueueDynamicEntity entity) {
+    return DynamicListDto(
+      categoryId: entity.categoryId,
+      name: entity.name,
+      note: '',
+      queueId: entity.queueId,
+      role: entity.role,
+      user: '',
+      code: entity.code,
+      breaktime: {},
+      expiration: {},
+      schedule: {},
+      address: entity.address,
+      categories: entity.categories, catId: entity.catId,
+    );
   }
 
+  QueueDynamicEntity toEntity() {
+    return QueueDynamicEntity(
+      catId: catId,
+      address: address,
+      categoryId: categoryId,
+      name: name,
+      queueId: queueId,
+      role: role,
+      code: code,
+      categories: categories,
+    );
+  }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:queingapp/presentation/widgets/containers/profile_container.dart';
 import 'package:queingapp/presentation/widgets/form/auth/account_form.dart';
-import 'package:queingapp/presentation/widgets/inputs/input_field_custom.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});

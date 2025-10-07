@@ -1,17 +1,24 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:queingapp/data/models/qeue/category_dto.dart';
+
 class QueueDynamicEntity {
   final String categoryId;
-  final String createdAt;
-  final String limit;
+  final String catId;
   final String name;
   final String queueId;
-  final String timeLimit;
+  final String role;
+  final String address;
+  final int code;
+  final List<CategoryDto> categories;
+
   QueueDynamicEntity({
     required this.categoryId,
-    required this.createdAt,
-    required this.limit,
+    required this.address,
     required this.name,
     required this.queueId,
-    required this.timeLimit,
+    required this.role,
+    required this.code,
+    required this.categories,
+    required this.catId
+    ,
   });
 }

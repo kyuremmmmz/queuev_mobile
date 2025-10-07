@@ -24,11 +24,10 @@ class _QeueStep2FormState extends State<QeueStep2Form> {
   @override
   Widget build(BuildContext context) {
     final provider1 = context.watch<QueueProvider>();
-    final service = sl<QueueService>();
     final provider2 = Provider.of<QrViewProvider>(context, listen: false);
 
     return StreamBuilder<List<QueueDynamicEntity?>>(
-      stream: provider1.streamDynamicListByUid(provider2.uri!), 
+      stream: provider1.streamDynamicListByUid(provider2.uri!),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
@@ -43,68 +42,90 @@ class _QeueStep2FormState extends State<QeueStep2Form> {
         }
 
         final options = snapshot.data!
+        .whereType<QueueDynamicEntity>()
+        .expand((e) => e.categories ?? [])
+        .map((cat) => {
+              'id': cat.id ?? '',
+              'name': cat.name ?? 'No name',
+              'queueLimit': cat.queueLimit ?? 0,
+              'timeLimit': cat.timeLimit ?? '',
+            })
+        .toList();
+
+        final options2 = snapshot.data!
             .whereType<QueueDynamicEntity>()
-            .map((e) => e.name)
-            .where((name) => name.isNotEmpty)
+            .map((e) => {'id': e.categoryId, 'name': e.name, 'address': e.address, })
+            .where((map) => map['name'] != null && map['id'] != null && map['address'] != null, )
             .toList();
+
 
         return Form(
           child: SingleChildScrollView(
             child: Column(
               children: [
                 const SizedBox(height: 20),
-                ReusableContainerWidget(),
+                ReusableContainerWidget( 
+                    name: provider1.selectedOption != null 
+                        ? options2[0]['name']! 
+                        : '', 
+                    address: provider1.selectedOption != null 
+                        ? options2[0]['address'] ?? ''
+                        : '',
+                  ),
                 const SizedBox(height: 20),
                 ListView.separated(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: options.length,
-                  itemBuilder: (context, index) {
-                    return CheckboxListTile(
-                      checkColor: Colors.black,
-                      tristate: true,
-                      checkboxShape: const CircleBorder(),
-                      side: WidgetStateBorderSide.resolveWith((states) {
-                        return const BorderSide(color: Colors.black);
-                      }),
-                      activeColor: Colors.white,
-                      dense: true,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        side: const BorderSide(color: Colors.black),
-                      ),
-                      value: provider1.selectedOption == index,
-                      title: Text(
-                        options[index],
-                        style: GoogleFonts.dmSans(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: options.length,
+                    itemBuilder: (context, index) {
+                      return CheckboxListTile(
+                        checkColor: Colors.black,
+                        tristate: true,
+                        checkboxShape: const CircleBorder(),
+                        side: WidgetStateBorderSide.resolveWith((states) {
+                          return const BorderSide(color: Colors.black);
+                        }),
+                        activeColor: Colors.white,
+                        dense: true,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          side: const BorderSide(color: Colors.black),
                         ),
-                      ),
-                      controlAffinity: ListTileControlAffinity.trailing,
-                      onChanged: (bool? value) {
-                        provider1.state(index, value);
-                      },
-                    );
-                  },
-                  separatorBuilder: (context, index) =>
-                      const SizedBox(height: 10),
-                ),
+                        value: provider1.selectedOption == index,
+                        title: Text(
+                          options[index]['name'] ?? 'Unnamed Category',
+                          style: GoogleFonts.dmSans(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+
+                        controlAffinity: ListTileControlAffinity.trailing,
+                        onChanged: (bool? value) {
+                          provider1.state(index, value);
+                        },
+                      );
+                    },
+                    separatorBuilder: (context, index) => const SizedBox(height: 10),
+                  ),
+
                 const SizedBox(height: 20),
                 ReusableButton(
                   textColor: Colors.white,
                   backgroundColor: Colors.black,
                   title: 'RESERVE',
-                  onPressed: () async{
+                  onPressed: () async {
                     if (provider1.selectedOption == null) {
                       Toaster().toast(context, 'Please select category');
                     } else {
-                      print('qr:${provider2.uri}');
+                      print('qr: ${provider2.uri}');
                       final entity = QueuesEntity(
-                        name: provider1.name.text,
-                        type: options[provider1.selectedOption!],
+                        catId: options[provider1.selectedOption!]['id']!,
+                        documentReference: options2[0]['id']!, 
+                        name: provider1.name.text, 
+                        type: options2[0]['name'] ?? '',
                         index: 0,
-                        address: 'SOUTHERN LUZON STATE UNIVERSITY - CATANUAN EXTENSION',
+                        address: options2[0]['address'] ?? '',
                         status: '',
                       );
                       await provider1.useCase.callCreateQueue(entity);

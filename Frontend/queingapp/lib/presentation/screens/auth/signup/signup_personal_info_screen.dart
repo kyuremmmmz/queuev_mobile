@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:queingapp/presentation/widgets/form/auth/sign_up_personal_info.dart';
-import 'package:queingapp/presentation/widgets/form/auth/signup_form.dart';
 import 'package:queingapp/utils/AppPadding.dart';
 
 class SignupPersonalInfoScreen extends StatefulWidget {

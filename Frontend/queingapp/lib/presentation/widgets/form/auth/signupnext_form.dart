@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:queingapp/domain/entities/Auth/user_entity.dart';
@@ -6,7 +5,6 @@ import 'package:queingapp/presentation/provider/AuthenticationProviders/auth_pro
 import 'package:queingapp/presentation/provider/AuthenticationProviders/validators_provider.dart';
 import 'package:queingapp/presentation/widgets/buttons/reusable_button.dart';
 import 'package:queingapp/presentation/widgets/inputs/reusable_field.dart';
-import 'package:queingapp/utils/Validators.dart';
 
 class SignupnextForm extends StatefulWidget {
   final PageController controller;

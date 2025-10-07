@@ -13,7 +13,6 @@ import 'package:queingapp/presentation/screens/auth/account/account_screen.dart'
 import 'package:queingapp/presentation/screens/auth/account/change_password_screen.dart';
 import 'package:queingapp/presentation/screens/auth/account/terms_and_conditions_screen.dart';
 import 'package:queingapp/presentation/screens/auth/auth_wrapper.dart';
-import 'package:queingapp/presentation/screens/auth/login/login.dart';
 import 'package:queingapp/presentation/screens/auth/settings/settings_screen.dart';
 import 'package:queingapp/presentation/screens/auth_checker.dart';
 import 'package:queingapp/presentation/screens/home/home_screen.dart';

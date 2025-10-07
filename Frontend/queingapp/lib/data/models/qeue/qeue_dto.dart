@@ -10,13 +10,17 @@ class QeueDto {
   final String address;
   final String? status;
   final String? uid;
+  final String categoryId;
+  final String? catId;
 
   QeueDto({
     this.uid,
+    required this.catId,
     required this.name,
     required this.status,
     required this.type,
     required this.index,
+    required this.categoryId,
     this.schedule,
     this.timein,
     required this.address,
@@ -28,6 +32,8 @@ class QeueDto {
   ) {
     final data = json.data();
     return QeueDto(
+      categoryId: data?['categoryId'] ?? '',
+      catId: data?['catId'] ?? '',
       uid: data?['uid'] ?? '',
       status: data?['status'] ?? '',
       name: data?['name'] ?? '',
@@ -35,6 +41,7 @@ class QeueDto {
       index: data?['index'] ?? 0,
       schedule: data?['schedule'] ?? '',
       timein: data?['time_in'] ?? '',
+
       address: data?['address'] ?? '',
     );
   }
@@ -43,12 +50,14 @@ class QeueDto {
     return {
       'name': name,
       'category': type,
+      'catId': catId,
       'index': index,
       'schedule': schedule,
       'time_in': timein,
       'address': address,
       'status': status,
       'uid': uid,
+      'categoryId': categoryId,
     };
   }
 
@@ -62,11 +71,13 @@ class QeueDto {
       schedule: schedule,
       timein: timein,
       address: address,
+      catId: catId,
     );
   }
 
   static QeueDto fromEntity(QueuesEntity entity) {
     return QeueDto(
+      categoryId: entity.documentReference!,
       uid: entity.uid,
       status: entity.status,
       name: entity.name,
@@ -74,6 +85,7 @@ class QeueDto {
       index: entity.index,
       schedule: entity.schedule,
       timein: entity.timein,
+      catId: entity.catId,
       address: entity.address,
     );
   }

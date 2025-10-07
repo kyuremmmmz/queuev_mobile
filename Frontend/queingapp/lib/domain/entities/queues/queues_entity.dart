@@ -2,6 +2,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class QueuesEntity {
+  final String? documentReference;
+  final String? catId;
   final String name;
   final String? uid;
   final String type;
@@ -11,6 +13,8 @@ class QueuesEntity {
   final String address;
   final String? status;
   QueuesEntity({
+    this.documentReference,
+    this.catId,
     required this.name,
     this.uid,
     required this.status,
