@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:queingapp/const.dart';
 import 'package:queingapp/data/models/qeue/dynamic_list_dto.dart';
 import 'package:queingapp/data/models/qeue/notification_dto.dart';
 import 'package:queingapp/data/models/qeue/qeue_dto.dart';
 import 'package:queingapp/data/source/repository/qeueing_repo_data_source.dart';
+import 'package:queingapp/presentation/widgets/toasters/toaster.dart';
 
 class QueueService implements QeueingRepoDataSource {
   @override
@@ -138,6 +140,43 @@ Future<QeueDto> createQeue(QeueDto dto) async {
       )
       .snapshots()
       .map((snapshot) => snapshot.docs.map((doc) => doc.data()).toList());
+}
+
+  @override
+  Stream<List<DynamicListDto?>> streamCategoriesByCode(int code) {
+    return DB
+      .collection('categories')
+      .where('code', isEqualTo: code)
+      .withConverter<DynamicListDto>(
+        fromFirestore: (snap, options) => DynamicListDto.fromMap(snap, options),
+        toFirestore: (dto, _) => dto.toMap(),
+      )
+      .snapshots()
+      .map((snapshot) => snapshot.docs.map((doc) => doc.data()).toList());
+  }
+
+  @override
+  Future<List<DynamicListDto?>> getCategoriesByCode(String code, BuildContext context) async {
+    try {
+      final snapshot = await DB
+        .collection('categories')
+        .where('code', isEqualTo: int.parse(code))
+        .withConverter<DynamicListDto>(
+          fromFirestore: (snap, options) => DynamicListDto.fromMap(snap, options),
+          toFirestore: (dto, _) => dto.toMap(),
+        )
+        .get();
+    if (snapshot.docs.isEmpty) {
+      Toaster().toast(context, 'Invalid code entered');
+    }
+    if (context.mounted) {
+      Navigator.pop(context);
+    }
+    return snapshot.docs.map((doc) => doc.data()).toList();
+    } catch (e) {
+      print('errrorrr: $e');
+      rethrow;
+    }
 }
 
 

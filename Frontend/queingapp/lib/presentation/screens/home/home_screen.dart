@@ -18,7 +18,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<StorageProvider>(context);
     final provider2 = Provider.of<QrViewProvider>(context);
     return provider2.isScanned ? const QeueReservationScreen() :  Scaffold(
       appBar: AppBar(
@@ -31,9 +30,9 @@ class _HomeScreenState extends State<HomeScreen> {
       
         actions: [
           IconButton(
-            icon: provider2.isScanned ? const Icon(Icons.logout) :const Icon(Icons.image),
+            icon: provider2.isScanned ? const Icon(Icons.logout) :const Icon(Icons.abc),
             onPressed: () async {
-              await provider2.pickImage(ImageSource.gallery);
+              Navigator.pushNamed(context, '/enterCode');
             },
           ),
         ],

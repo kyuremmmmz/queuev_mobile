@@ -50,4 +50,16 @@ class QueueRepositoryImpl implements QueuesRepository {
       }).toList();
     });
   }
+  
+  @override
+  Stream<List<QueueDynamicEntity?>> getDynamicListCode(int code) {
+      return dataSource.streamCategoriesByCode(code).map((dtoList){
+      return dtoList.map((queueDto){
+        if (queueDto != null) {
+          return queueDto.toEntity();
+        }
+        return null;
+      }).toList();
+    });
+  }
 }

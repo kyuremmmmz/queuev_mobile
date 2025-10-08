@@ -75,6 +75,11 @@ class QueueProvider with ChangeNotifier {
     return useCase.callDynamicButtons(uid); 
   }
 
+  Stream<List<QueueDynamicEntity?>> streamDynamicListByCode(int code) {
+
+    return useCase.callDynamicButtonsCode(code); 
+  }
+
 
   void _init() {
 

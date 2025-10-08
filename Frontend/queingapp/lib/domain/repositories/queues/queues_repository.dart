@@ -6,4 +6,5 @@ abstract class QueuesRepository {
   Stream<QueuesEntity?> getQue(QueuesEntity entity);
   Stream<List<QueuesEntity?>> getQueAsList(QueuesEntity entity);
   Stream<List<QueueDynamicEntity?>> getDynamicList(String uid);
+  Stream<List<QueueDynamicEntity?>> getDynamicListCode(int code);
 }

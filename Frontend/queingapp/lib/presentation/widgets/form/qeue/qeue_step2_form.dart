@@ -25,14 +25,13 @@ class _QeueStep2FormState extends State<QeueStep2Form> {
   Widget build(BuildContext context) {
     final provider1 = context.watch<QueueProvider>();
     final provider2 = Provider.of<QrViewProvider>(context, listen: false);
-
+ 
     return StreamBuilder<List<QueueDynamicEntity?>>(
-      stream: provider1.streamDynamicListByUid(provider2.uri!),
-      builder: (context, snapshot) {
+      stream: provider2.result != 'https://queuevreservasion'  ? provider1.streamDynamicListByCode(int.parse(provider2.result!)) : provider1.streamDynamicListByUid(provider2.uri!),
+      builder: (context, snapshot) { 
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         }
-
         if (snapshot.hasError) {
           return const DialogWrong();
         }

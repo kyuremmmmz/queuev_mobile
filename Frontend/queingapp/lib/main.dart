@@ -15,6 +15,7 @@ import 'package:queingapp/presentation/screens/auth/account/terms_and_conditions
 import 'package:queingapp/presentation/screens/auth/auth_wrapper.dart';
 import 'package:queingapp/presentation/screens/auth/settings/settings_screen.dart';
 import 'package:queingapp/presentation/screens/auth_checker.dart';
+import 'package:queingapp/presentation/screens/home/code_screen.dart';
 import 'package:queingapp/presentation/screens/home/home_screen.dart';
 import 'package:queingapp/presentation/screens/home/qeue_reservation_screen.dart';
 import 'package:queingapp/presentation/screens/home/qeue_status_screen.dart';
@@ -58,6 +59,7 @@ class MyApp extends StatelessWidget {
           '/changePassword': (context) => const ChangePasswordScreen(),
           '/terms': (context) => const TermsAndConditionsScreen(),
           '/login': (context) => const AuthWrapper(),
+          '/enterCode': (context) => const EnterCodeScreen(),
         },
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',

@@ -15,9 +15,10 @@ class QrViewProvider with ChangeNotifier {
   final StreamController<bool> _permissionController =
       StreamController<bool>.broadcast();
   final ImagePicker _imagePicker = ImagePicker();
-
+  final _codeController = TextEditingController();
   File? _qrCodeUploaded;
   String? _result;
+  String? _resultCode;
   String? _uri;
   bool _isScanned = false;
 
@@ -25,8 +26,10 @@ class QrViewProvider with ChangeNotifier {
   File? get qrCodeUploaded => _qrCodeUploaded;
   Stream<bool> get permissionStream => _permissionController.stream;
   String? get result => _result;
+  String? get resultCode => _resultCode;
   String? get uri => _uri;
   bool get isScanned => _isScanned;
+  TextEditingController get codeController => _codeController;
   QRViewController? get controller => _controller;
 
   void onQRViewCreated(QRViewController controller) {
@@ -71,6 +74,12 @@ class QrViewProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> scannedToTrue() async {
+    _isScanned = true;
+    _result = _codeController.text;
+    notifyListeners();
+  }
+
   Future<void> pickImage(ImageSource source) async {
     final XFile? picked = await _imagePicker.pickImage(source: source);
     if (picked != null) {
@@ -103,6 +112,7 @@ class QrViewProvider with ChangeNotifier {
   void dispose() {
     _scanSubscription?.cancel();
     _controller?.dispose();
+    _codeController.dispose();
     _permissionController.close();
     super.dispose();
   }
