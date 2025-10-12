@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:queingapp/presentation/provider/AuthenticationProviders/storage_provider.dart';
 import 'package:queingapp/presentation/provider/QrProviders/qr_view_provider.dart';
 import 'package:queingapp/presentation/screens/home/qeue_reservation_screen.dart';
+import 'package:queingapp/presentation/widgets/buttons/reusable_button.dart';
 
 
 import 'package:queingapp/presentation/widgets/scanner_widgets/qr_example_widget.dart';
@@ -29,12 +30,12 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       
         actions: [
-          IconButton(
-            icon: provider2.isScanned ? const Icon(Icons.logout) :const Icon(Icons.abc),
-            onPressed: () async {
-              Navigator.pushNamed(context, '/enterCode');
-            },
-          ),
+          ReusableButton(title: 'CODE',
+          backgroundColor: Colors.black,
+          textColor: Colors.white,
+          onPressed: (){
+            Navigator.pushNamed(context, '/enterCode');
+          }, width: 99, height: 50)
         ],
       ),
       body: QrExampleWidget()

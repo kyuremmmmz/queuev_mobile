@@ -1,21 +1,32 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:queingapp/const.dart';
 import 'package:queingapp/data/models/qeue/dynamic_list_dto.dart';
 import 'package:queingapp/data/models/qeue/notification_dto.dart';
 import 'package:queingapp/data/models/qeue/qeue_dto.dart';
 import 'package:queingapp/data/source/repository/qeueing_repo_data_source.dart';
 import 'package:queingapp/presentation/widgets/toasters/toaster.dart';
+import 'package:queingapp/utils/sanitizers.dart';
 
 class QueueService implements QeueingRepoDataSource {
   @override
-Future<QeueDto> createQeue(QeueDto dto) async {
+Future<QeueDto> createQeue(QeueDto dto, BuildContext context) async {
   final database = DB;
   try {
 
     final querySnapshot = await database
         .collection('queuesList')
         .where('catId', isEqualTo: dto.catId)
+        .withConverter(
+          fromFirestore: QeueDto.fromJson,
+          toFirestore: (QeueDto dto, _) => dto.toJson(),
+        )
+        .get();
+
+    final queueryOneTimeQueue = await database
+        .collection('queuesList')
+        .where('uid', isEqualTo: USER.currentUser?.uid)
         .withConverter(
           fromFirestore: QeueDto.fromJson,
           toFirestore: (QeueDto dto, _) => dto.toJson(),
@@ -33,7 +44,14 @@ Future<QeueDto> createQeue(QeueDto dto) async {
       }
     }
 
+    if (queueryOneTimeQueue.docs.isNotEmpty) {
+      Toaster().toast(context, "You still have a pending queue. Please finish it before joining another.");
+      return Future.error("You still have a pending queue.");
+    }
+
+
     dto = QeueDto(
+      note: dto.note,
       catId: dto.catId,
       categoryId: dto.categoryId,
       uid: USER.currentUser!.uid,
@@ -47,13 +65,16 @@ Future<QeueDto> createQeue(QeueDto dto) async {
     );
 
     final notifDto = NotificationDto(
+      uid: USER.currentUser!.uid,
       notification_id: database.collection('notifications').doc().id,
       notification_type: "queue_created",
-      description: "You have been added to the queue for ${dto.type} with number $newIndex.",
+      description: "${dto.name} has been registered to the ${dto.type} queue at ${Sanitizers().formatTimestamp(dto.timein)}",
       category_id: dto.uid ?? '',
       category_name: dto.type,
       timestamp: Timestamp.now(),
     );
+
+
 
     final docRef = await database
         .collection('queuesList')
@@ -130,35 +151,88 @@ Future<QeueDto> createQeue(QeueDto dto) async {
   }
 
 @override
-  Stream<List<DynamicListDto>> streamCategories(String uid) {
+Stream<List<DynamicListDto>> streamCategories(String uid) {
   return DB
       .collection('categories')
       .where('categoryId', isEqualTo: uid)
       .withConverter<DynamicListDto>(
-        fromFirestore: (snap, options) => DynamicListDto.fromMap(snap, options),
+        fromFirestore: (snap, options) =>
+            DynamicListDto.fromMap(snap, options),
         toFirestore: (dto, _) => dto.toMap(),
       )
       .snapshots()
-      .map((snapshot) => snapshot.docs.map((doc) => doc.data()).toList());
+      .map((snapshot) {
+        final now = DateTime.now();
+
+        final validDocs = snapshot.docs.where((doc) {
+          final data = doc.data();
+          final exp = data.expiration;
+
+          if (exp == null) return false;
+
+          final expDate = exp['date'];
+          final expTime = exp['time'];
+
+          if (expDate == null || expTime == null) return false;
+
+          try {
+            final expiration =
+                DateFormat('yyyy-MM-dd HH:mm').parse('$expDate $expTime');
+            return expiration.isAfter(now);
+          } catch (e) {
+            print('Error parsing expiration date: $e');
+            return false;
+          }
+        }).toList();
+
+        return validDocs.map((doc) => doc.data()).toList();
+      });
 }
 
-  @override
-  Stream<List<DynamicListDto?>> streamCategoriesByCode(int code) {
-    return DB
+@override
+Stream<List<DynamicListDto?>> streamCategoriesByCode(int code) {
+  return DB
       .collection('categories')
       .where('code', isEqualTo: code)
       .withConverter<DynamicListDto>(
-        fromFirestore: (snap, options) => DynamicListDto.fromMap(snap, options),
+        fromFirestore: (snap, options) =>
+            DynamicListDto.fromMap(snap, options),
         toFirestore: (dto, _) => dto.toMap(),
       )
       .snapshots()
-      .map((snapshot) => snapshot.docs.map((doc) => doc.data()).toList());
-  }
+      .map((snapshot) {
+        final now = DateTime.now();
 
-  @override
-  Future<List<DynamicListDto?>> getCategoriesByCode(String code, BuildContext context) async {
-    try {
-      final snapshot = await DB
+        // ✅ Filter only valid (non-expired) docs
+        final validDocs = snapshot.docs.where((doc) {
+          final data = doc.data();
+          final exp = data?.expiration;
+
+          if (exp == null) return false;
+
+          final expDate = exp['date'];
+          final expTime = exp['time'];
+
+          if (expDate == null || expTime == null) return false;
+
+          try {
+            final expiration =
+                DateFormat('yyyy-MM-dd HH:mm').parse('$expDate $expTime');
+            return expiration.isAfter(now);
+          } catch (e) {
+            print('Date parse error in stream: $e');
+            return false;
+          }
+        }).toList();
+
+        return validDocs.map((doc) => doc.data()).toList();
+      });
+}
+
+@override
+Future<List<DynamicListDto?>> getCategoriesByCode(String code, BuildContext context) async {
+  try {
+    final snapshot = await DB
         .collection('categories')
         .where('code', isEqualTo: int.parse(code))
         .withConverter<DynamicListDto>(
@@ -166,18 +240,47 @@ Future<QeueDto> createQeue(QeueDto dto) async {
           toFirestore: (dto, _) => dto.toMap(),
         )
         .get();
+
     if (snapshot.docs.isEmpty) {
       Toaster().toast(context, 'Invalid code entered');
+      if (context.mounted) Navigator.pop(context);
+      return [];
     }
-    if (context.mounted) {
-      Navigator.pop(context);
+
+    final now = DateTime.now();
+    final validDocs = snapshot.docs.where((doc) {
+      final data = doc.data();
+
+      final expDate = data?.expiration['date'];
+      final expTime = data?.expiration['time'];
+
+      if (expDate == null || expTime == null) return false;
+
+      try {
+        // Combine date and time
+        final expiration = DateFormat('yyyy-MM-dd HH:mm').parse('$expDate $expTime');
+        return expiration.isAfter(now);
+      } catch (e) {
+        print('Date parse error: $e');
+        return false;
+      }
+    }).toList();
+
+    if (validDocs.isEmpty) {
+      Toaster().toast(context, 'Code has expired');
+      if (context.mounted) {
+        Navigator.pop(context);
+        return validDocs.map((doc) => doc.data()).toList();
+      }
     }
-    return snapshot.docs.map((doc) => doc.data()).toList();
-    } catch (e) {
-      print('errrorrr: $e');
-      rethrow;
-    }
+
+    return validDocs.map((doc) => doc.data()).toList();
+  } catch (e) {
+    print('Error fetching categories: $e');
+    rethrow;
+  }
 }
+
 
 
 }

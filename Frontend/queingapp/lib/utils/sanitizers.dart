@@ -21,7 +21,7 @@ class Sanitizers {
   }
 
 
-String formatChatTimestamp(dynamic timestamp) {
+String formatTimestamp(dynamic timestamp) {
   DateTime dateTime;
 
   if (timestamp is Timestamp) {

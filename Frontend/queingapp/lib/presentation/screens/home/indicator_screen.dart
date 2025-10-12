@@ -13,7 +13,7 @@ class _IndicatorScreenState extends State<IndicatorScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: StreamBuilder<bool>(
-        stream: Stream.value(USER.currentUser!.emailVerified),
+        stream: Stream.value(USER.currentUser!.emailVerified == false),
         builder: (context, asyncSnapshot) {
           final data = asyncSnapshot.data;
           return Center(

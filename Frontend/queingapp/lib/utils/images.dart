@@ -1,0 +1,1 @@
+const logo = 'assets/image/queuev_logo.png';

@@ -54,6 +54,7 @@ class _EnterCodeScreenState extends State<EnterCodeScreen> {
                 provider.codeController.clear();
                 return;
               }
+              Navigator.pop(context);
             }, 
             width: 150, 
             height: 50, 

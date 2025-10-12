@@ -33,24 +33,26 @@ class QueueProvider with ChangeNotifier {
     }
     notifyListeners();
   }
-  Future<void> createQueue() async {
+  Future<void> createQueue(BuildContext context) async {
     
 
     final entity = QueuesEntity(
       name: _name.text,
       type: _options[_selectedOption!],
       
+      note: '',
       index: 0,
       address: _options[_selectedOption!],
       status: '',
     );
-    await useCase.callCreateQueue(entity);
+    await useCase.callCreateQueue(entity, context);
   }
 
   Stream<QueuesEntity?> get queueStream => useCase.callGetQueue(
         QueuesEntity(
           name: '',
           type: '',
+          note: '',
           index: 0,
           schedule: Timestamp.now(),
           timein: Timestamp.now(),
@@ -63,6 +65,7 @@ class QueueProvider with ChangeNotifier {
         QueuesEntity(
           name: '',
           type: '',
+          note: '',
           index: 0,
           schedule: Timestamp.now(),
           timein: Timestamp.now(),

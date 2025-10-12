@@ -63,17 +63,17 @@ class _SignupFormState extends State<SignupForm> {
             controller: _surnameController,
             ),
           const SizedBox(
-            height: 120,
+            height: 20,
           ),
           Center(
             child: ReusableButton(
             title: "NEXT",
-            width: 200.0,
+            width: MediaQuery.of(context).size.width,
             height: 50.0,
             textColor: Colors.white,
             backgroundColor: Colors.black,
-            onPressed: isChecked
-                ? () {
+            onPressed: 
+                () {
                     if (_key.currentState!.validate()) {
                         provider.signUserData(_nameController.text.trim(), _surnameController.text.trim());
                         widget.controller.nextPage(
@@ -81,22 +81,10 @@ class _SignupFormState extends State<SignupForm> {
                           milliseconds: 300
                         ), curve: Curves.ease);
                     }
-                  }
-                : null,
+                  },
             ),
           ),
-          const SizedBox(
-            height: 130,
-          ),
-          Center(
-            child: Checkboxes(isChecked: isChecked,
-            onChanged: (value){
-                setState(() {
-                  isChecked = value!;
-                });
-              },
-            ),
-          )
+          
         ],
       ),
       )

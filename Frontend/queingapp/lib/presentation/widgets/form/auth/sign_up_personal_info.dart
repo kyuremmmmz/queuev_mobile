@@ -19,35 +19,6 @@ class _SignUpPersonalInfoState extends State<SignUpPersonalInfo> {
   final _phoneController = TextEditingController();
   final _email = TextEditingController();
   final _key = GlobalKey<FormState>();
-  String selectedMonth = 'January';
-  String selectedDay = '1';
-  String selectedYear =
-      '2000'; // Changed to a valid year within the list (e.g., '2000' is between 1925 and 2024)
-  bool agreedToTerms = false;
-
-  final List<String> months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
-
-  final List<String> days = List.generate(
-    31,
-    (index) => (index + 1).toString(),
-  );
-  final List<String> years = List.generate(
-    100,
-    (index) => (2024 - index).toString(),
-  );
 
   @override
   void dispose() {
@@ -84,7 +55,7 @@ class _SignUpPersonalInfoState extends State<SignUpPersonalInfo> {
             },
             controller: _addressController,
           ),
-          const SizedBox(height: 30),
+          const SizedBox(height: 20),
           const Text(
             "EMAIL",
             style: TextStyle(
@@ -97,12 +68,12 @@ class _SignUpPersonalInfoState extends State<SignUpPersonalInfo> {
           const SizedBox(height: 10),
           ReusableField(
             validator: (value) {
-              return provider.validateAll(value, 'email');
+              return provider.validateWithRegex(value, 'email');
             },
             controller: _email,
           ),
 
-          const SizedBox(height: 30),
+          const SizedBox(height: 20),
           const Text(
             "PHONE NUMBER",
             style: TextStyle(
@@ -115,21 +86,17 @@ class _SignUpPersonalInfoState extends State<SignUpPersonalInfo> {
           const SizedBox(height: 10),
           ReusableField(
             validator: (value) {
-              return provider.validateAll(value, 'phone');
+              return provider.validateWithRegex(value, 'phone');
             },
             controller: _phoneController,
           ),
 
-          const SizedBox(height: 40),
-          Center(
-            child: ReusableButton(
+          const SizedBox(height: 20),
+          ReusableButton(
               title: "NEXT",
-              onPressed: !agreedToTerms ? null : () {
-                if (_key.currentState!.validate() && agreedToTerms) {
+              onPressed:  () {
+                if (_key.currentState!.validate()) {
                   provider1.signPersonalInfo(
-                    selectedMonth,
-                    selectedDay,
-                    selectedYear,
                     _phoneController.text,
                     _addressController.text,
                     _email.text,
@@ -140,23 +107,14 @@ class _SignUpPersonalInfoState extends State<SignUpPersonalInfo> {
                   );
                 }
               },
-              width: 200,
+              width: MediaQuery.of(context).size.width,
               height: 50,
               backgroundColor: Colors.black,
               textColor: Colors.white,
             ),
-          ),
 
           const SizedBox(height: 30),
 
-          Checkboxes(
-            onChanged: (value) {
-              setState(() {
-                agreedToTerms = value!;
-              });
-            },
-            isChecked: agreedToTerms,
-          ),
         ],
       ),
     );

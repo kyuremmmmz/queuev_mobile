@@ -53,8 +53,8 @@ class _QeueStep2FormState extends State<QeueStep2Form> {
 
         final options2 = snapshot.data!
             .whereType<QueueDynamicEntity>()
-            .map((e) => {'id': e.categoryId, 'name': e.name, 'address': e.address, })
-            .where((map) => map['name'] != null && map['id'] != null && map['address'] != null, )
+            .map((e) => {'id': e.categoryId, 'name': e.name, 'address': e.address,  'note': e.note})
+            .where((map) => map['name'] != null && map['id'] != null && map['address'] != null && map['note'] != null, )
             .toList();
 
 
@@ -116,22 +116,31 @@ class _QeueStep2FormState extends State<QeueStep2Form> {
                   onPressed: () async {
                     if (provider1.selectedOption == null) {
                       Toaster().toast(context, 'Please select category');
-                    } else {
-                      print('qr: ${provider2.uri}');
+                      return;
+                    }
+
+                    try {
                       final entity = QueuesEntity(
                         catId: options[provider1.selectedOption!]['id']!,
-                        documentReference: options2[0]['id']!, 
-                        name: provider1.name.text, 
+                        documentReference: options2[0]['id']!,
+                        name: provider1.name.text,
                         type: options2[0]['name'] ?? '',
                         index: 0,
                         address: options2[0]['address'] ?? '',
                         status: '',
+                        note: options2[0]['note'] ?? '',
                       );
-                      await provider1.useCase.callCreateQueue(entity);
+
+                      await provider1.useCase.callCreateQueue(entity, context);
+
+                      if (!context.mounted) return;
                       widget.controller.nextPage(
                         duration: const Duration(milliseconds: 500),
                         curve: Curves.ease,
                       );
+
+                    } catch (e) {
+                      provider2.scannedToFalse();
                     }
                   },
                   width: 200,

@@ -9,7 +9,6 @@ class UserDto {
   final String? password;
   final String? address;
   final String surname;
-  final String birthDate;
   final String email;
   final String phone;
   final String? role;
@@ -21,7 +20,6 @@ class UserDto {
     this.address,
     required this.username,
     required this.surname,
-    required this.birthDate,
     required this.email,
     required this.phone,
   });
@@ -40,7 +38,6 @@ class UserDto {
       username: data?['username'],
       password: data?['password'],
       surname: data?['surname'],
-      birthDate: data?['birthdate'],
       address: data?['address'],
     );
   }
@@ -54,7 +51,6 @@ class UserDto {
       'role': 'user',
       'password': password,
       'email': email,
-      'birthdate': birthDate,
       'address': address,
       'phone': phone,
     };
@@ -68,7 +64,6 @@ class UserDto {
       name: name,
       password: password,
       username: username,
-      birthdate: birthDate,
       email: email,
       phone: phone,
       address: address,
@@ -84,7 +79,6 @@ class UserDto {
       surname: user.surname ?? '',
       username: user.username,
       password: user.password,
-      birthDate: user.birthdate,
       email: user.email ?? '',
       address: user.address,
     );

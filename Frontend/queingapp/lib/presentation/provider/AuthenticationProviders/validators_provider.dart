@@ -48,9 +48,9 @@ class ValidatorsProvider with ChangeNotifier {
         break;
 
       case 'phone':
-        final phoneRegex = RegExp(r'^\+?[1-9]');
+        final phoneRegex = RegExp(r'^\+?[0-9]');
         if (!phoneRegex.hasMatch(params)) {
-          return 'Please enter a valid phone number do not fill 0 (10-15 digits)';
+          return 'Please enter a valid phone number do not fill 0 (10-12 digits)';
         }
         break;
         

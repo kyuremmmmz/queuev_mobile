@@ -4,6 +4,7 @@ import 'package:queingapp/domain/entities/Auth/user_entity.dart';
 import 'package:queingapp/presentation/provider/AuthenticationProviders/auth_provider.dart';
 import 'package:queingapp/presentation/provider/AuthenticationProviders/validators_provider.dart';
 import 'package:queingapp/presentation/widgets/buttons/reusable_button.dart';
+import 'package:queingapp/presentation/widgets/checkboxes/checkboxes.dart';
 import 'package:queingapp/presentation/widgets/inputs/reusable_field.dart';
 
 class SignupnextForm extends StatefulWidget {
@@ -22,7 +23,7 @@ class _SignupnextFormState extends State<SignupnextForm> {
 
   final _key = GlobalKey<FormState>();
   bool isObscure = true;
-
+  bool isChecked = false;
   @override
   void dispose() {
     _usernameController.dispose();
@@ -84,11 +85,11 @@ class _SignupnextFormState extends State<SignupnextForm> {
               icon: Icon(isObscure ? Icons.visibility_off : Icons.visibility),
             ),
           ),
-          const SizedBox(height: 120),
-          Center(
-            child: ReusableButton(
+          const SizedBox(height: 10),
+
+          ReusableButton(
               title: provider.isLoading ? 'Loading...' : "Sign Up",
-              onPressed: provider.isLoading
+              onPressed: !isChecked || provider.isLoading
                   ? null
                   : () {
                       if (_key.currentState!.validate()) {
@@ -98,7 +99,6 @@ class _SignupnextFormState extends State<SignupnextForm> {
                           name: provider.name.trim(),
                           password: _confirmPasswordController.text.trim(),
                           username: _usernameController.text.trim(),
-                          birthdate: provider.birthdate,
                           email: provider.email.trim(),
                           address: provider.address.trim(),
                         );
@@ -110,12 +110,21 @@ class _SignupnextFormState extends State<SignupnextForm> {
                         );
                       }
                     },
-              width: 200,
+              width: MediaQuery.of(context).size.width,
               height: 50,
               backgroundColor: Colors.black,
               textColor: Colors.white,
             ),
-          ),
+          const SizedBox(height: 120),
+          Center(
+            child: Checkboxes(
+              onChanged: (value) {
+                setState(() {
+                  isChecked = value!;
+                });
+              },
+              isChecked: isChecked),
+          )
         ],
       ),
     );

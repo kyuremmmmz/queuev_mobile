@@ -7,6 +7,7 @@ class NotificationEntity {
   final String category_id;
   final String category_name;
   final Timestamp timestamp;
+  final String uid;
 
-  NotificationEntity(this.notification_type, this.description, this.notification_id, this.category_id, this.category_name, this.timestamp);
+  NotificationEntity(this.notification_type, this.description, this.notification_id, this.category_id, this.category_name, this.timestamp, this.uid);
 }

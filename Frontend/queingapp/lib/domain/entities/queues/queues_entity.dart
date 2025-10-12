@@ -11,6 +11,7 @@ class QueuesEntity {
   final Timestamp? schedule;
   final Timestamp? timein;
   final String address;
+  final String note;
   final String? status;
   QueuesEntity({
     this.documentReference,
@@ -23,5 +24,6 @@ class QueuesEntity {
     this.schedule,
     this.timein,
     required this.address,
+    required this.note,
   });
 }

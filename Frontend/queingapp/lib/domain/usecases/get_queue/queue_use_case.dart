@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter/material.dart';
 import 'package:queingapp/data/repositoryImpl/queue/queue_repository_impl.dart';
 import 'package:queingapp/domain/entities/queues/queue_dynamic_entity.dart';
 import 'package:queingapp/domain/entities/queues/queues_entity.dart';
@@ -7,8 +8,8 @@ class QueueUseCase {
   final QueueRepositoryImpl repositoryImpl;
   QueueUseCase({required this.repositoryImpl});
 
-  Future<QueuesEntity> callCreateQueue(QueuesEntity entity) async {
-    return await repositoryImpl.createQueues(entity);
+  Future<QueuesEntity> callCreateQueue(QueuesEntity entity, BuildContext context) async {
+    return await repositoryImpl.createQueues(entity, context);
   }
 
   Stream<QueuesEntity?> callGetQueue(QueuesEntity entity) {

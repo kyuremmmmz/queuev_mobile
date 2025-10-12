@@ -43,7 +43,7 @@ class _QeueingHistoryScreenState extends State<QeueingHistoryScreen> {
               itemBuilder:(context, index) {
                 
                 final castTheListAsIndex = queue[index];
-                return ListContent(number: '${index+1}', title: castTheListAsIndex?.address ?? '', type: castTheListAsIndex?.type ?? '', date: Sanitizers().formatChatTimestamp(castTheListAsIndex?.schedule?.toString()));
+                return ListContent(number: '${index+1}', title: castTheListAsIndex?.address ?? '', type: castTheListAsIndex?.type ?? '', date: Sanitizers().formatTimestamp(castTheListAsIndex?.schedule?.toString()));
               });
           }
         ),

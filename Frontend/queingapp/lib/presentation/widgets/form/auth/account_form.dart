@@ -38,7 +38,6 @@ class _AccountFormState extends State<AccountForm> {
         if (user != null) {
           provider.nameController.text = USER.currentUser?.displayName ?? '';
           provider.userNameController.text = user.username;
-          provider.birthdayController.text = user.birthdate;
           provider.addressController.text = user.address ?? '';
           provider.phoneNumberController.text = user.phone;
           provider.passwordController.text = user.password!;

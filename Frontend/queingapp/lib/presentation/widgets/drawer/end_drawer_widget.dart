@@ -16,6 +16,7 @@ class EndDrawerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = Provider.of<StorageProvider>(context);
     final service = sl<QueueService>();
+
     return Drawer(
       child: Column(
         children: [
@@ -42,11 +43,12 @@ class EndDrawerWidget extends StatelessWidget {
             child: StreamBuilder<QuerySnapshot>(
               stream: DB
                   .collection('notifications')
+                  .where('uid', isEqualTo: '${USER.currentUser?.uid}')
+                  .orderBy('timestamp', descending: true)
                   .withConverter(
                     fromFirestore: NotificationDto.fromMap,
                     toFirestore: (NotificationDto dto, _) => dto.toMap(),
                   )
-                  .orderBy('timestamp', descending: true)
                   .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -57,14 +59,13 @@ class EndDrawerWidget extends StatelessWidget {
                   return const Center(child: Text("No notifications yet"));
                 }
 
-                final notifications = snapshot.data!.docs
-                    .map((doc) => doc.data() as NotificationDto)
-                    .toList();
+                final notifications = snapshot.data!.docs;
 
                 return ListView.builder(
                   itemCount: notifications.length,
                   itemBuilder: (context, index) {
-                    final notif = notifications[index];
+                    final doc = notifications[index];
+                    final notif = doc.data() as NotificationDto;
 
                     IconData icon;
                     if (notif.notification_type == "queue_status") {
@@ -75,22 +76,58 @@ class EndDrawerWidget extends StatelessWidget {
                       icon = Icons.check_circle_outline;
                     }
 
-                    return ListTile(
-                      leading: Icon(icon, size: 30),
-                      title: Text(
-                        notif.description,
-                        style: GoogleFonts.dmSans(fontSize: 14),
+                    return Dismissible(
+                      key: Key(doc.id),
+                      direction: DismissDirection.endToStart,
+                      background: Container(
+                        color: Colors.red,
+                        alignment: Alignment.centerRight,
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: const Icon(Icons.delete, color: Colors.white),
                       ),
-                      subtitle: Text(
-                        DateFormat(
-                          "h:mm a - MMM d, yyyy (EEEE)",
-                        ).format(notif.timestamp.toDate()),
-                        style: GoogleFonts.dmSans(
-                          fontSize: 12,
-                          color: Colors.grey[600],
+                      confirmDismiss: (direction) async {
+                        // Optional confirmation dialog
+                        return await showDialog<bool>(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Text("Delete Notification"),
+                            content: const Text(
+                                "Are you sure you want to delete this notification?"),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.of(context).pop(false),
+                                child: const Text("Cancel"),
+                              ),
+                              TextButton(
+                                onPressed: () => Navigator.of(context).pop(true),
+                                child: const Text("Delete"),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                      onDismissed: (direction) async {
+                        await DB.collection('notifications').doc(doc.id).delete();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Notification deleted')),
+                        );
+                      },
+                      child: ListTile(
+                        leading: Icon(icon, size: 30),
+                        title: Text(
+                          notif.description,
+                          style: GoogleFonts.dmSans(fontSize: 14),
                         ),
+                        subtitle: Text(
+                          DateFormat("h:mm a - MMM d, yyyy (EEEE)")
+                              .format(notif.timestamp.toDate()),
+                          style: GoogleFonts.dmSans(
+                            fontSize: 12,
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                        isThreeLine: true,
                       ),
-                      isThreeLine: true,
                     );
                   },
                 );

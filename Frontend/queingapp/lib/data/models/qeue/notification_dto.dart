@@ -7,6 +7,7 @@ class NotificationDto {
   final String notification_type;
   final String description;
   final String notification_id;
+  final String uid;
   final String category_id;
   final String category_name;
   final Timestamp timestamp;
@@ -15,6 +16,7 @@ class NotificationDto {
     required this.description,
     required this.notification_id,
     required this.category_id,
+    required this.uid,
     required this.category_name,
     required this.timestamp,
   });
@@ -25,6 +27,7 @@ class NotificationDto {
     return {
       'notification_type': notification_type,
       'description': description,
+      'uid': uid,
       'notification_id': notification_id,
       'category_id': category_id,
       'category_name': category_name,
@@ -38,6 +41,7 @@ class NotificationDto {
   ) {
     return NotificationDto(
       notification_type: map['notification_type'].toString(),
+      uid: map['uid'].toString(),
       description: map['description'].toString(),
       notification_id: map['notification_id'].toString(),
       category_id: map['category_id'].toString(),
@@ -47,19 +51,13 @@ class NotificationDto {
   }
 
   NotificationEntity toEntity() {
-    return NotificationEntity(
-      notification_type,
-      description,
-      notification_id,
-      category_id,
-      category_name,
-      timestamp,
-    );
+    return NotificationEntity(notification_type, description, notification_id, category_id, category_name, timestamp, uid);
   }
 
   static NotificationDto fromEntity(NotificationEntity entity) {
     return NotificationDto(
       notification_type: entity.notification_type,
+      uid: entity.uid,
       description: entity.description,
       notification_id: entity.notification_id,
       category_id: entity.category_id,

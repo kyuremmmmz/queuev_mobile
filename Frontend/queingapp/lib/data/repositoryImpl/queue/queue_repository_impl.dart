@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter/material.dart';
 import 'package:queingapp/const.dart';
 import 'package:queingapp/data/models/qeue/qeue_dto.dart';
 import 'package:queingapp/data/source/queue/queue_service.dart';
@@ -10,9 +11,9 @@ class QueueRepositoryImpl implements QueuesRepository {
   final QueueService dataSource;
   QueueRepositoryImpl({required this.dataSource});
   @override
-  Future<QueuesEntity> createQueues(QueuesEntity entity) async {
+  Future<QueuesEntity> createQueues(QueuesEntity entity, BuildContext context) async {
     final dto = QeueDto.fromEntity(entity);
-    final data = await dataSource.createQeue(dto);
+    final data = await dataSource.createQeue(dto, context);
     return data.toEntity();
   }
 

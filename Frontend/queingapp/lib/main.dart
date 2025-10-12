@@ -12,8 +12,9 @@ import 'package:queingapp/presentation/provider/QueueProvider/queue_provider.dar
 import 'package:queingapp/presentation/screens/auth/account/account_screen.dart';
 import 'package:queingapp/presentation/screens/auth/account/change_password_screen.dart';
 import 'package:queingapp/presentation/screens/auth/account/terms_and_conditions_screen.dart';
-import 'package:queingapp/presentation/screens/auth/auth_wrapper.dart';
+import 'package:queingapp/presentation/screens/auth/login/login.dart';
 import 'package:queingapp/presentation/screens/auth/settings/settings_screen.dart';
+import 'package:queingapp/presentation/screens/auth/signup_page_view/signup_page_view.dart';
 import 'package:queingapp/presentation/screens/auth_checker.dart';
 import 'package:queingapp/presentation/screens/home/code_screen.dart';
 import 'package:queingapp/presentation/screens/home/home_screen.dart';
@@ -58,8 +59,9 @@ class MyApp extends StatelessWidget {
           '/settings': (context) => const SettingsScreen(),
           '/changePassword': (context) => const ChangePasswordScreen(),
           '/terms': (context) => const TermsAndConditionsScreen(),
-          '/login': (context) => const AuthWrapper(),
+          '/login': (context) => const LoginScreen(),
           '/enterCode': (context) => const EnterCodeScreen(),
+          '/signup': (context) => const SignupPageView(),
         },
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',

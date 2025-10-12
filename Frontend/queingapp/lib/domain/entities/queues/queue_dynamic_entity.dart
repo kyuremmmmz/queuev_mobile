@@ -8,6 +8,7 @@ class QueueDynamicEntity {
   final String role;
   final String address;
   final int code;
+  final String note;
   final List<CategoryDto> categories;
 
   QueueDynamicEntity({
@@ -17,6 +18,7 @@ class QueueDynamicEntity {
     required this.queueId,
     required this.role,
     required this.code,
+    required this.note,
     required this.categories,
     required this.catId
     ,

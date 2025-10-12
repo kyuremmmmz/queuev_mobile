@@ -13,7 +13,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Padding( 
+      body: Padding(
         padding: EdgeInsetsGeometry.only(left: 15, right: 15, bottom: 20),
         child: ChangePasswordForm(),
         )

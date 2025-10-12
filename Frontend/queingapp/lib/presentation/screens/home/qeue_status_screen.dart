@@ -132,7 +132,7 @@ class QueueStatusScreen extends StatelessWidget {
                     const SizedBox(width: 8.0),
                     Expanded(
                       child: Text(
-                        'Please note that each person has a 5-minute window to be accommodated. We recommend arriving at least 10 minutes early, thank you.',
+                        queue.note,
                         style: TextStyle(
                           fontSize: 12.0,
                           color: Colors.grey[700],

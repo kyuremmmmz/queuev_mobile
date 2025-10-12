@@ -79,7 +79,7 @@ class DynamicListDto {
     return DynamicListDto(
       categoryId: entity.categoryId,
       name: entity.name,
-      note: '',
+      note: entity.note,
       queueId: entity.queueId,
       role: entity.role,
       user: '',
@@ -94,6 +94,7 @@ class DynamicListDto {
 
   QueueDynamicEntity toEntity() {
     return QueueDynamicEntity(
+      note: note,
       catId: catId,
       address: address,
       categoryId: categoryId,

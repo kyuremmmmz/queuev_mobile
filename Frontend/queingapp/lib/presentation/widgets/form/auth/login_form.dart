@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:queingapp/domain/entities/Auth/login_entity.dart';
 import 'package:queingapp/presentation/provider/AuthenticationProviders/auth_provider.dart';
 import 'package:queingapp/presentation/provider/AuthenticationProviders/validators_provider.dart';
 import 'package:queingapp/presentation/widgets/buttons/reusable_button.dart';
-import 'package:queingapp/presentation/widgets/checkboxes/checkboxes.dart';
 import 'package:queingapp/presentation/widgets/inputs/reusable_field.dart';
 
 class LoginForm extends StatefulWidget {
@@ -35,9 +35,6 @@ class _LoginFormState extends State<LoginForm> {
         child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(
-            height: 30,
-          ),
           const Text("USERNAME"),
           const SizedBox(
             height: 10,
@@ -56,22 +53,23 @@ class _LoginFormState extends State<LoginForm> {
             height: 10,
           ),
           ReusableField(
+            isObscure: provider.isObscure,
+            suffixIcon: IconButton(onPressed: provider.toggleEye, icon: Icon(provider.isObscure ? Icons.visibility_outlined : Icons.visibility_off_outlined)),
             validator: (value){
               return provider1.validateAll(value, 'password');
             }, 
             controller: _passwordController,
             ),
           const SizedBox(
-            height: 120,
+            height: 10,
           ),
-          Center(
-            child: ReusableButton(
+          ReusableButton(
             title:provider.isLoading ? "Loading..." :"LOG IN",
-            width: 200.0,
+            width: MediaQuery.of(context).size.width,
             height: 50.0,
             textColor: Colors.white,
             backgroundColor: Colors.black,
-            onPressed: !isChecked || provider.isLoading
+            onPressed:  provider.isLoading
                     ? null
                     : () async {
                         if (key.currentState!.validate()) {
@@ -87,20 +85,37 @@ class _LoginFormState extends State<LoginForm> {
                         }
                       },
             ),
+          const SizedBox(height: 20,),
+          Center(
+            child: GestureDetector(
+            child: Text('FORGOT PASSWORD?',
+            textAlign: TextAlign.center,
+            
+            style: GoogleFonts.dmSans(
+              fontWeight: FontWeight.w300,
+              decoration: TextDecoration.underline
+            ),
+            ),
+            onTap: (){},
+          ),
           ),
           const SizedBox(
             height: 130,
           ),
-          Center(
-            child: Checkboxes(
-            isChecked: isChecked,
-            onChanged: (value){
-                setState(() {
-                  isChecked = value!;
-                });
-              },
-            ),
-          )
+        ReusableButton(
+          title: 'CREATE NEW ACCOUNT', 
+          onPressed: (){
+            Navigator.pushNamed(context, '/signup');
+          }, 
+          width: MediaQuery.of(context).size.width, 
+          height: 50, 
+          textColor: Colors.black,
+          backgroundColor: Colors.white,
+          borderColor: Colors.black,
+          ),
+          const SizedBox(
+            height: 20,
+          ),
         ],
       ),
       )

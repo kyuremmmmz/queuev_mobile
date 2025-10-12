@@ -63,7 +63,7 @@ class ChangeAccountProvider with ChangeNotifier {
       password: _passwordController.text,
       email: _emailController.text,
       surname: _surNameController.text,
-      name: _nameController.text, phone: _phoneNumberController.text,  username: _userNameController.text,  birthdate: _birthdayController.text, address: _addressController.text );
+      name: _nameController.text, phone: _phoneNumberController.text,  username: _userNameController.text,   address: _addressController.text );
     await usecases.callUpdateAccount(context,entity);
     notifyListeners();
   }
@@ -116,7 +116,6 @@ class ChangeAccountProvider with ChangeNotifier {
       if (account != null) {
       _name = account.name;
       _userNameController.text = account.username;
-      _birthdayController.text = account.birthdate;
       _addressController.text = account.address ?? '';
       _phoneNumberController.text = account.phone;
       _surNameController.text = account.surname ?? '';

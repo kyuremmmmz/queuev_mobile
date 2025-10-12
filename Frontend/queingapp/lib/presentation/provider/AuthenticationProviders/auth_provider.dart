@@ -7,20 +7,20 @@ class AuthProvider with ChangeNotifier {
   final AuthUsecases authUsecases;
   AuthProvider({required this.authUsecases});
   bool _isLoading = false;
+  bool _isObscure = true;
   late String? _error;
   late String _name;
   late String _surname;
   late String _password;
-  late String _birthdate;
-  late String _email;
+  late String _email; 
   late String _phone;
   late String _address;
   bool get isLoading => _isLoading;
+  bool get isObscure => _isObscure;
   String? get error => _error;
   String get name => _name;
   String get surname => _surname;
   String get password => _password;
-  String get birthdate => _birthdate;
   String get email => _email;
   String get phone => _phone;
   String get address => _address;
@@ -30,8 +30,8 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void signPersonalInfo(String month, String day, String year, String phone, String address, String email) {
-    _birthdate = '$month,$day, $year';
+  void signPersonalInfo(String phone, String address, String email) {
+
     _phone = phone;
     _address = address;
     _email = email;
@@ -62,6 +62,11 @@ class AuthProvider with ChangeNotifier {
     }
 
     _isLoading = false;
+    notifyListeners();
+  }
+
+  Future<void> toggleEye()async{
+    _isObscure = !_isObscure;
     notifyListeners();
   }
 }

@@ -4,6 +4,7 @@ import 'package:queingapp/domain/entities/queues/queues_entity.dart';
 class QeueDto {
   final String name;
   final String type;
+  final String note;
   final int index;
   final Timestamp? schedule;
   final Timestamp? timein;
@@ -19,6 +20,7 @@ class QeueDto {
     required this.name,
     required this.status,
     required this.type,
+    required this.note,
     required this.index,
     required this.categoryId,
     this.schedule,
@@ -33,6 +35,7 @@ class QeueDto {
     final data = json.data();
     return QeueDto(
       categoryId: data?['categoryId'] ?? '',
+      note: data?['note'] ?? '',
       catId: data?['catId'] ?? '',
       uid: data?['uid'] ?? '',
       status: data?['status'] ?? '',
@@ -41,7 +44,6 @@ class QeueDto {
       index: data?['index'] ?? 0,
       schedule: data?['schedule'] ?? '',
       timein: data?['time_in'] ?? '',
-
       address: data?['address'] ?? '',
     );
   }
@@ -56,6 +58,7 @@ class QeueDto {
       'time_in': timein,
       'address': address,
       'status': status,
+      'note': note,
       'uid': uid,
       'categoryId': categoryId,
     };
@@ -67,6 +70,7 @@ class QeueDto {
       status: status,
       name: name,
       type: type,
+      note: note,
       index: index,
       schedule: schedule,
       timein: timein,
@@ -86,6 +90,7 @@ class QeueDto {
       schedule: entity.schedule,
       timein: entity.timein,
       catId: entity.catId,
+      note: entity.note,
       address: entity.address,
     );
   }

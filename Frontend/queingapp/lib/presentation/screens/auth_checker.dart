@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:queingapp/const.dart';
-import 'package:queingapp/presentation/screens/auth/auth_wrapper.dart';
+import 'package:queingapp/presentation/screens/auth/login/login.dart';
 import 'package:queingapp/presentation/screens/home/scan_now_screen.dart';
 
 
@@ -32,10 +32,10 @@ class _AuthCheckerState extends State<AuthChecker> {
             if (user.emailVerified) {
               return const ScanNowScreen();
             } else {
-              return const AuthWrapper();
+              return const LoginScreen();
             }
           } else {
-            return const AuthWrapper();
+            return const LoginScreen();
           }
         }
       },
