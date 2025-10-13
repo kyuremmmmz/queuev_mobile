@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:queingapp/presentation/provider/AuthenticationProviders/storage_provider.dart';
 import 'package:queingapp/presentation/widgets/dialogs/logout_dialog.dart';
+import 'package:queingapp/utils/images.dart';
 
 class DrawerWidget extends StatelessWidget {
   const DrawerWidget({super.key});
@@ -14,12 +15,19 @@ class DrawerWidget extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: <Widget>[
           // Drawer Header
-          const DrawerHeader(
+        DrawerHeader(
             decoration: BoxDecoration(color: Colors.white),
-            child: Text(
-              'QUEUEV',
-              style: TextStyle(color: Colors.black, fontSize: 24),
-            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Image.asset(logo,),
+                const SizedBox(width: 10,),
+                    Text(
+                  'QUEUEV',
+                  style: TextStyle(color: Colors.black, fontSize: 24),
+                ),
+              ],
+            )
           ),
           // Drawer Items
           ListTile(

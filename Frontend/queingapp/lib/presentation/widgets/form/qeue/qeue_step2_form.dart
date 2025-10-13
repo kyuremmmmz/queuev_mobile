@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:queingapp/const.dart';
 import 'package:queingapp/data/source/queue/queue_service.dart';
 import 'package:queingapp/domain/entities/queues/queue_dynamic_entity.dart';
 import 'package:queingapp/domain/entities/queues/queues_entity.dart';
@@ -121,6 +122,8 @@ class _QeueStep2FormState extends State<QeueStep2Form> {
 
                     try {
                       final entity = QueuesEntity(
+                        cat: '',
+                        phone: '${USER.currentUser?.phoneNumber}',
                         catId: options[provider1.selectedOption!]['id']!,
                         documentReference: options2[0]['id']!,
                         name: provider1.name.text,

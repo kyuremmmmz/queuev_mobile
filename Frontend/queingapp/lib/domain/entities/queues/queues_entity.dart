@@ -5,6 +5,8 @@ class QueuesEntity {
   final String? documentReference;
   final String? catId;
   final String name;
+  final String cat;
+  final String phone;
   final String? uid;
   final String type;
   final int index;
@@ -17,6 +19,8 @@ class QueuesEntity {
     this.documentReference,
     this.catId,
     required this.name,
+    required this.cat,
+    required this.phone,
     this.uid,
     required this.status,
     required this.type,

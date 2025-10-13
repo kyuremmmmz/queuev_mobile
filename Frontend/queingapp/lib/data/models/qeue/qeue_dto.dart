@@ -3,8 +3,10 @@ import 'package:queingapp/domain/entities/queues/queues_entity.dart';
 
 class QeueDto {
   final String name;
+  final String phone;
   final String type;
   final String note;
+  final String cat;
   final int index;
   final Timestamp? schedule;
   final Timestamp? timein;
@@ -17,7 +19,9 @@ class QeueDto {
   QeueDto({
     this.uid,
     required this.catId,
+    required this.cat,
     required this.name,
+    required this.phone,
     required this.status,
     required this.type,
     required this.note,
@@ -35,6 +39,8 @@ class QeueDto {
     final data = json.data();
     return QeueDto(
       categoryId: data?['categoryId'] ?? '',
+      cat: data?['cat'] ?? '',
+      phone: data?['phone'] ?? '',
       note: data?['note'] ?? '',
       catId: data?['catId'] ?? '',
       uid: data?['uid'] ?? '',
@@ -53,6 +59,8 @@ class QeueDto {
       'name': name,
       'category': type,
       'catId': catId,
+      'cat': cat,
+      'phone': phone,
       'index': index,
       'schedule': schedule,
       'time_in': timein,
@@ -66,11 +74,13 @@ class QeueDto {
 
   QueuesEntity toEntity() {
     return QueuesEntity(
+      phone: phone,
       uid: uid,
       status: status,
       name: name,
       type: type,
       note: note,
+      cat: cat,
       index: index,
       schedule: schedule,
       timein: timein,
@@ -82,11 +92,13 @@ class QeueDto {
   static QeueDto fromEntity(QueuesEntity entity) {
     return QeueDto(
       categoryId: entity.documentReference!,
+      cat: entity.cat,
       uid: entity.uid,
       status: entity.status,
       name: entity.name,
       type: entity.type,
       index: entity.index,
+      phone: entity.phone,
       schedule: entity.schedule,
       timein: entity.timein,
       catId: entity.catId,

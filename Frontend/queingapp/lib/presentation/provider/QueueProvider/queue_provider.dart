@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:queingapp/const.dart';
 import 'package:queingapp/domain/entities/queues/queue_dynamic_entity.dart';
 
 import 'package:queingapp/domain/entities/queues/queues_entity.dart';
@@ -37,9 +38,10 @@ class QueueProvider with ChangeNotifier {
     
 
     final entity = QueuesEntity(
+      cat: '',
       name: _name.text,
       type: _options[_selectedOption!],
-      
+      phone: '${USER.currentUser?.phoneNumber}',
       note: '',
       index: 0,
       address: _options[_selectedOption!],
@@ -50,9 +52,11 @@ class QueueProvider with ChangeNotifier {
 
   Stream<QueuesEntity?> get queueStream => useCase.callGetQueue(
         QueuesEntity(
+          cat: '',
           name: '',
           type: '',
           note: '',
+          phone: '',
           index: 0,
           schedule: Timestamp.now(),
           timein: Timestamp.now(),
@@ -63,6 +67,8 @@ class QueueProvider with ChangeNotifier {
 
   Stream<List<QueuesEntity?>> get queueStreamAsList => useCase.callGetQueueAsList(
         QueuesEntity(
+          cat: '',
+          phone: '',
           name: '',
           type: '',
           note: '',

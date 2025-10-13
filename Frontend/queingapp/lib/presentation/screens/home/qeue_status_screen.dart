@@ -83,7 +83,7 @@ class QueueStatusScreen extends StatelessWidget {
                   ),
                   alignment: Alignment.center,
                   child: Text(
-                    '${queue.index}',
+                    queue.cat,
                     style: const TextStyle(
                       fontSize: 80.0,
                       fontWeight: FontWeight.bold,

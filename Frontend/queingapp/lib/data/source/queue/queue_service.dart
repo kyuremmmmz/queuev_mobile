@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:queingapp/const.dart';
+import 'package:queingapp/data/models/Auth/user_dto.dart';
 import 'package:queingapp/data/models/qeue/dynamic_list_dto.dart';
 import 'package:queingapp/data/models/qeue/notification_dto.dart';
 import 'package:queingapp/data/models/qeue/qeue_dto.dart';
@@ -14,6 +15,7 @@ class QueueService implements QeueingRepoDataSource {
 Future<QeueDto> createQeue(QeueDto dto, BuildContext context) async {
   final database = DB;
   try {
+      final uid = USER.currentUser?.uid;
 
     final querySnapshot = await database
         .collection('queuesList')
@@ -26,12 +28,24 @@ Future<QeueDto> createQeue(QeueDto dto, BuildContext context) async {
 
     final queueryOneTimeQueue = await database
         .collection('queuesList')
-        .where('uid', isEqualTo: USER.currentUser?.uid)
+        .where('uid', isEqualTo: USER.currentUser?.uid).where('status', isEqualTo: 'pending')
         .withConverter(
           fromFirestore: QeueDto.fromJson,
           toFirestore: (QeueDto dto, _) => dto.toJson(),
         )
         .get();
+
+
+      final userDoc = await database
+            .collection('users')
+            .doc(uid)
+            .withConverter<UserDto>(
+              fromFirestore: (snapshot, _) => UserDto.fromJson(snapshot, null),
+              toFirestore: (UserDto dto, _) => dto.toJson(),
+            )
+            .get();
+        final userData = userDoc.data();
+
     int newIndex = 1;
     if (querySnapshot.docs.isNotEmpty) {
       final existingIndices = querySnapshot.docs
@@ -51,12 +65,14 @@ Future<QeueDto> createQeue(QeueDto dto, BuildContext context) async {
 
 
     dto = QeueDto(
+      cat: newIndex.toString(),
+      phone: '${userData?.phone}',
       note: dto.note,
       catId: dto.catId,
       categoryId: dto.categoryId,
       uid: USER.currentUser!.uid,
       status: 'pending',
-      name: USER.currentUser!.displayName ?? '',
+      name: '${userData?.name} ${userData?.surname}',
       type: dto.type,
       index: newIndex,
       schedule: Timestamp.now(),
